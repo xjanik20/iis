@@ -1,12 +1,11 @@
 <?php
-declare(strict_types=1);
 
 namespace App\Presenters;
 
 use Nette;
 
 
-class Error4xxPresenter extends BasePresenter
+class Error4xxPresenter extends Nette\Application\UI\Presenter
 {
 	public function startup()
 	{
@@ -21,7 +20,6 @@ class Error4xxPresenter extends BasePresenter
 	{
 		// load template 403.latte or 404.latte or ... 4xx.latte
 		$file = __DIR__ . "/templates/Error/{$exception->getCode()}.latte";
-		$file = is_file($file) ? $file : __DIR__ . '/templates/Error/4xx.latte';
-		$this->template->setFile($file);
+		$this->template->setFile(is_file($file) ? $file : __DIR__ . '/templates/Error/4xx.latte');
 	}
 }
