@@ -12,4 +12,7 @@ session:
 
 
 services:
+	- App\AccessControl\LoginAuthenticator
 	router: App\RouterFactory::createRouter
+	cacheStorage: 
+		factory: Nette\Caching\Storages\DevNullStorage
