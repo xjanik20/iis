@@ -8,7 +8,10 @@ $configurator = new Nette\Configurator;
 $configurator->enableTracy(__DIR__ . '/../log');
 
 $configurator->setTimeZone('Europe/Prague');
+
 $configurator->setTempDirectory(__DIR__ . '/../temp');
+unset($configurator->defaultExtensions['cache']);
+
 
 $configurator->createRobotLoader()
 	->addDirectory(__DIR__)

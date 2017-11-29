@@ -1,10 +1,11 @@
 /*
 * Soubor: xjanik20_xhrabo08.sql
-* Název:  IIS Projekt 1
-* Autoøi: Roman Janík, Michal Hrabovskı
-* Konvertováno do MySQL
+* Nï¿½zev:  IIS Projekt 1
+* Autoï¿½i: Roman Janï¿½k, Michal Hrabovskï¿½
+* Konvertovï¿½no do MySQL
 */
 
+DROP TABLE  Admin CASCADE;
 DROP TABLE  Otazka CASCADE;
 DROP TABLE  Predmet CASCADE;
 DROP TABLE  Student CASCADE;
@@ -13,12 +14,24 @@ DROP TABLE  Termin CASCADE;
 DROP TABLE  Ucitel CASCADE;
 DROP TABLE  UcitelPredmet CASCADE;
 DROP TABLE  Zkouska CASCADE;
-                           
+
+
+CREATE TABLE Admin (
+  id_ad INTEGER AUTO_INCREMENT,
+  jmeno VARCHAR (100) NOT NULL,
+  prijmeni VARCHAR (100) NOT NULL,
+  mail VARCHAR(50) NOT NULL,
+  login VARCHAR(30) NOT NULL,
+  heslo VARCHAR(30) NOT NULL,
+  CONSTRAINT PK_ad PRIMARY KEY (id_ad)
+);
 
 CREATE TABLE Ucitel (
   id_uc INTEGER AUTO_INCREMENT,
   jmeno VARCHAR (100) NOT NULL,
   prijmeni VARCHAR (100) NOT NULL,
+  login VARCHAR(30) NOT NULL,
+  heslo VARCHAR(30) NOT NULL,
   CONSTRAINT PK_uc PRIMARY KEY (id_uc)
 );
 
@@ -33,6 +46,8 @@ CREATE TABLE Student (
   id_st INTEGER AUTO_INCREMENT,
   jmeno VARCHAR(100) NOT NULL,
   prijmeni VARCHAR(100) NOT NULL,
+  login VARCHAR(30) NOT NULL,
+  heslo VARCHAR(30) NOT NULL,
   CONSTRAINT PK_st PRIMARY KEY (id_st)
 );
 
@@ -111,47 +126,50 @@ CREATE TABLE StudentPredmet
 
 
 
+INSERT INTO Admin
+VALUES(NULL, 'TomÃ¡Å¡', 'SedlÃ¡Äek', 'sedlacek@dummy.cz', 'admin', 'iis2017');
+
 INSERT INTO Ucitel
-VALUES(NULL, 'Jaroslav', 'Zendulka');
+VALUES(NULL, 'Jaroslav', 'Zendulka', 'zendu', '1234');
 INSERT INTO Ucitel
-VALUES(NULL, 'Bohuslav', 'Køena');
+VALUES(NULL, 'Bohuslav', 'Kï¿½ena', 'krena', '1234');
 INSERT INTO Ucitel
-VALUES(NULL, 'Zbynìk', 'Køivka');
+VALUES(NULL, 'Zbynï¿½k', 'Kï¿½ivka', 'krivk', '1234');
 INSERT INTO Ucitel
-VALUES(NULL, 'Vladimír', 'Bartík');
+VALUES(NULL, 'Vladimï¿½r', 'Bartï¿½k', 'barti', '1234');
 
 INSERT INTO Predmet
-VALUES(NULL, 'Databázové systémy', 'IDS');
+VALUES(NULL, 'Databï¿½zovï¿½ systï¿½my', 'IDS');
 INSERT INTO Predmet
-VALUES(NULL, 'Poèítaèové komunikace a sítì', 'IPK');
+VALUES(NULL, 'Poï¿½ï¿½taï¿½ovï¿½ komunikace a sï¿½tï¿½', 'IPK');
 INSERT INTO Predmet
-VALUES(NULL, 'Principy programovacích jazykù a OOP', 'IPP');
+VALUES(NULL, 'Principy programovacï¿½ch jazykï¿½ a OOP', 'IPP');
 INSERT INTO Predmet
-VALUES(NULL, 'Základy umìlé inteligence', 'IZU');
+VALUES(NULL, 'Zï¿½klady umï¿½lï¿½ inteligence', 'IZU');
 
 INSERT INTO Student
-VALUES(NULL, 'Kamil', 'Vachrlatı');
+VALUES(NULL, 'Kamil', 'Vachrlatï¿½', 'xvach', '1234');
 INSERT INTO Student
-VALUES(NULL, 'Jan', 'Nejezchleba');
+VALUES(NULL, 'Jan', 'Nejezchleba', 'xneje', '1234');
 INSERT INTO Student
-VALUES(NULL, 'Tomáš', 'Marnı');
+VALUES(NULL, 'Tomï¿½', 'Marnï¿½', 'xmarn', '1234');
 INSERT INTO Student
-VALUES(NULL, 'Jarmil', 'Sychravı');
+VALUES(NULL, 'Jarmil', 'Sychravï¿½', 'xsych', '1234');
 INSERT INTO Student
-VALUES(NULL, 'Hubert', 'Zendulka');
+VALUES(NULL, 'Hubert', 'Zendulka', 'xzend', '1234');
 
 INSERT INTO Zkouska
-VALUES(NULL, 'Semestrální zkouška', 600, 60, 27, 10, 1, 1, 1);
+VALUES(NULL, 'Semestrï¿½lnï¿½ zkouï¿½ka', 600, 60, 27, 10, 1, 1, 1);
 INSERT INTO Zkouska
-VALUES(NULL, 'Semestrální zkouška', 300, 60, 15, 15, 1, 3, 1);
+VALUES(NULL, 'Semestrï¿½lnï¿½ zkouï¿½ka', 300, 60, 15, 15, 1, 3, 1);
 INSERT INTO Zkouska
-VALUES(NULL, 'Pùlsemestrální zkouška', 13, 20, 0, 5, 2, 1, 3);
+VALUES(NULL, 'Pï¿½lsemestrï¿½lnï¿½ zkouï¿½ka', 13, 20, 0, 5, 2, 1, 3);
 INSERT INTO Zkouska
-VALUES(NULL, 'Semestrální zkouška', 450, 70, 35, 13, 1, 2, 2);
+VALUES(NULL, 'Semestrï¿½lnï¿½ zkouï¿½ka', 450, 70, 35, 13, 1, 2, 2);
 
 
 INSERT INTO Termin
-VALUES(NULL, (STR_TO_DATE('16:18:14', '%H:%i:%s')), (STR_TO_DATE('20122112', '%Y%d%m')), 40, 2, 'Vıteènì', (NOW()), 1, 1, 1);
+VALUES(NULL, (STR_TO_DATE('16:18:14', '%H:%i:%s')), (STR_TO_DATE('20122112', '%Y%d%m')), 40, 2, 'Vï¿½teï¿½nï¿½', (NOW()), 1, 1, 1);
 INSERT INTO Termin
 VALUES(NULL, (STR_TO_DATE('08:00:00', '%H:%i:%s')), (STR_TO_DATE('00330304', '%Y%d%m')), 20, 3, NULL, NULL, 1, 2, 2);
 INSERT INTO Termin
@@ -164,11 +182,11 @@ VALUES(NULL, (STR_TO_DATE('12:00:00', '%H:%i:%s')), (STR_TO_DATE('20170505', '%Y
 INSERT INTO Otazka
 VALUES(NULL, 'Co je to syntaxe?', 9999, 2);
 INSERT INTO Otazka
-VALUES(NULL, 'Uveïte funkcionální programovací jazyk.', 2, 1);
+VALUES(NULL, 'Uveï¿½te funkcionï¿½lnï¿½ programovacï¿½ jazyk.', 2, 1);
 INSERT INTO Otazka
-VALUES(NULL, 'Jak probíhá multicastová komunikace?', 5, 4);
+VALUES(NULL, 'Jak probï¿½hï¿½ multicastovï¿½ komunikace?', 5, 4);
 INSERT INTO Otazka
-VALUES(NULL, 'Proveïte normalizaci na 2NF', 10, 2);
+VALUES(NULL, 'Proveï¿½te normalizaci na 2NF', 10, 2);
 
 INSERT INTO UcitelPredmet
 VALUES(1, 2);
@@ -189,16 +207,16 @@ INSERT INTO StudentPredmet
 VALUES(3, 1);
     
 
--- vypíše uèitele a pøedmìty, které uèí; slouí k zobrazení tabulky pøedmìtù a uèitelù
+-- vypï¿½e uï¿½itele a pï¿½edmï¿½ty, kterï¿½ uï¿½ï¿½; slouï¿½ï¿½ k zobrazenï¿½ tabulky pï¿½edmï¿½tï¿½ a uï¿½itelï¿½
 SELECT jmeno, prijmeni, nazev, zkratka
 FROM Ucitel NATURAL JOIN UcitelPredmet NATURAL JOIN Predmet;
 
--- vypíše údaje o jednotlivıch sezeních; slouí k zobrazení tabulky sezení s maximimálním poètem studentù na zkoušku
+-- vypï¿½e ï¿½daje o jednotlivï¿½ch sezenï¿½ch; slouï¿½ï¿½ k zobrazenï¿½ tabulky sezenï¿½ s maximimï¿½lnï¿½m poï¿½tem studentï¿½ na zkouï¿½ku
 SELECT jmeno, termin_cislo AS "Cislo Sezeni", COUNT(id_zk) AS "Pocet Prihlasenych", max_studentu AS "maximum studentu"
 FROM Zkouska JOIN Termin USING(id_zk,id_zk)
 GROUP BY jmeno, termin_cislo, max_studentu;
   
--- vybere studenty, kteøí nemají nenulové hodnocení (špatnı prospìch); slouí k statistice studentù  
+-- vybere studenty, kteï¿½ï¿½ nemajï¿½ nenulovï¿½ hodnocenï¿½ (ï¿½patnï¿½ prospï¿½ch); slouï¿½ï¿½ k statistice studentï¿½  
 SELECT jmeno, prijmeni
 FROM Student
 WHERE id_st NOT IN(
@@ -207,12 +225,12 @@ WHERE id_st NOT IN(
   WHERE p_dosaz_bodu <> 0
 );
 
--- Dotaz spoèítá celkovı dosaenı poèet z otázek 1 termínu; v aplikaci se hodnota po odeslání hodnocení uèitelem uloí do poloky p_dosaz_bodu v tabulce Termín
+-- Dotaz spoï¿½ï¿½tï¿½ celkovï¿½ dosaï¿½enï¿½ poï¿½et z otï¿½zek 1 termï¿½nu; v aplikaci se hodnota po odeslï¿½nï¿½ hodnocenï¿½ uï¿½itelem uloï¿½ï¿½ do poloï¿½ky p_dosaz_bodu v tabulce Termï¿½n
 SELECT id_te, SUM(pocet_bodu) as bodu
 FROM Otazka
 GROUP BY id_te;
   
--- vypíše pøedmìty, které mají termín ve stejné datum; v aplikaci bude slouit pro upozornìní uèitelù na kolizi datumù termínù zkoušek
+-- vypï¿½e pï¿½edmï¿½ty, kterï¿½ majï¿½ termï¿½n ve stejnï¿½ datum; v aplikaci bude slouï¿½it pro upozornï¿½nï¿½ uï¿½itelï¿½ na kolizi datumï¿½ termï¿½nï¿½ zkouï¿½ek
 SELECT Predmet.Nazev, Termin.datum FROM (Predmet NATURAL JOIN Zkouska) JOIN Termin USING(id_zk,id_zk)
 WHERE Termin.datum IN(
   SELECT datum FROM (
@@ -222,16 +240,16 @@ WHERE Termin.datum IN(
   WHERE duplicit > 1
 );
 
--- Vypíše pøedmìty, které nemají zkoušku; v aplikaci bude slouit k identifikaci pøedmìtù bez zkoušky
+-- Vypï¿½e pï¿½edmï¿½ty, kterï¿½ nemajï¿½ zkouï¿½ku; v aplikaci bude slouï¿½it k identifikaci pï¿½edmï¿½tï¿½ bez zkouï¿½ky
 SELECT nazev FROM Predmet
 WHERE NOT EXISTS(
   SELECT * FROM Zkouska
   WHERE Predmet.id_pr = Zkouska.id_pr
 );
 
--- SQL 4. èást---------------------------------------------------------------------------------------------------
+-- SQL 4. ï¿½ï¿½st---------------------------------------------------------------------------------------------------
 -- triggery
--- Pøi pokusu o vloení NULL hodnoty primárního klíèe vloí následující hodnotu sekvence
+-- Pï¿½i pokusu o vloï¿½enï¿½ NULL hodnoty primï¿½rnï¿½ho klï¿½ï¿½e vloï¿½ï¿½ nï¿½sledujï¿½cï¿½ hodnotu sekvence
 CREATE OR REPLACE TRIGGER Generuj_klic
   BEFORE INSERT ON Otazka
   FOR EACH ROW
@@ -241,13 +259,13 @@ CREATE OR REPLACE TRIGGER Generuj_klic
     END IF;
   END;
 /  
--- demonstraèní dotazy
+-- demonstraï¿½nï¿½ dotazy
 INSERT INTO Otazka
 VALUES(NULL, 'Quo vadis?', 10, 3);
 SELECT * FROM Otazka;
 
 
--- Pøi zmìnì stavu termínu na "ohodnoceno" - 3, se nastaví datum ohodnocení na aktuální datum
+-- Pï¿½i zmï¿½nï¿½ stavu termï¿½nu na "ohodnoceno" - 3, se nastavï¿½ datum ohodnocenï¿½ na aktuï¿½lnï¿½ datum
 CREATE OR REPLACE TRIGGER Generuj_datum
   BEFORE UPDATE ON Termin
   FOR EACH ROW
@@ -257,13 +275,13 @@ CREATE OR REPLACE TRIGGER Generuj_datum
     END IF;
   END;
 /
--- demonstraèní dotazy
+-- demonstraï¿½nï¿½ dotazy
 SELECT * FROM Termin where id_te = 2;
 UPDATE Termin SET stav_zkousky = 3 WHERE id_te = 2;
 SELECT * FROM Termin where id_te = 2;
 
   
--- Seète poèty bodù z otázek patøících k 1 termínu vloí je do p_dosaz_bodu
+-- Seï¿½te poï¿½ty bodï¿½ z otï¿½zek patï¿½ï¿½cï¿½ch k 1 termï¿½nu vloï¿½ï¿½ je do p_dosaz_bodu
 DROP PROCEDURE IF EXISTS insert_body;
 
 DELIMITER //
@@ -294,7 +312,7 @@ END;
 DELIMITER ;
 
 
--- demonstraèní dotazy
+-- demonstraï¿½nï¿½ dotazy
 select * from termin;
 set @stmt_str =  insert_body(2);
 prepare stmt from @stmt_str;
@@ -304,7 +322,7 @@ select * from otazka;
 select * from zkouska;
 
 
--- procedura vrací prùmìr konkrétní zkoušky
+-- procedura vracï¿½ prï¿½mï¿½r konkrï¿½tnï¿½ zkouï¿½ky
 DROP PROCEDURE IF EXISTS get_average;
 
 DELIMITER //
@@ -339,7 +357,7 @@ DELIMITER ;
 
 
 
--- vytiskne prùmìr
+-- vytiskne prï¿½mï¿½r
 DROP PROCEDURE IF EXISTS print_average;
 
 DELIMITER //
@@ -363,7 +381,7 @@ EXECUTE stmt;
 DEALLOCATE PREPARE stmt;
 
 
--- Pøístupová práva
+-- Pï¿½ï¿½stupovï¿½ prï¿½va
 GRANT INSERT,SELECT,UPDATE ON Otazka TO xhrabo08;
 GRANT INSERT,SELECT,UPDATE ON Predmet TO xhrabo08;
 GRANT INSERT,SELECT,UPDATE ON Student TO xhrabo08;
@@ -373,14 +391,14 @@ GRANT INSERT,SELECT,UPDATE ON Ucitel TO xhrabo08;
 GRANT INSERT,SELECT,UPDATE ON UcitelPredmet TO xhrabo08;
 GRANT INSERT,SELECT,UPDATE ON Zkouska TO xhrabo08;
 
--- materializovanı pohled pro druhého uivatele
+-- materializovanï¿½ pohled pro druhï¿½ho uï¿½ivatele
 DROP MATERIALIZED VIEW pohled_pro_druheho;
 CREATE MATERIALIZED VIEW pohled_pro_druheho 
 REFRESH ON DEMAND AS
   SELECT Predmet.nazev, Zkouska.jmeno, Zkouska.termin_cislo, datum, cas
   FROM Zkouska NATURAL JOIN Termin NATURAL JOIN Predmet;
   
--- demonstrace funkènosti
+-- demonstrace funkï¿½nosti
 SELECT * FROM pohled_pro_druheho;
 
 UPDATE Termin
@@ -394,11 +412,11 @@ END;
 SELECT * FROM pohled_pro_druheho;
 
 
--- odstranìní pøedchozích indexù
+-- odstranï¿½nï¿½ pï¿½edchozï¿½ch indexï¿½
 DROP INDEX foo_index;
 DROP INDEX bar_index;
 
--- explain plan bez indexù
+-- explain plan bez indexï¿½
 EXPLAIN PLAN FOR
   SELECT COUNT(DISTINCT id_pr) AS duplicit, datum FROM Zkouska NATURAL JOIN Termin
   GROUP BY datum;
