@@ -1,5 +1,5 @@
 <?php
-Namespace App\AccessControl;
+Namespace App\Model\AccessControl;
 use Nette\Security as NS ;
 use Nette\Database as ND ;
 
@@ -14,14 +14,27 @@ class LoginAuthenticator implements NS\IAuthenticator
     function authenticate(array $credentials)
     {
         list($username, $password) = $credentials;
-        $row = $this->database->table('users')
-            ->where('username', $username)->fetch();
+        $row = $this->database->table('Student')->where('login', $username)->fetch();
+        if (row){
+            if ($password == $row->$password){
+                return new NS\Identity($row->id,'Student', ['username' => $username]);
+            }
+        }
+
+        $row = $this->database->table('Ucitel')->where('login', $username)->fetch();
+        if (row){
+            if ($password == $row->$password){
+                return new NS\Identity($row->id,'Ucitel', ['username' => $username]);
+            }
+        }
+
+        $row = $this->database->table('Admin')->where('login', $username)->fetch();
         if(!row){
             throw new NS\AuthenticationException('User not found.');
         }
-        if (NS\Passwords::verify($password, $row->password)) {
-            throw new NS\AuthenticationException('Invalid password.');
+        if ($password == $row->$password) {
+            return new NS\Identity($row->id,'Admin', ['username' => $username]);
         }
-        return new NS\Identity($row->id,$row->role, ['username' => $username]);
+        throw new NS\AuthenticationException('Invalid password.');
     }
 }
