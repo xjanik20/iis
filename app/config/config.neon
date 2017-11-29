@@ -13,3 +13,6 @@ session:
 
 services:
 	router: App\RouterFactory::createRouter
+    // vypnuti cache
+	cacheStorage:
+            factory: Nette\Caching\Storages\DevNullStorage
