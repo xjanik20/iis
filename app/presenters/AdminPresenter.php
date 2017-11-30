@@ -19,4 +19,8 @@ class AdminPresenter extends Nette\Application\UI\Presenter
         $this->template->post = $this->database->table('Student');
     }
 
+    public function renderTeachers()
+    {
+        $this->template->post = $this->database->table('Ucitel');
+    }
 }
