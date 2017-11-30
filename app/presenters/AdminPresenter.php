@@ -28,11 +28,26 @@ class AdminPresenter extends Nette\Application\UI\Presenter
 
     public function renderStudents()
     {
-        $this->template->post = $this->database->table('Student');
+        $this->template->posts = $this->database->table('Student');
+        if (!$this->template->posts) {
+            $this->error('Stránka nebyla nalezena');
+        }
     }
 
     public function renderTeachers()
     {
-        $this->template->post = $this->database->table('Ucitel');
+        $this->template->posts = $this->database->table('Ucitel');
+        if (!$this->template->posts) {
+            $this->error('Stránka nebyla nalezena');
+        }
+    }
+
+    public function actionDeleteRow($id)
+    {
+        $res = $this->database->table('Student')->where('id_st', $id)->delete();
+        if (!$res) {
+            $this->error('Záznam se nepodařilo smazat');
+        }
+        $this->redirect('students');
     }
 }
