@@ -3,6 +3,9 @@
 {define title}Login{/define}
 <div id="content">
     <div id="loginFormDiv">
+        {foreach $flashes as $flash}
+            <div class="flash {$flash->type}">{$flash->message}</div>
+        {/foreach}
         {control loginForm}
     </div>
 </div>
