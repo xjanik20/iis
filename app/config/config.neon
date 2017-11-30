@@ -14,6 +14,7 @@ session:
 services:
 	authenticator: App\Model\AccessControl\LoginAuthenticator
 	- App\Model\AccessControl\AuthorizatorFactory::create
+	- App\Model\AccessControl\SearchFormFactory
 	router: App\RouterFactory::createRouter
 	cacheStorage:
 		factory: Nette\Caching\Storages\DevNullStorage
