@@ -8,8 +8,16 @@ use Nette\Application\UI;
 
 class HomepagePresenter extends Nette\Application\UI\Presenter
 {
+    private $backlink;
+
+    protected function beforeRender(){
+        parent::beforeRender();
+        $this->backlink = $this->storeRequest();
+    }
+
     protected function createComponentLoginForm()
     {
+
         $form = new UI\Form;
         $form->addText('name', 'Name:')
             ->setRequired('Zadejte prosím login');
@@ -49,6 +57,7 @@ class HomepagePresenter extends Nette\Application\UI\Presenter
         if($this->user->isInRole('Student')) {
             $this->flashMessage("Student login");
         }
+        $this->restoreRequest($this->backlink);
 
     }
 }
