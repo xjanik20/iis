@@ -12,7 +12,7 @@ session:
 
 
 services:
-	- App\Model\AccessControl\LoginAuthenticator
+	authenticator: App\Model\AccessControl\LoginAuthenticator
 	- App\Model\AccessControl\AuthorizatorFactory::create
 	router: App\RouterFactory::createRouter
 	cacheStorage: 
