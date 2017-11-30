@@ -63,7 +63,7 @@ CREATE TABLE Zkouska (
   
   id_pr INTEGER,
   CONSTRAINT PK_zk PRIMARY KEY (id_zk),
-  CONSTRAINT FK_pr FOREIGN KEY (id_pr) REFERENCES Predmet(id_pr) 
+  CONSTRAINT FK_pr FOREIGN KEY (id_pr) REFERENCES Predmet(id_pr) ON DELETE CASCADE
 );
 
 CREATE TABLE  Termin (
@@ -80,11 +80,11 @@ CREATE TABLE  Termin (
   id_zk INTEGER,
   CONSTRAINT PK_te PRIMARY KEY (id_te),
   CONSTRAINT FK_uc FOREIGN KEY (id_uc)
-  REFERENCES Ucitel(id_uc),
+  REFERENCES Ucitel(id_uc) ON DELETE CASCADE,
   CONSTRAINT FK_st FOREIGN KEY (id_st)
-  REFERENCES Student(id_st),
+  REFERENCES Student(id_st) ON DELETE CASCADE,
   CONSTRAINT FK_zk FOREIGN KEY (id_zk)
-  REFERENCES Zkouska(id_zk)
+  REFERENCES Zkouska(id_zk) ON DELETE CASCADE
 );
 
 CREATE TABLE Otazka (
@@ -95,7 +95,7 @@ CREATE TABLE Otazka (
   id_te INTEGER,
   CONSTRAINT PK_ot PRIMARY KEY (id_ot),
   CONSTRAINT FK_te FOREIGN KEY (id_te)
-  REFERENCES Termin(id_te)
+  REFERENCES Termin(id_te) ON DELETE CASCADE
 );
 
 CREATE TABLE UcitelPredmet
@@ -107,8 +107,8 @@ CREATE TABLE UcitelPredmet
       id_uc,
       id_pr
   ),
-  CONSTRAINT FK_ucitel FOREIGN KEY (id_uc) REFERENCES Ucitel (id_uc),
-  CONSTRAINT FK_predmet FOREIGN KEY (id_pr) REFERENCES Predmet (id_pr)
+  CONSTRAINT FK_ucitel FOREIGN KEY (id_uc) REFERENCES Ucitel (id_uc) ON DELETE CASCADE,
+  CONSTRAINT FK_predmet FOREIGN KEY (id_pr) REFERENCES Predmet (id_pr) ON DELETE CASCADE
 );
 
 CREATE TABLE StudentPredmet
@@ -120,8 +120,8 @@ CREATE TABLE StudentPredmet
       id_st,
       id_pr
   ),
-  CONSTRAINT FK_student FOREIGN KEY (id_st) REFERENCES Student (id_st),
-  CONSTRAINT FK_predmet2 FOREIGN KEY (id_pr) REFERENCES Predmet (id_pr)
+  CONSTRAINT FK_student FOREIGN KEY (id_st) REFERENCES Student (id_st) ON DELETE CASCADE,
+  CONSTRAINT FK_predmet2 FOREIGN KEY (id_pr) REFERENCES Predmet (id_pr) ON DELETE CASCADE
 );
 
 
