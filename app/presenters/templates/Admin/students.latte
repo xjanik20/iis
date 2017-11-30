@@ -21,24 +21,29 @@
         </nav>
     </div>
 
-    <h1 class="main-heading">Administrace studentů</h1>
+    <div class="page-cont">
+        <h1>Administrace studentů</h1>
 
+        <div n:foreach="$flashes as $flash" n:class="flash, $flash->type">{$flash->message}</div>
 
-    <table class="table-list">
-        <tr class="table-head">
-            <th class="table-cont">Login</th>
-            <th class="table-cont">Jméno</th>
-            <th class="table-cont">Příjmení</th>
-            <th class="table-cont">Akce</th>
-        </tr>
-        {foreach $posts as $p}
-            <tr>
-                <td class="table-cont">{$p->login}</td>
-                <td class="table-cont">{$p->jmeno}</td>
-                <td class="table-cont">{$p->prijmeni}</td>
-                <td class="table-cont"><a n:href="Admin:deleteRow $p->id_st"><img style="margin-right: 5px" src="{$basePath}/www/images/delete.png" alt="Del" class="table-line-item">Odebrat</a></td>
+        <table class="table-list">
+            <tr class="table-head">
+                <th class="table-cont">Login</th>
+                <th class="table-cont">Jméno</th>
+                <th class="table-cont">Příjmení</th>
+                <th class="table-cont">Akce</th>
             </tr>
-        {/foreach}
-    </table>
+            {foreach $posts as $p}
+                <tr>
+                    <td class="table-cont">{$p->login}</td>
+                    <td class="table-cont">{$p->jmeno}</td>
+                    <td class="table-cont">{$p->prijmeni}</td>
+                    <td class="table-cont"><a n:href="Admin:deleteRow $p->id_st, $p->login">
+                            <img style="margin-right: 5px" src="{$basePath}/www/images/delete.png" alt="Del" class="table-line-item">Odebrat</a></td>
+                </tr>
+            {/foreach}
+        </table>
+    </div>
+
 
 </div>
