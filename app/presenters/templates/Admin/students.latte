@@ -1,0 +1,42 @@
+{block content}
+
+{define title}Studenti{/define}
+
+<div class="container-fluid" style="min-height: 100vh; display:flex;">
+    <div class="row row-top">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" n:href="Admin:students">Studenti</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" n:href="Admin:teachers">Učitelé</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+
+
+    <table>
+        <tr>
+            <th>Login</th>
+            <th>Jméno</th>
+            <th>Příjmení</th>
+            <th>Akce</th>
+        </tr>
+        {foreach $posts as $post}
+            <tr>
+                <td>$post->login</td>
+                <td>$post->jmeno</td>
+                <td>$post->prijmeni</td>
+                <td><a href="#"><img src="../../../../www/images/delete.png" alt="Del" class="table-line-item">Odebrat</a></td>
+            </tr>
+        {/foreach}
+    </table>
+
+</div>
