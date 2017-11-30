@@ -1,9 +1,10 @@
 <?php
-Namespace App\Model\Factories;
+Namespace App\Model;
 use Nette\Application\UI;
 
 class SearchFormFactory
 {
+    /** @return UI\Form */
     public static function create()
     {
         $form = new UI\Form;
@@ -13,6 +14,6 @@ class SearchFormFactory
         $form->addSubmit('search', 'Hledej');
 
         $form->addProtection('Vypršel časový limit, odešlete formulář znovu');
-        return form;
+        return $form;
     }
 }
