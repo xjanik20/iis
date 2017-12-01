@@ -1,6 +1,6 @@
 {block content}
 
-{define title}Studenti{/define}
+{define title}Učitelé{/define}
 
 <div class="container-fluid" style="min-height: 100vh; display:flex;">
     <div class="row row-top">
@@ -22,10 +22,10 @@
     </div>
 
     <div class="page-cont">
-        <h1>Administrace studentů</h1>
+        <h1>Administrace učitelů</h1>
 
-        <button class="add-button" onclick="viewHide('adminStudents')">Přidat studenta</button>
-        <div class="add-div" id="adminStudents">
+        <button class="add-button" onclick="viewHide('adminTeachers')">Přidat učitele</button>
+        <div class="add-div" id="adminTeachers">
             <p>já budu</p>
             <button>formulář</button>
         </div>
@@ -46,7 +46,7 @@
                     <td class="table-cont">{$p->login}</td>
                     <td class="table-cont">{$p->jmeno}</td>
                     <td class="table-cont">{$p->prijmeni}</td>
-                    <td class="table-cont"><a n:href="Admin:deleteRow 'Student', $p->id_st, $p->login">
+                    <td class="table-cont"><a n:href="Admin:deleteRow 'Ucitel', $p->id_uc, $p->login">
                             <img style="margin-right: 5px" src="{$basePath}/www/images/delete.png" alt="Del" class="table-line-item">Odebrat</a></td>
                 </tr>
             {/foreach}
