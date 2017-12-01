@@ -78,6 +78,11 @@
     background-color: #B7C1F0;
 }
 
+.add-div {
+    margin: 15px 0px;
+    display: none;
+}
+
 .textarea {
     -moz-appearance: textfield-multiline;
     -webkit-appearance: textarea;
