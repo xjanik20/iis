@@ -49,9 +49,6 @@ class AdminPresenter extends Nette\Application\UI\Presenter
         else{
             $this->template->posts = $this->searchResult->fetchAll();
         }
-        if (!$this->template->posts) {
-            $this->error('Stránka nebyla nalezena');
-        }
     }
 
     public function renderTeachers()
@@ -62,14 +59,12 @@ class AdminPresenter extends Nette\Application\UI\Presenter
         else{
             $this->template->posts = $this->searchResult->fetchAll();
         }
-        if (!$this->template->posts) {
-            $this->error('Stránka nebyla nalezena');
-        }
     }
 
-    public function actionDeleteRow($id, $login)
+    public function actionDeleteRow($table, $id, $login)
     {
-        $res = $this->database->table('Student')->where('id_st', $id)->delete();
+        $colId = $this->database->query('SELECT * FROM INFORMATION_SCHEMA.COLUMNS WHERE ORDINAL_POSITION = 1 AND TABLE_NAME = N?', $table);
+        $res = $this->database->table($table)->where($colId->fetch()["COLUMN_NAME"], $id)->delete();
         if (!$res) {
             $this->error('Záznam se nepodařilo smazat');
         }
