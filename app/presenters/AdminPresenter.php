@@ -37,9 +37,10 @@ class AdminPresenter extends Nette\Application\UI\Presenter
         elseif ($this->getAction()==('teachers')) {$this->searchResult = $this->database->table('Ucitel');}
         else {$this->error('Stránka nebyla nalezena'); return;}
 
-        if($values['login']) {$this->searchResult = $this->searchResult->where('login',$values['login']);}
-        if($values['jmeno']) {$this->searchResult = $this->searchResult->where('jmeno',$values['jmeno']);}
-        if($values['prijmeni']) {$this->searchResult = $this->searchResult->where('prijmeni',$values['prijmeni']);}
+        if($values['filter']) {
+            $this->searchResult = $this->searchResult->where('login = ? OR jmeno = ? OR prijmeni = ?',$values['filter'],$values['filter'],$values['filter']);
+        }
+
         $this->formFilter = true ;
     }
 
@@ -56,8 +57,6 @@ class AdminPresenter extends Nette\Application\UI\Presenter
         $form->onSuccess[] = [$this, 'addAccountFormSucceeded'];
         return $form;
     }
-
-
 
     public function addAccountFormSucceeded(UI\Form $form, $values)
     {
