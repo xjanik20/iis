@@ -1,5 +1,5 @@
 <?php
-Namespace App\Model;
+Namespace App\Model\Factories;
 use Nette\Application\UI;
 
 class SearchFormFactory
