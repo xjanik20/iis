@@ -67,11 +67,14 @@ class AdminPresenter extends Nette\Application\UI\Presenter
         }
     }
 
-    public function actionDeleteRow($id)
+    public function actionDeleteRow($id, $login)
     {
         $res = $this->database->table('Student')->where('id_st', $id)->delete();
         if (!$res) {
             $this->error('Záznam se nepodařilo smazat');
+        }
+        else {
+            $this->flashMessage("Student '$login' odebrán ze systému");
         }
         $this->redirect('students');
     }
