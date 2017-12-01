@@ -23,20 +23,22 @@
 
     <h1>Administrace studentů</h1>
 
-    {control searchForm}
-    <table class="table-list">
-        <tr class="table-head">
-            <th class="table-cont">Login</th>
-            <th class="table-cont">Jméno</th>
-            <th class="table-cont">Příjmení</th>
-            <th class="table-cont">Akce</th>
-        </tr>
-        {foreach $posts as $p}
-            <tr>
-                <td class="table-cont">{$p->login}</td>
-                <td class="table-cont">{$p->jmeno}</td>
-                <td class="table-cont">{$p->prijmeni}</td>
-                <td class="table-cont"><a n:href="Admin:deleteRow $p->id_st"><img style="margin-right: 5px" src="{$basePath}/www/images/delete.png" alt="Del" class="table-line-item">Odebrat</a></td>
+        <button class="add-button" onclick="viewHide('adminStudents')">Přidat studenta</button>
+        <div class="add-div" id="adminStudents">
+            <p>já budu</p>
+            <button>formulář</button>
+        </div>
+        
+        {control searchForm}
+        
+        <div n:foreach="$flashes as $flash" n:class="flash, $flash->type">{$flash->message}</div>
+
+        <table class="table-list">
+            <tr class="table-head">
+                <th class="table-cont">Login</th>
+                <th class="table-cont">Jméno</th>
+                <th class="table-cont">Příjmení</th>
+                <th class="table-cont">Akce</th>
             </tr>
         {/foreach}
     </table>
