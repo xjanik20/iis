@@ -13,7 +13,7 @@ class AdminPresenter extends Nette\Application\UI\Presenter
     private $formFilter = false;
 
     /** @var Nette\Database\Table\Selection */
-    private $searchResult;
+    private $searchResult = null;
 
     /** @var \App\Model\Factories\SearchFormFactory @inject */
     public $searchFormFactory;
@@ -68,15 +68,16 @@ class AdminPresenter extends Nette\Application\UI\Presenter
             $this->database->table('Ucitel')->where('login',$values['login'])->fetch() ||
             $this->database->table('Admin')->where('login',$values['login'])->fetch()){
             $this->flashMessage("Login již existuje");
-            $this->redirect($this);
-            return;
+            $this->redirect('this');
         }
-        $this->database->table($table)->insert([
-            "login" => $values['login'],
-            "jmeno" => $values['jmeno'],
-            "prijmeni" => $values['prijmeni'],
-            "heslo" => $values['heslo']
-        ]);
+        else{
+            $this->database->table($table)->insert([
+                "login" => $values['login'],
+                "jmeno" => $values['jmeno'],
+                "prijmeni" => $values['prijmeni'],
+                "heslo" => $values['heslo']
+            ]);
+        }
 
     }
 
