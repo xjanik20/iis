@@ -13,7 +13,7 @@ class AdminPresenter extends Nette\Application\UI\Presenter
     private $formFilter = false;
 
     /** @var Nette\Database\Table\Selection */
-    private $searchResult;
+    private $searchResult = null;
 
     /** @var \App\Model\Factories\SearchFormFactory @inject */
     public $searchFormFactory;
@@ -37,9 +37,10 @@ class AdminPresenter extends Nette\Application\UI\Presenter
         elseif ($this->getAction()==('teachers')) {$this->searchResult = $this->database->table('Ucitel');}
         else {$this->error('Stránka nebyla nalezena'); return;}
 
-        if($values['login']) {$this->searchResult = $this->searchResult->where('login',$values['login']);}
-        if($values['jmeno']) {$this->searchResult = $this->searchResult->where('jmeno',$values['jmeno']);}
-        if($values['prijmeni']) {$this->searchResult = $this->searchResult->where('prijmeni',$values['prijmeni']);}
+        if($values['filter']) {
+            $this->searchResult = $this->searchResult->where('login = ? OR jmeno = ? OR prijmeni = ?',$values['filter'],$values['filter'],$values['filter']);
+        }
+
         $this->formFilter = true ;
     }
 
@@ -57,8 +58,6 @@ class AdminPresenter extends Nette\Application\UI\Presenter
         return $form;
     }
 
-
-
     public function addAccountFormSucceeded(UI\Form $form, $values)
     {
         $table = "";
@@ -69,15 +68,16 @@ class AdminPresenter extends Nette\Application\UI\Presenter
             $this->database->table('Ucitel')->where('login',$values['login'])->fetch() ||
             $this->database->table('Admin')->where('login',$values['login'])->fetch()){
             $this->flashMessage("Login již existuje");
-            $this->redirect($this);
-            return;
+            $this->redirect('this');
         }
-        $this->database->table($table)->insert([
-            "login" => $values['login'],
-            "jmeno" => $values['jmeno'],
-            "prijmeni" => $values['prijmeni'],
-            "heslo" => $values['heslo']
-        ]);
+        else{
+            $this->database->table($table)->insert([
+                "login" => $values['login'],
+                "jmeno" => $values['jmeno'],
+                "prijmeni" => $values['prijmeni'],
+                "heslo" => $values['heslo']
+            ]);
+        }
 
     }
 
