@@ -11,13 +11,16 @@ class AdminPresenter extends Nette\Application\UI\Presenter
     /** @var Nette\Database\Context */
     private $database;
     private $formFilter = false;
-    private $searchResult = null;
+
+    /** @var Nette\Database\Table\Selection */
+    private $searchResult;
 
     /** @var \App\Model\Factories\SearchFormFactory @inject */
     public $searchFormFactory;
 
     public function __construct(Nette\Database\Context $database)
     {
+        parent::__construct();
         $this->database = $database;
     }
 
@@ -30,7 +33,6 @@ class AdminPresenter extends Nette\Application\UI\Presenter
 
     public function searchFormSucceeded(UI\Form $form, $values)
     {
-        $searchResult = null;
         if ($this->getAction()==('students')) {$this->searchResult = $this->database->table('Student');}
         elseif ($this->getAction()==('teachers')) {$this->searchResult = $this->database->table('Ucitel');}
         else {$this->error('Stránka nebyla nalezena'); return;}
@@ -40,6 +42,45 @@ class AdminPresenter extends Nette\Application\UI\Presenter
         if($values['prijmeni']) {$this->searchResult = $this->searchResult->where('prijmeni',$values['prijmeni']);}
         $this->formFilter = true ;
     }
+
+    protected function createComponentAddAccountForm()
+    {
+        $form = new UI\Form;
+        $form->addText('login', 'Login:')->setRequired('zadejte login');
+        $form->addText('jmeno', 'Jméno:')->setRequired('zadejte jmeno');
+        $form->addText('prijmeni', 'Příjmení:')->setRequired('zadejte příjmení');
+        $form->addText('heslo', 'Heslo:')->setRequired('zadejte heslo')
+            ->addRule(UI\Form::MIN_LENGTH, 'Heslo musí mít alespoň %d znaky', 4);
+        $form->addSubmit('create', 'Search');
+
+        $form->onSuccess[] = [$this, 'addAccountFormSucceeded'];
+        return $form;
+    }
+
+
+
+    public function addAccountFormSucceeded(UI\Form $form, $values)
+    {
+        $table = "";
+        if ($this->getAction()==('students')) {$table = 'Student';}
+        elseif ($this->getAction()==('teachers')) {$table = 'Ucitel';}
+
+        if ($this->database->table('Student')->where('login',$values['login'])->fetch() ||
+            $this->database->table('Ucitel')->where('login',$values['login'])->fetch() ||
+            $this->database->table('Admin')->where('login',$values['login'])->fetch()){
+            $this->flashMessage("Login již existuje");
+            $this->redirect($this);
+            return;
+        }
+        $this->database->table($table)->insert([
+            "login" => $values['login'],
+            "jmeno" => $values['jmeno'],
+            "prijmeni" => $values['prijmeni'],
+            "heslo" => $values['heslo']
+        ]);
+
+    }
+
 
     public function renderStudents()
     {
