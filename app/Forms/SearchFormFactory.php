@@ -8,12 +8,8 @@ class SearchFormFactory
     public static function create()
     {
         $form = new UI\Form;
-        $form->addText('login', 'Login:');
-        $form->addText('jmeno', 'Jméno:');
-        $form->addText('prijmeni', 'Příjmení:');
+        $form->addText('filter', 'Filter:');
         $form->addSubmit('search', 'Hledej');
-
-        $form->addProtection('Vypršel časový limit, odešlete formulář znovu');
         return $form;
     }
 }
