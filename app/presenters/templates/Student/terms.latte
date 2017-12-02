@@ -45,8 +45,12 @@
                 <h4 id="course-color">{$p->zkratka}&emsp;{$p->nazev}</h4>
                 <h5>{$p->jmeno_zkousky}&emsp;Termín č.: {$p->termin_cislo}</h5>
                 <p>
-                Datum:   {$p->datum|date: '%d.%m.%Y'}<br>
-                Čas:     {$p->cas|date: '%H.%M'}
+                Datum:&emsp;&emsp;{$p->datum|date: '%d.%m.%Y'}&emsp;&emsp;
+                Čas:&emsp;&emsp;{$p->cas|date: '%H.%M'}<br>
+                Minimum bodů:&emsp;&emsp;{$p->min_bodu}&emsp;&emsp;
+                Maximum bodů:&emsp;&emsp;{$p->max_bodu}<br>
+                Stav zkoušky:&emsp;&emsp;
+                {($p->stav_zkousky == 0) ? "Nepřihlášen" : ($p->stav_zkousky == 1) ? "Přihlášen" : ($p->stav_zkousky == 2) ? "Nehodnoceno" : "Ohodnoceno"}
                 </p>
 
             </div>

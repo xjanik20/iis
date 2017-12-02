@@ -75,7 +75,7 @@ class StudentPresenter extends Nette\Application\UI\Presenter
                 "SELECT id_zk, Zkouska.jmeno as jmeno_zkousky, Zkouska.datum, Zkouska.cas, Zkouska.termin_cislo, Termin.p_dosaz_bodu, Zkouska.max_bodu, Zkouska.min_bodu, Termin.stav_zkousky, Termin.dat_ohodnoceni, Termin.komentar FROM
                 Termin NATURAL JOIN Zkouska
                 WHERE Termin.id_st = ".$this->user->getId()." AND Zkouska.id_pr = ".$id_pr." AND 
-                (Zkouska.nazev = ".$this->formFilter."OR Zkouska.datum = ".$this->formFilter." OR Zkouska.cas = ".$this->formFilter." OR Zkouska.termin_cislo = ".$this->formFilter.
+                (Zkouska.nazev = ".$this->formFilter." OR Zkouska.datum = ".$this->formFilter." OR Zkouska.cas = ".$this->formFilter." OR Zkouska.termin_cislo = ".$this->formFilter.
                 " ORDER BY Zkouska.datum)"
             )->fetchAll();
         }
@@ -96,7 +96,7 @@ class StudentPresenter extends Nette\Application\UI\Presenter
                 "SELECT id_zk, Predmet.nazev, Predmet.zkratka, Zkouska.jmeno as jmeno_zkousky, Zkouska.datum, Zkouska.cas, Zkouska.termin_cislo, Termin.p_dosaz_bodu, Zkouska.max_bodu, Zkouska.min_bodu, Termin.stav_zkousky, Termin.dat_ohodnoceni, Termin.komentar FROM
                 Termin NATURAL JOIN Zkouska NATURAL JOIN Predmet
                 WHERE Termin.id_st = ".$this->user->getId()." AND 
-                (Predmet.zkratka = ".$this->formFilter."OR Zkouska.jmeno = ".$this->formFilter."OR Zkouska.datum = ".$this->formFilter." OR Zkouska.termin_cislo = ".$this->formFilter.")".
+                (Predmet.zkratka = ".$this->formFilter." OR Zkouska.jmeno = ".$this->formFilter."OR Zkouska.datum = ".$this->formFilter." OR Zkouska.termin_cislo = ".$this->formFilter.")".
                 " ORDER BY Zkouska.datum"
             )->fetchAll();
         }
@@ -116,7 +116,7 @@ class StudentPresenter extends Nette\Application\UI\Presenter
                 "SELECT nazev, pocet_bodu FROM
                 Otazka
                 WHERE Otazka.id_te = ".$id_te. "AND
-                (Otazka.nazev = ".$this->formFilter."OR Otazka.pocet_bodu = ".$this->formFilter.")"
+                (Otazka.nazev = ".$this->formFilter." OR Otazka.pocet_bodu = ".$this->formFilter.")"
             )->fetchAll();
         }
     }
@@ -134,7 +134,7 @@ class StudentPresenter extends Nette\Application\UI\Presenter
             "SELECT COUNT(*) AS cnt FROM
                 Zkouska NATURAL JOIN Termin
                 GROUP BY Zkouska.nazev, Termin.stav_zkousky
-                WHERE Zkouska.nazev = ".$zkouska->nazev." Termin.id_st = ".$row->id_st." AND (Termin.stav_zkousky > 3)
+                WHERE Zkouska.nazev = ".$zkouska->nazev." AND Termin.id_st = ".$row->id_st." AND (Termin.stav_zkousky > 3)
                 HAVING COUNT(*) > 2"
             )->fetch()
         )
