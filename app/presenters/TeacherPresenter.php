@@ -12,7 +12,7 @@ use Nette;
 use Nette\Application\UI;
 use Nette\Database as ND;
 
-class StudentPresenter extends Nette\Application\UI\Presenter
+class TeacherPresenter extends Nette\Application\UI\Presenter
 {
     /** @var Nette\Database\Context */
     protected $database;
