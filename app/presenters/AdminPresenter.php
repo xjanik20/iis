@@ -81,6 +81,48 @@ class AdminPresenter extends Nette\Application\UI\Presenter
 
     }
 
+    protected function createComponentEditAccountForm()
+    {
+        $form = new UI\Form;
+        $form->addText('id', 'ID:')->setRequired('zadejte id');
+        $form->addText('login', 'Login:')->setRequired('zadejte login');
+        $form->addText('jmeno', 'Jméno:')->setRequired('zadejte jmeno');
+        $form->addText('prijmeni', 'Příjmení:')->setRequired('zadejte příjmení');
+        $form->addText('heslo', 'Heslo:')->setRequired('zadejte heslo')
+            ->addRule(UI\Form::MIN_LENGTH, 'Heslo musí mít alespoň %d znaky', 4);
+        $form->addSubmit('edit', 'Editovat');
+
+        $form->onSuccess[] = [$this, 'editAccountFormSucceeded'];
+        return $form;
+    }
+
+    public function editAccountFormSucceeded(UI\Form $form, $values)
+    {
+        $table = "";
+        $idcolumn = "";
+        if ($this->getAction()==('students')) {$table = 'Student'; $idcolumn = 'id_st';}
+        elseif ($this->getAction()==('teachers')) {$table = 'Ucitel';$idcolumn = 'id_uc';}
+
+        if ($this->database->table('Student')->where('login',$values['login'])->fetch() ||
+            $this->database->table('Ucitel')->where('login',$values['login'])->fetch() ||
+            $this->database->table('Admin')->where('login',$values['login'])->fetch()){
+            $this->flashMessage("Login již existuje");
+            $this->redirect('this');
+        }
+        elseif (!$this->database->table($table)->where($idcolumn,$values['id'])->fetch()){
+            $this->flashMessage("Uživatel s uvedeným id nenalezen");
+            $this->redirect('this');
+        }
+        else{
+            $this->database->table($table)->where($idcolumn,$values['id'])->update([
+                "login" => $values['login'],
+                "jmeno" => $values['jmeno'],
+                "prijmeni" => $values['prijmeni'],
+                "heslo" => $values['heslo']
+            ]);
+        }
+
+    }
 
     public function renderStudents()
     {
