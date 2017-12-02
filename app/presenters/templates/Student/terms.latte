@@ -28,22 +28,28 @@
 
         <div n:foreach="$flashes as $flash" n:class="flash, $flash->type">{$flash->message}</div>
 
-        <table class="table-list">
-            <tr class="table-head">
-                <th class="table-cont">Datum</th>
-                <th class="table-cont">Zkratka</th>
-                <th class="table-cont">Zkouška</th>
-                <th class="table-cont">Termín č.</th>
-            </tr>
-        </table>
+        <div class="table-list table-head">
+                <div class="table-cont terms-table-item terms-table-item-date ">Datum</div>
+                <div class="table-cont terms-table-item terms-table-item-short">Zkratka</div>
+                <div class="table-cont terms-table-item terms-table-item-name">Zkouška</div>
+                <div class="table-cont terms-table-item terms-table-item-no">Termín č.</div>
+        </div>
         {foreach $posts as $p}
-            <div id="terms-line-div">
-                <div class="table-cont terms-table-item">{$p->datum|date: '%d.%m.%Y'}</div>
-                <div class="table-cont terms-table-item">{$p->zkratka}</div>
-                <div class="table-cont terms-table-item">{$p->jmeno}</div>
-                <div class="table-cont terms-table-item">{$p->termin_cislo}</div>
+            <div class="terms-table">
+                <div class="table-cont terms-table-item terms-table-item-date">{$p->datum|date: '%d.%m.%Y'}</div>
+                <div class="table-cont terms-table-item terms-table-item-short">{$p->zkratka}</div>
+                <div class="table-cont terms-table-item terms-table-item-name">{$p->jmeno}</div>
+                <div class="table-cont terms-table-item terms-table-item-no">{$p->termin_cislo}</div>
             </div>
-            <div id="terms-div">ahoj já jsem div</div>
+            <div class="terms-table" id="terms-table-detail-div">
+                <h4 id="course-color">{$p->zkratka}&emsp;{$p->nazev}</h4>
+                <h5>{$p->jmeno}&emsp;Termín č.: {$p->termin_cislo}</h5>
+                <p>
+                Datum:   {$p->datum|date: '%d.%m.%Y'}<br>
+                Čas:     {$p->cas|date: '%H.%M'}
+                </p>
+
+            </div>
         {/foreach}
     </div>
 
