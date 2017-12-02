@@ -13,15 +13,13 @@ use Nette\Database as ND;
 class StudentPresenter extends Nette\Application\UI\Presenter
 {
     /** @var Nette\Database\Context */
-    private $database;
-
-    /** @var Nette\Database\Table\Selection */
-    private $searchResult = null;
+    protected $database;
 
     /** @var \App\Model\Factories\SearchFormFactory @inject */
     public $searchFormFactory;
 
-    private $formFilter = false;
+    protected $formFilter = "";
+    protected $filterSet = false;
 
     public function __construct(Nette\Database\Context $database)
     {
@@ -39,42 +37,73 @@ class StudentPresenter extends Nette\Application\UI\Presenter
     public function searchFormSucceeded(UI\Form $form, $values)
     {
         if ($values['filter']) {
-            if ($this->getAction() == ('tests')) {
-                $this->searchResult = $this->database->table('Zkouska')->
-                where('jmeno = ? OR id_pr.nazev = ? OR id_te.datum', $values['filter'], $values['filter'], $values['filter']);
-            } elseif ($this->getAction() == ('terms')) {
-                $this->searchResult = $this->database->table('Termin')->
-                where('datum = ? OR stav_zkousky = ?', $values['filter'], $values['filter']);
-            } elseif ($this->getAction() == ('questions')) {
-                $this->searchResult = $this->database->table('Otazka')->
-                where('nazev = ?', $values['filter']);
-            }
-            $this->formFilter = true;
+            $this->formFilter = $values;
+            $this->filterSet = true;
         }
     }
 
-    public function renderTests()
+    public function renderCourses()
     {
-        if (!$this->formFilter) {
-            $this->searchResult = $this->database->table('Zkouska');
+        if (!$this->filterSet) {
+            $this->template->posts = $this->database->query(
+                "SELECT Predmet.zkratka, Predmet.nazev, Predmet.id_pr FROM
+                StudentPredmet NATURAL JOIN Predmet
+                WHERE StudentPredmet.id_st = ".$this->user->getId())->fetchAll();
         }
-        $this->template->posts = $this->searchResult->fetchAll();
+        else{
+        $this->template->posts = $this->database->query(
+            "SELECT Predmet.nazev, Predmet.id_pr FROM
+            StudentPredmet NATURAL JOIN Predmet
+            WHERE StudentPredmet.id_st = ".$this->user->getId()." AND (Predmet.nazev = ".$this->formFilter.")")->fetchAll();
+        }
+
     }
 
-    public function renderTerms($id_zk)
+    public function renderCourseDetail($id_pr)
     {
-        if (!$this->formFilter) {
-            $this->searchResult = $this->database->table('Termin');
+        if (!$this->filterSet) {
+            $this->template->posts = $this->database->query(
+                "SELECT id_zk, Zkouska.nazev, Zkouska.datum, Zkouska.cas, Zkouska.termin_cislo, Termin.p_dosaz_bodu, Termin.max_bodu, Termin.min_bodu, Termin.stav_zkousky, Termin.dat_ohodnoceni, Termin.komentar FROM
+                Termin NATURAL JOIN Zkouska
+                WHERE Termin.id_st = ".$this->user->getId()." AND Zkouska.id_pr = ".$id_pr.
+                " ORDER BY Zkouska.datum"
+            )->fetchAll();
         }
-        $this->template->posts = $this->searchResult->where('id_zk = ?', $id_zk)->fetchAll();
+        else{
+            $this->template->posts = $this->database->query(
+                "SELECT id_zk, Zkouska.nazev, Zkouska.datum, Zkouska.cas, Zkouska.termin_cislo, Termin.p_dosaz_bodu,Termin.max_bodu, Termin.min_bodu, Termin.stav_zkousky, Termin.dat_ohodnoceni, Termin.komentar FROM
+                Termin NATURAL JOIN Zkouska
+                WHERE Termin.id_st = ".$this->user->getId()." AND Zkouska.id_pr = ".$id_pr." AND 
+                (Zkouska.nazev = ".$this->formFilter."OR Zkouska.datum = ".$this->formFilter." OR Zkouska.cas = ".$this->formFilter." OR Zkouska.termin_cislo = ".$this->formFilter.
+                " ORDER BY Zkouska.datum)"
+            )->fetchAll();
+        }
+    }
+
+    public function renderTerms()
+    {
+        if (!$this->filterSet) {
+            $this->template->posts = $this->database->query(
+                "SELECT id_zk, Predmet.nazev, Predmet.zkratka, Zkouska.nazev, Zkouska.datum, Zkouska.cas, Zkouska.termin_cislo, Termin.p_dosaz_bodu, Termin.p_dosaz_bodu, Termin.max_bodu, Termin.stav_zkousky, Termin.dat_ohodnoceni, Termin.komentar FROM
+                Termin NATURAL JOIN Zkouska NATURAL JOIN Predmet
+                WHERE Termin.id_st = ".$this->user->getId().
+                " ORDER BY Zkouska.datum)"
+            )->fetchAll();
+        }
+        else{
+            $this->template->posts = $this->database->query(
+                "SELECT id_zk, Predmet.nazev, Predmet.zkratka, Zkouska.nazev, Zkouska.datum, Zkouska.cas, Zkouska.termin_cislo, Termin.p_dosaz_bodu, Termin.p_dosaz_bodu, Termin.max_bodu, Termin.stav_zkousky, Termin.dat_ohodnoceni, Termin.komentar FROM
+                Termin NATURAL JOIN Zkouska NATURAL JOIN Predmet
+                WHERE Termin.id_st = ".$this->user->getId()." AND 
+                (Predmet.zkratka = ".$this->formFilter."OR Zkouska.jmeno = ".$this->formFilter."OR Zkouska.datum = ".$this->formFilter." OR Zkouska.termin_cislo = ".$this->formFilter.")".
+                " ORDER BY Zkouska.datum)"
+            )->fetchAll();
+        }
     }
 
     public function renderQuestions($id_te)
     {
-        if (!$this->formFilter) {
-            $this->searchResult = $this->database->table('Otazka');
-        }
-        $this->template->posts = $this->searchResult->where('id_te= ?', $id_te)->fetchAll();
+        //todo
     }
 
 
