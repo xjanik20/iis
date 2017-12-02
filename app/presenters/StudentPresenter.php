@@ -104,7 +104,21 @@ class StudentPresenter extends Nette\Application\UI\Presenter
 
     public function renderQuestions($id_te)
     {
-        //todo
+        if (!$this->filterSet) {
+            $this->template->posts = $this->database->query(
+                "SELECT nazev, pocet_bodu FROM
+                Otazka
+                WHERE Otazka.id_te = ".$id_te
+            )->fetchAll();
+        }
+        else{
+            $this->template->posts = $this->database->query(
+                "SELECT nazev, pocet_bodu FROM
+                Otazka
+                WHERE Otazka.id_te = ".$id_te. "AND
+                (Otazka.nazev = ".$this->formFilter."OR Otazka.pocet_bodu = ".$this->formFilter.")"
+            )->fetchAll();
+        }
     }
 
 
