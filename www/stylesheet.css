@@ -46,9 +46,10 @@
 
 .table-head {
     background-color: #8897DE;
+    font-weight: bold;
 }
 
-#terms-table {
+.terms-table {
     width: 70%;
     border-collapse: collapse;
     border-width: 0 1px 0 1px;
@@ -56,18 +57,34 @@
     border-color: black;
 }
 
-#terms-div {
-    width: 70%;
-}
-
-#terms-line-div {
-    width: 70%;
-}
-
 .terms-table-item {
-    width: 25%;
     display: inline-block;
     box-sizing: border-box;
+    font-size: 120%;
+}
+
+.terms-table-item-date {
+    width: 20%;
+}
+
+.terms-table-item-short {
+    width: 10%;
+}
+
+.terms-table-item-name {
+    width: 55%;
+}
+.terms-table-item-no {
+    width: 13%;
+}
+
+#terms-table-detail-div {
+    padding: 0 20px 20px 20px;
+    background-color: rgba(0,0,0,0.15);
+}
+
+#course-color {
+    background-color: #B7C1F0;
 }
 
 .page-cont {

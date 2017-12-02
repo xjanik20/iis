@@ -132,44 +132,44 @@ VALUES(NULL, 'Tomáš', 'Sedláček', 'sedlacek@dummy.cz', 'admin', 'iis2017');
 INSERT INTO Ucitel
 VALUES(NULL, 'Jaroslav', 'Zendulka', 'zendu', '1234');
 INSERT INTO Ucitel
-VALUES(NULL, 'Bohuslav', 'K�ena', 'krena', '1234');
+VALUES(NULL, 'Bohuslav', 'Křena', 'krena', '1234');
 INSERT INTO Ucitel
-VALUES(NULL, 'Zbyn�k', 'K�ivka', 'krivk', '1234');
+VALUES(NULL, 'Zbyněk', 'Křivka', 'krivk', '1234');
 INSERT INTO Ucitel
-VALUES(NULL, 'Vladim�r', 'Bart�k', 'barti', '1234');
+VALUES(NULL, 'Vladimír', 'Bartík', 'barti', '1234');
 
 INSERT INTO Predmet
-VALUES(NULL, 'Datab�zov� syst�my', 'IDS');
+VALUES(NULL, 'Databázové systémy', 'IDS');
 INSERT INTO Predmet
-VALUES(NULL, 'Po��ta�ov� komunikace a s�t�', 'IPK');
+VALUES(NULL, 'Počítačové komunikace a sítě', 'IPK');
 INSERT INTO Predmet
-VALUES(NULL, 'Principy programovac�ch jazyk� a OOP', 'IPP');
+VALUES(NULL, 'Principy programovacích jazyků a OOP', 'IPP');
 INSERT INTO Predmet
-VALUES(NULL, 'Z�klady um�l� inteligence', 'IZU');
+VALUES(NULL, 'Základy umělé inteligence', 'IZU');
 
 INSERT INTO Student
-VALUES(NULL, 'Kamil', 'Vachrlat�', 'xvach', '1234');
+VALUES(NULL, 'Kamil', 'Vachrlatý', 'xvach', '1234');
 INSERT INTO Student
 VALUES(NULL, 'Jan', 'Nejezchleba', 'xneje', '1234');
 INSERT INTO Student
-VALUES(NULL, 'Tom�', 'Marn�', 'xmarn', '1234');
+VALUES(NULL, 'Tomáš', 'Marný', 'xmarn', '1234');
 INSERT INTO Student
-VALUES(NULL, 'Jarmil', 'Sychrav�', 'xsych', '1234');
+VALUES(NULL, 'Jarmil', 'Sychravý', 'xsych', '1234');
 INSERT INTO Student
 VALUES(NULL, 'Hubert', 'Zendulka', 'xzend', '1234');
 
 INSERT INTO Zkouska
-VALUES(NULL, 'Semestr�ln� zkou�ka', 600, 60, 27, 10, 1, 1, (STR_TO_DATE('16:18:14', '%H:%i:%s')), (STR_TO_DATE('20122112', '%Y%d%m')), 1);
+VALUES(NULL, 'Semestrální zkouška', 600, 60, 27, 10, 1, 1, (STR_TO_DATE('16:18:14', '%H:%i:%s')), (STR_TO_DATE('20122112', '%Y%d%m')), 1);
 INSERT INTO Zkouska
-VALUES(NULL, 'Semestr�ln� zkou�ka', 300, 60, 15, 15, 1, 3, (STR_TO_DATE('08:00:00', '%H:%i:%s')), (STR_TO_DATE('00330304', '%Y%d%m')), 1);
+VALUES(NULL, 'Semestrální zkouška', 300, 60, 15, 15, 1, 3, (STR_TO_DATE('08:00:00', '%H:%i:%s')), (STR_TO_DATE('00330304', '%Y%d%m')), 1);
 INSERT INTO Zkouska
-VALUES(NULL, 'P�lsemestr�ln� zkou�ka', 13, 20, 0, 5, 2, 1, (STR_TO_DATE('10:30:00', '%H:%i:%s')), (STR_TO_DATE('20152005', '%Y%d%m')), 3);
+VALUES(NULL, 'Půlsemestrální zkouška', 13, 20, 0, 5, 2, 1, (STR_TO_DATE('10:30:00', '%H:%i:%s')), (STR_TO_DATE('20152005', '%Y%d%m')), 3);
 INSERT INTO Zkouska
-VALUES(NULL, 'Semestr�ln� zkou�ka', 450, 70, 35, 13, 1, 2, (STR_TO_DATE('12:00:00', '%H:%i:%s')), (STR_TO_DATE('20170505', '%Y%d%m')), 2);
+VALUES(NULL, 'Semestrální zkouška', 450, 70, 35, 13, 1, 2, (STR_TO_DATE('12:00:00', '%H:%i:%s')), (STR_TO_DATE('20170505', '%Y%d%m')), 2);
 
 
 INSERT INTO Termin
-VALUES(NULL, 40, 2, 'V�te�n�', (NOW()), 1, 1, 1);
+VALUES(NULL, 40, 2, 'Výtečně', (NOW()), 1, 1, 1);
 INSERT INTO Termin
 VALUES(NULL, 20, 3, NULL, NULL, 1, 2, 2);
 INSERT INTO Termin
@@ -182,11 +182,11 @@ VALUES(NULL, 15, 1, 'Nic moc', (NOW()), 3, 3, 2);
 INSERT INTO Otazka
 VALUES(NULL, 'Co je to syntaxe?', 9999, 2);
 INSERT INTO Otazka
-VALUES(NULL, 'Uve�te funkcion�ln� programovac� jazyk.', 2, 1);
+VALUES(NULL, 'Uveďte funkcionální programovací jazyk.', 2, 1);
 INSERT INTO Otazka
-VALUES(NULL, 'Jak prob�h� multicastov� komunikace?', 5, 4);
+VALUES(NULL, 'Jak probíhá multicastová komunikace?', 5, 4);
 INSERT INTO Otazka
-VALUES(NULL, 'Prove�te normalizaci na 2NF', 10, 2);
+VALUES(NULL, 'Proveďte normalizaci na 2NF', 10, 2);
 
 INSERT INTO UcitelPredmet
 VALUES(1, 2);
