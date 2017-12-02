@@ -24,6 +24,8 @@
     <div class="page-cont">
         <h1>Předměty</h1>
 
+        {control searchForm}
+
         <div n:foreach="$flashes as $flash" n:class="flash, $flash->type">{$flash->message}</div>
 
         <table class="table-list">
