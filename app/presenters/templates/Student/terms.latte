@@ -38,12 +38,12 @@
             <div class="terms-table">
                 <div class="table-cont terms-table-item terms-table-item-date">{$p->datum|date: '%d.%m.%Y'}</div>
                 <div class="table-cont terms-table-item terms-table-item-short">{$p->zkratka}</div>
-                <div class="table-cont terms-table-item terms-table-item-name">{$p->jmeno}</div>
+                <div class="table-cont terms-table-item terms-table-item-name">{$p->jmeno_zkousky}</div>
                 <div class="table-cont terms-table-item terms-table-item-no">{$p->termin_cislo}</div>
             </div>
             <div class="terms-table" id="terms-table-detail-div">
                 <h4 id="course-color">{$p->zkratka}&emsp;{$p->nazev}</h4>
-                <h5>{$p->jmeno}&emsp;Termín č.: {$p->termin_cislo}</h5>
+                <h5>{$p->jmeno_zkousky}&emsp;Termín č.: {$p->termin_cislo}</h5>
                 <p>
                 Datum:   {$p->datum|date: '%d.%m.%Y'}<br>
                 Čas:     {$p->cas|date: '%H.%M'}
