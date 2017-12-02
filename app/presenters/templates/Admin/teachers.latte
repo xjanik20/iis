@@ -25,15 +25,18 @@
         <h1>Administrace učitelů</h1>
 
         <button class="add-button" onclick="viewHide('adminTeachers')">Přidat učitele</button>
-        <div class="add-div" id="adminTeachers">
-            <table>
-                <tr><th class="add-label"><label for="login">Login:</label></th><td><input name="login" id="login" class="text add-input" type="text"></td></tr>
-                <tr><th class="add-label"><label for="jmeno">Jméno:</label></th><td><input name="jmeno" id="jmeno" class="text add-input" type="text"></td></tr>
-                <tr><th class="add-label"><label for="prijmeni">Příjmení:</label></th><td><input name="prijmeni" id="prijmeni" class="text add-input" type="text"></tr>
-                <tr><th class="add-label"><label for="heslo">Heslo:</label></th><td><input name="heslo" id="heslo" class="text add-input" type="text"></td></tr>
-                <tr><td></td><td><input name="create" value="Přidat" class="add-button2" type="submit"></td></tr>
-            </table>
+        <div class="add-div" id="adminStudents">
+            <form n:name=addAccountForm >
+                <table>
+                    <tr><th class="add-label"><label n:name=login >Login:</label></th><td><input n:name=login id="login" class="text add-input" ></td></tr>
+                    <tr><th class="add-label"><label n:name=jmeno >Jméno:</label></th><td><input n:name=jmeno id="jmeno" class="text add-input" ></td></tr>
+                    <tr><th class="add-label"><label n:name=prijmeni >Příjmení:</label></th><td><input n:name=prijmeni id="prijmeni" class="text add-input" ></tr>
+                    <tr><th class="add-label"><label n:name=heslo >Heslo:</label></th><td><input n:name=heslo id="heslo" class="text add-input"></td></tr>
+                    <tr><td></td><td><input n:name=create class="add-button2"></td></tr>
+                </table>
+            </form>
         </div>
+
 
         {control searchForm}
 

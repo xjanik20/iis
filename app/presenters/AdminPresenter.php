@@ -52,7 +52,7 @@ class AdminPresenter extends Nette\Application\UI\Presenter
         $form->addText('prijmeni', 'Příjmení:')->setRequired('zadejte příjmení');
         $form->addText('heslo', 'Heslo:')->setRequired('zadejte heslo')
             ->addRule(UI\Form::MIN_LENGTH, 'Heslo musí mít alespoň %d znaky', 4);
-        $form->addSubmit('create', 'Search');
+        $form->addSubmit('create', 'Přidej');
 
         $form->onSuccess[] = [$this, 'addAccountFormSucceeded'];
         return $form;
