@@ -60,6 +60,8 @@ CREATE TABLE Zkouska (
   pocet_otazek INTEGER DEFAULT 0 NOT NULL CHECK (pocet_otazek >= 0),
   typ_zkousky INTEGER NOT NULL,
   termin_cislo INTEGER NOT NULL CHECK (termin_cislo >= 0),
+  cas DATETIME NOT NULL,
+  datum DATETIME NOT NULL,
   
   id_pr INTEGER,
   CONSTRAINT PK_zk PRIMARY KEY (id_zk),
@@ -68,8 +70,6 @@ CREATE TABLE Zkouska (
 
 CREATE TABLE  Termin (
   id_te INTEGER AUTO_INCREMENT,
-  cas DATETIME NOT NULL,
-  datum DATETIME NOT NULL,
   p_dosaz_bodu INTEGER DEFAULT 0 NOT NULL CHECK (p_dosaz_bodu >= 0),
   stav_zkousky TINYINT NOT NULL,
   komentar VARCHAR(100),
@@ -159,25 +159,25 @@ INSERT INTO Student
 VALUES(NULL, 'Hubert', 'Zendulka', 'xzend', '1234');
 
 INSERT INTO Zkouska
-VALUES(NULL, 'Semestr�ln� zkou�ka', 600, 60, 27, 10, 1, 1, 1);
+VALUES(NULL, 'Semestr�ln� zkou�ka', 600, 60, 27, 10, 1, 1, (STR_TO_DATE('16:18:14', '%H:%i:%s')), (STR_TO_DATE('20122112', '%Y%d%m')), 1);
 INSERT INTO Zkouska
-VALUES(NULL, 'Semestr�ln� zkou�ka', 300, 60, 15, 15, 1, 3, 1);
+VALUES(NULL, 'Semestr�ln� zkou�ka', 300, 60, 15, 15, 1, 3, (STR_TO_DATE('08:00:00', '%H:%i:%s')), (STR_TO_DATE('00330304', '%Y%d%m')), 1);
 INSERT INTO Zkouska
-VALUES(NULL, 'P�lsemestr�ln� zkou�ka', 13, 20, 0, 5, 2, 1, 3);
+VALUES(NULL, 'P�lsemestr�ln� zkou�ka', 13, 20, 0, 5, 2, 1, (STR_TO_DATE('10:30:00', '%H:%i:%s')), (STR_TO_DATE('20152005', '%Y%d%m')), 3);
 INSERT INTO Zkouska
-VALUES(NULL, 'Semestr�ln� zkou�ka', 450, 70, 35, 13, 1, 2, 2);
+VALUES(NULL, 'Semestr�ln� zkou�ka', 450, 70, 35, 13, 1, 2, (STR_TO_DATE('12:00:00', '%H:%i:%s')), (STR_TO_DATE('20170505', '%Y%d%m')), 2);
 
 
 INSERT INTO Termin
-VALUES(NULL, (STR_TO_DATE('16:18:14', '%H:%i:%s')), (STR_TO_DATE('20122112', '%Y%d%m')), 40, 2, 'V�te�n�', (NOW()), 1, 1, 1);
+VALUES(NULL, 40, 2, 'V�te�n�', (NOW()), 1, 1, 1);
 INSERT INTO Termin
-VALUES(NULL, (STR_TO_DATE('08:00:00', '%H:%i:%s')), (STR_TO_DATE('00330304', '%Y%d%m')), 20, 3, NULL, NULL, 1, 2, 2);
+VALUES(NULL, 20, 3, NULL, NULL, 1, 2, 2);
 INSERT INTO Termin
-VALUES(NULL, (STR_TO_DATE('10:30:00', '%H:%i:%s')), (STR_TO_DATE('20152005', '%Y%d%m')), DEFAULT, 0, NULL, NULL, 2, 1, 3);
+VALUES(NULL, DEFAULT, 0, NULL, NULL, 2, 1, 3);
 INSERT INTO Termin
-VALUES(NULL, (STR_TO_DATE('12:00:00', '%H:%i:%s')), (STR_TO_DATE('20170505', '%Y%d%m')), 15, 1, 'Nic moc', (NOW()), 3, 3, 3);
+VALUES(NULL, 15, 1, 'Nic moc', (NOW()), 3, 3, 3);
 INSERT INTO Termin
-VALUES(NULL, (STR_TO_DATE('12:00:00', '%H:%i:%s')), (STR_TO_DATE('20170505', '%Y%d%m')), 15, 1, 'Nic moc', (NOW()), 3, 3, 2);
+VALUES(NULL, 15, 1, 'Nic moc', (NOW()), 3, 3, 2);
 
 INSERT INTO Otazka
 VALUES(NULL, 'Co je to syntaxe?', 9999, 2);
