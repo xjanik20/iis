@@ -5,6 +5,7 @@
  * Date: 1.12.2017
  * Time: 17:28
  */
+namespace App\Presenters;
 
 use Nette;
 use Nette\Application\UI;
@@ -84,19 +85,19 @@ class StudentPresenter extends Nette\Application\UI\Presenter
     {
         if (!$this->filterSet) {
             $this->template->posts = $this->database->query(
-                "SELECT id_zk, Predmet.nazev, Predmet.zkratka, Zkouska.nazev, Zkouska.datum, Zkouska.cas, Zkouska.termin_cislo, Termin.p_dosaz_bodu, Termin.p_dosaz_bodu, Termin.max_bodu, Termin.stav_zkousky, Termin.dat_ohodnoceni, Termin.komentar FROM
+                "SELECT id_zk, Predmet.nazev, Predmet.zkratka, Zkouska.jmeno, Zkouska.datum, Zkouska.cas, Zkouska.termin_cislo, Termin.p_dosaz_bodu, Termin.p_dosaz_bodu, Zkouska.max_bodu, Zkouska.min_bodu, Termin.stav_zkousky, Termin.dat_ohodnoceni, Termin.komentar FROM
                 Termin NATURAL JOIN Zkouska NATURAL JOIN Predmet
                 WHERE Termin.id_st = ".$this->user->getId().
-                " ORDER BY Zkouska.datum)"
+                " ORDER BY Zkouska.datum"
             )->fetchAll();
         }
         else{
             $this->template->posts = $this->database->query(
-                "SELECT id_zk, Predmet.nazev, Predmet.zkratka, Zkouska.nazev, Zkouska.datum, Zkouska.cas, Zkouska.termin_cislo, Termin.p_dosaz_bodu, Termin.p_dosaz_bodu, Termin.max_bodu, Termin.stav_zkousky, Termin.dat_ohodnoceni, Termin.komentar FROM
+                "SELECT id_zk, Predmet.nazev, Predmet.zkratka, Zkouska.jmeno, Zkouska.datum, Zkouska.cas, Zkouska.termin_cislo, Termin.p_dosaz_bodu, Termin.p_dosaz_bodu, Zkouska.max_bodu, Zkouska.min_bodu, Termin.stav_zkousky, Termin.dat_ohodnoceni, Termin.komentar FROM
                 Termin NATURAL JOIN Zkouska NATURAL JOIN Predmet
                 WHERE Termin.id_st = ".$this->user->getId()." AND 
                 (Predmet.zkratka = ".$this->formFilter."OR Zkouska.jmeno = ".$this->formFilter."OR Zkouska.datum = ".$this->formFilter." OR Zkouska.termin_cislo = ".$this->formFilter.")".
-                " ORDER BY Zkouska.datum)"
+                " ORDER BY Zkouska.datum"
             )->fetchAll();
         }
     }
