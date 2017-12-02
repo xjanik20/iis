@@ -1,0 +1,44 @@
+{block content}
+
+{define title}Předměty{/define}
+
+<div class="container-fluid" style="min-height: 100vh; display:flex;">
+    <div class="row row-top">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedcont" aria-controls="navbarSupportedcont" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedcont">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" n:href="Student:courses">Předměty</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" n:href="Student:terms">Termíny</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+
+    <div class="page-cont">
+        <h1>Předměty</h1>
+
+        <div n:foreach="$flashes as $flash" n:class="flash, $flash->type">{$flash->message}</div>
+
+        <table class="table-list">
+            <tr class="table-head">
+                <th class="table-cont">Zkratka</th>
+                <th class="table-cont">Předmět</th>
+            </tr>
+            {foreach $posts as $p}
+                <tr>
+                    <td class="table-cont">{$p->zkratka}</td>
+                    <!--<td class="table-cont"><a n:href="Student: "></a></td> -->
+                </tr>
+            {/foreach}
+        </table>
+    </div>
+
+
+</div>

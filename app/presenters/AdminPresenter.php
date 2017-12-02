@@ -102,16 +102,15 @@ class AdminPresenter extends Nette\Application\UI\Presenter
         }
     }
 
-    public function actionDeleteRow($table, $id, $login)
+    public function actionDeleteRow($table, $login)
     {
-        $colId = $this->database->query('SELECT * FROM INFORMATION_SCHEMA.COLUMNS WHERE ORDINAL_POSITION = 1 AND TABLE_NAME = N?', $table);
-        $res = $this->database->table($table)->where($colId->fetch()["COLUMN_NAME"], $id)->delete();
+        $res = $this->database->table($table)->where('login', $login)->delete();
         if (!$res) {
             $this->error('Záznam se nepodařilo smazat');
         }
         else {
-            $this->flashMessage("Student '$login' odebrán ze systému");
+            $this->flashMessage(($table == "Student" ? "Student" : "Učitel") . " '$login' odebrán ze systému");
         }
-        $this->redirect('students');
+        $this->redirect($table == "Student" ? 'students' : 'teachers');
     }
 }
