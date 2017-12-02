@@ -81,7 +81,34 @@
 .add-div {
     margin: 15px 0px;
     display: none;
+    background-color: #B7C1F0;
+    padding: 20px;
 }
+
+.add-label {
+    width: 30%;
+}
+
+.add-input {
+    width: 60%;
+}
+
+input:focus {
+    border: 2px solid #4457B0;
+}
+
+.add-button2 {
+    color: #B7C1F0;
+    border: none;
+    background-color: #4457B0;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    padding: 0 5px;
+    width: 60%;
+    height: 30px;
+}
+
 
 .textarea {
     -moz-appearance: textfield-multiline;

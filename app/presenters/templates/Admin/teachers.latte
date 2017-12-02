@@ -26,7 +26,13 @@
 
         <button class="add-button" onclick="viewHide('adminTeachers')">Přidat učitele</button>
         <div class="add-div" id="adminTeachers">
-            {control addAccountForm}
+            <table>
+                <tr><th class="add-label"><label for="login">Login:</label></th><td><input name="login" id="login" class="text add-input" type="text"></td></tr>
+                <tr><th class="add-label"><label for="jmeno">Jméno:</label></th><td><input name="jmeno" id="jmeno" class="text add-input" type="text"></td></tr>
+                <tr><th class="add-label"><label for="prijmeni">Příjmení:</label></th><td><input name="prijmeni" id="prijmeni" class="text add-input" type="text"></tr>
+                <tr><th class="add-label"><label for="heslo">Heslo:</label></th><td><input name="heslo" id="heslo" class="text add-input" type="text"></td></tr>
+                <tr><td></td><td><input name="create" value="Přidat" class="add-button2" type="submit"></td></tr>
+            </table>
         </div>
 
         {control searchForm}
@@ -45,7 +51,7 @@
                     <td class="table-cont">{$p->login}</td>
                     <td class="table-cont">{$p->jmeno}</td>
                     <td class="table-cont">{$p->prijmeni}</td>
-                    <td class="table-cont"><a n:href="Admin:deleteRow 'Ucitel', $p->id_uc, $p->login">
+                    <td class="table-cont"><a n:href="Admin:deleteRow 'Ucitel', $p->login">
                             <img style="margin-right: 5px" src="{$basePath}/www/images/delete.png" alt="Del" class="table-line-item">Odebrat</a></td>
                 </tr>
             {/foreach}
