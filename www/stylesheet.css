@@ -36,6 +36,7 @@
     width: 70%;
     border-collapse: collapse;
     border: 1px solid black;
+    margin-top: 20px;
 }
 
 .table-cont {
@@ -45,6 +46,27 @@
 
 .table-head {
     background-color: #8897DE;
+}
+
+#terms-table {
+    width: 70%;
+    border-collapse: collapse;
+    border-width: 0 1px 0 1px;
+    border-style: solid;
+    border-color: black;
+}
+
+#terms-div {
+    width: 70%;
+}
+
+#terms-line-div {
+    width: 70%;
+}
+
+.terms-table-item {
+    width: 22%;
+    display: inline-block;
 }
 
 .page-cont {
