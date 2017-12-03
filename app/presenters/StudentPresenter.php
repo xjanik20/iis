@@ -170,7 +170,7 @@ class StudentPresenter extends Nette\Application\UI\Presenter
         $zkouska = $row->jmeno;
         $id_pr = $row->id_pr;
         $row = $this->database->table('Termin')->where('id_te = ? AND stav_zkousky = ?', $id_te, 1)->fetch();
-        if (!$row or !$zkouska) {
+        if (!$row or !$zkouska or !$id_pr) {
             $this->flashMessage("Chyba, přihlášení se nezdařilo");
         }
         elseif(
@@ -180,7 +180,7 @@ class StudentPresenter extends Nette\Application\UI\Presenter
                 GROUP BY Zkouska.nazev, Termin.stav_zkousky
                 WHERE Zkouska.nazev = ? AND id_pr = ? AND Termin.id_st = ? AND (Termin.stav_zkousky > 3)
                 HAVING COUNT(*) > 2",
-                $zkouska->nazev, $id_pr, $row->id_st
+                $zkouska, $id_pr, $row->id_st
             )->fetch()
         )
         {
@@ -191,7 +191,7 @@ class StudentPresenter extends Nette\Application\UI\Presenter
             "SELECT * FROM
                 Zkouska NATURAL JOIN Termin
                 WHERE Zkouska.nazev = ? AND id_pr = ? AND Termin.id_st = ? AND (Termin.stav_zkousky = 2 OR Termin.stav_zkousky = 4)",
-                $zkouska->nazev, $id_pr, $row->id_st
+                $zkouska, $id_pr, $row->id_st
 
         )->fetch()
         ){
