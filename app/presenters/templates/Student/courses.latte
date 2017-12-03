@@ -36,10 +36,11 @@
             {foreach $posts as $p}
                 <tr>
                     <td class="table-cont">{$p->zkratka}</td>
-                    <!--<td class="table-cont"><a n:href="Student: "></a></td> -->
+                    <td class="table-cont"><a n:href="Student:courseDetail $p->id_pr">{$p->nazev}</a></td>
                 </tr>
             {/foreach}
         </table>
+        {if $posts == NULL} <p class="not-found">Předměty nenalezeny.</p> {/if}
     </div>
 
 

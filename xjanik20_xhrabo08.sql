@@ -161,7 +161,11 @@ VALUES(NULL, 'Hubert', 'Zendulka', 'xzend', '1234');
 INSERT INTO Zkouska
 VALUES(NULL, 'Semestrální zkouška', 600, 60, 27, 10, 1, 1, (STR_TO_DATE('16:18:14', '%H:%i:%s')), (STR_TO_DATE('20122112', '%Y%d%m')), 1);
 INSERT INTO Zkouska
-VALUES(NULL, 'Semestrální zkouška', 300, 60, 15, 15, 1, 3, (STR_TO_DATE('08:00:00', '%H:%i:%s')), (STR_TO_DATE('00330304', '%Y%d%m')), 1);
+VALUES(NULL, 'Semestrální zkouška', 400, 60, 27, 10, 1, 2, (STR_TO_DATE('13:30:18', '%H:%i:%s')), (STR_TO_DATE('20130501', '%Y%d%m')), 1);
+INSERT INTO Zkouska
+VALUES(NULL, 'Semestrální zkouška', 600, 60, 27, 10, 1, 3, (STR_TO_DATE('08:00:00', '%H:%i:%s')), (STR_TO_DATE('20131101', '%Y%d%m')), 1);
+INSERT INTO Zkouska
+VALUES(NULL, 'Semestrální zkouška', 300, 60, 15, 15, 1, 4, (STR_TO_DATE('08:00:00', '%H:%i:%s')), (STR_TO_DATE('00330304', '%Y%d%m')), 1);
 INSERT INTO Zkouska
 VALUES(NULL, 'Půlsemestrální zkouška', 13, 20, 0, 5, 2, 1, (STR_TO_DATE('10:30:00', '%H:%i:%s')), (STR_TO_DATE('20152005', '%Y%d%m')), 3);
 INSERT INTO Zkouska
@@ -169,15 +173,19 @@ VALUES(NULL, 'Semestrální zkouška', 450, 70, 35, 13, 1, 2, (STR_TO_DATE('12:0
 
 
 INSERT INTO Termin
-VALUES(NULL, 40, 2, 'Výtečně', (NOW()), 1, 1, 1);
+VALUES(NULL, 40, 6, 'Výtečně', (NOW()), 1, 1, 1);
 INSERT INTO Termin
-VALUES(NULL, 20, 3, NULL, NULL, 1, 2, 2);
+VALUES(NULL, 20, 3, NULL, NULL, NULL, 2, 2);
 INSERT INTO Termin
-VALUES(NULL, DEFAULT, 0, NULL, NULL, 2, 1, 3);
+VALUES(NULL, DEFAULT, 1, NULL, NULL, NULL, 1, 2);
 INSERT INTO Termin
-VALUES(NULL, 15, 1, 'Nic moc', (NOW()), 3, 3, 3);
+VALUES(NULL, DEFAULT, 2, NULL, NULL, NULL, 1, 3);
 INSERT INTO Termin
-VALUES(NULL, 15, 1, 'Nic moc', (NOW()), 3, 3, 2);
+VALUES(NULL, DEFAULT, 1, NULL, NULL, NULL, 1, 4);
+INSERT INTO Termin
+VALUES(NULL, 15, 6, 'Nic moc', (NOW()), 2, 3, 3);
+INSERT INTO Termin
+VALUES(NULL, 15, 1, NULL, (NOW()), NULL, 3, 2);
 
 INSERT INTO Otazka
 VALUES(NULL, 'Co je to syntaxe?', 9999, 2);
@@ -197,6 +205,8 @@ VALUES(2, 2);
 INSERT INTO UcitelPredmet
 VALUES(3, 4);
 
+INSERT INTO StudentPredmet
+VALUES(1, 1);
 INSERT INTO StudentPredmet
 VALUES(1, 2);
 INSERT INTO StudentPredmet
