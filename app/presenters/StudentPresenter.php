@@ -85,6 +85,7 @@ class StudentPresenter extends Nette\Application\UI\Presenter
                 $this->user->getId(), $id_pr, $this->formFilter, $this->formFilter, $this->formFilter, $this->formFilter
             )->fetchAll();
         }
+        $this->template->predmet = $this->database->query("Select zkratka, nazev FROM Predmet WHERE id_pr = ?",$id_pr)->fetch();
         $this->template->stavy = [
             0 => "přihlášení ještě není otevřeno",
             1 => "nepřihlášen",
