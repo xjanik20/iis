@@ -199,7 +199,7 @@ class StudentPresenter extends Nette\Application\UI\Presenter
             $this->flashMessage("Chyba: jiný termín zkoušky přihlášen");
         }
         elseif(
-            $this->database-query(
+            $this->database->query(
                 "SELECT COUNT(*) FROM Termin NATURAL JOIN Zkouska WHERE id_zk = ? AND stav_zkousky = 2
                 GROUP BY id_zk, max_studentu
                 HAVING COUNT(*) > max_studentu",
