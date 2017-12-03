@@ -64,17 +64,19 @@ class StudentPresenter extends Nette\Application\UI\Presenter
     {
         if (!$this->filterSet) {
             $this->template->posts = $this->database->query(
-                Termin NATURAL JOIN Zkouska LEFT JOIN Ucitel
+                "SELECT id_zk, Zkouska.jmeno as jmeno_zkousky, Zkouska.datum, Zkouska.cas, Zkouska.termin_cislo, Termin.p_dosaz_bodu, Zkouska.max_bodu, Zkouska.min_bodu, Termin.stav_zkousky, Termin.dat_ohodnoceni, Termin.komentar, Ucitel.login, Ucitel.jmeno AS jmeno_ucitele, Ucitel.prijmeni FROM
+                Termin NATURAL JOIN Zkouska LEFT JOIN Ucitel ON Termin.id_uc = Ucitel.id_uc
                 WHERE Termin.id_st = ".$this->user->getId()." AND Zkouska.id_pr = ".$id_pr.
                 " ORDER BY Zkouska.datum"
             )->fetchAll();
         }
         else{
             $this->template->posts = $this->database->query(
-                Termin NATURAL JOIN Zkouska LEFT JOIN Ucitel
+                "SELECT id_zk, Zkouska.jmeno as jmeno_zkousky, Zkouska.datum, Zkouska.cas, Zkouska.termin_cislo, Termin.p_dosaz_bodu, Zkouska.max_bodu, Zkouska.min_bodu, Termin.stav_zkousky, Termin.dat_ohodnoceni, Termin.komentar, Ucitel.login, Ucitel.jmeno AS jmeno_ucitele, Ucitel.prijmeni FROM
+                Termin NATURAL JOIN Zkouska LEFT JOIN Ucitel ON Termin.id_uc = Ucitel.id_uc ON Termin.id_uc = Ucitel.id_uc
                 WHERE Termin.id_st = ".$this->user->getId()." AND Zkouska.id_pr = ".$id_pr." AND 
-                (Zkouska.nazev = ".$this->formFilter."OR Zkouska.datum = ".$this->formFilter." OR Zkouska.cas = ".$this->formFilter." OR Zkouska.termin_cislo = ".$this->formFilter.
-                " ORDER BY Zkouska.datum)"
+                (Zkouska.nazev = ".$this->formFilter." OR Zkouska.datum = ".$this->formFilter." OR Zkouska.cas = ".$this->formFilter." OR Zkouska.termin_cislo = ".$this->formFilter.")".
+                " ORDER BY Zkouska.datum"
             )->fetchAll();
         }
         $this->template->stavy = [
@@ -99,16 +101,18 @@ class StudentPresenter extends Nette\Application\UI\Presenter
     {
         if (!$this->filterSet) {
             $this->template->posts = $this->database->query(
-                Termin NATURAL JOIN Zkouska NATURAL JOIN Predmet LEFT JOIN Ucitel
+                "SELECT id_zk, Predmet.nazev, Predmet.zkratka, Zkouska.jmeno as jmeno_zkousky, Zkouska.datum, Zkouska.cas, Zkouska.termin_cislo, Termin.p_dosaz_bodu, Zkouska.max_bodu, Zkouska.min_bodu, Termin.stav_zkousky, Termin.dat_ohodnoceni, Termin.komentar, Ucitel.login, Ucitel.jmeno AS jmeno_ucitele, Ucitel.prijmeni FROM
+                Termin NATURAL JOIN Zkouska NATURAL JOIN Predmet LEFT JOIN Ucitel ON Termin.id_uc = Ucitel.id_uc
                 WHERE Termin.id_st = ".$this->user->getId().
                 " ORDER BY Zkouska.datum"
             )->fetchAll();
         }
         else{
             $this->template->posts = $this->database->query(
-                Termin NATURAL JOIN Zkouska NATURAL JOIN Predmet LEFT JOIN Ucitel
+                "SELECT id_zk, Predmet.nazev, Predmet.zkratka, Zkouska.jmeno as jmeno_zkousky, Zkouska.datum, Zkouska.cas, Zkouska.termin_cislo, Termin.p_dosaz_bodu, Zkouska.max_bodu, Zkouska.min_bodu, Termin.stav_zkousky, Termin.dat_ohodnoceni, Termin.komentar, Ucitel.login, Ucitel.jmeno AS jmeno_ucitele, Ucitel.prijmeni FROM
+                Termin NATURAL JOIN Zkouska NATURAL JOIN Predmet LEFT JOIN Ucitel ON Termin.id_uc = Ucitel.id_uc
                 WHERE Termin.id_st = ".$this->user->getId()." AND 
-                (Predmet.zkratka = ".$this->formFilter."OR Zkouska.jmeno = ".$this->formFilter."OR Zkouska.datum = ".$this->formFilter." OR Zkouska.termin_cislo = ".$this->formFilter.")".
+                (Predmet.zkratka = ".$this->formFilter." OR Zkouska.jmeno = ".$this->formFilter."OR Zkouska.datum = ".$this->formFilter." OR Zkouska.termin_cislo = ".$this->formFilter.")".
                 " ORDER BY Zkouska.datum"
             )->fetchAll();
         }
@@ -144,7 +148,7 @@ class StudentPresenter extends Nette\Application\UI\Presenter
                 "SELECT nazev, pocet_bodu FROM
                 Otazka
                 WHERE Otazka.id_te = ".$id_te. "AND
-                (Otazka.nazev = ".$this->formFilter."OR Otazka.pocet_bodu = ".$this->formFilter.")"
+                (Otazka.nazev = ".$this->formFilter." OR Otazka.pocet_bodu = ".$this->formFilter.")"
             )->fetchAll();
         }
     }

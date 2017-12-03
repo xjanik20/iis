@@ -1,6 +1,7 @@
 0 - přihlášení ještě neotevřeno
 1 - přihlašování otevřeno, nepřihlášen
 2 - přihlašování otevřeno, příhlášen
+3 - přihlašování zavřeno, nepřihlášen  (zůstává i po uskutečnění zkoušky)
 4 - přihlašování zavřeno, přihlášen
 5 - zkouška absolvována
 6 - zkouška opravena
