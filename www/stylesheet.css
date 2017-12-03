@@ -37,6 +37,7 @@
     border-collapse: collapse;
     border: 1px solid black;
     margin-top: 20px;
+    min-width: 50em;
 }
 
 .table-cont {
@@ -55,6 +56,7 @@
     border-width: 0 1px 0 1px;
     border-style: solid;
     border-color: black;
+    min-width: 50em;
 }
 
 .terms-table-item {
@@ -92,10 +94,15 @@
     display: inline-block;
 }
 
+#terms-state {
+    width: auto;
+}
+
 .page-cont {
     margin-left: 50px;
     margin-top: 50px;
     margin-right: 50px;
+    min-width: 50em;
 }
 
 .flash {
@@ -161,12 +168,16 @@ input:focus {
     text-align: center;
     text-decoration: none;
     display: inline-block;
-    margin-left: 5%;
+    margin-right: 5px;
 }
 
 .terms-detail-button:hover {
     color: #4457B0;
     background-color: #B7C1F0;
+}
+
+#comment {
+    font-style: italic;
 }
 
 .textarea {
