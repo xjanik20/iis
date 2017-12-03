@@ -84,7 +84,7 @@ class AdminPresenter extends Nette\Application\UI\Presenter
     protected function createComponentEditAccountForm()
     {
         $form = new UI\Form;
-        $form->addText('id', 'ID:')->setRequired('zadejte id');
+        $form->addHidden('id');
         $form->addText('login', 'Login:')->setRequired('zadejte login');
         $form->addText('jmeno', 'Jméno:')->setRequired('zadejte jmeno');
         $form->addText('prijmeni', 'Příjmení:')->setRequired('zadejte příjmení');
@@ -114,12 +114,13 @@ class AdminPresenter extends Nette\Application\UI\Presenter
             $this->redirect('this');
         }
         else{
-            $this->database->table($table)->where($idcolumn,$values['id'])->update([
+            $this->database->table($table)->where("? = ?",$idcolumn,$values['id'])->update([
                 "login" => $values['login'],
                 "jmeno" => $values['jmeno'],
                 "prijmeni" => $values['prijmeni'],
                 "heslo" => $values['heslo']
             ]);
+            $this->flashMessage("Uzivatel editován");
         }
 
     }
