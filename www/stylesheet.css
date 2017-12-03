@@ -87,6 +87,11 @@
     background-color: #B7C1F0;
 }
 
+.terms-detail-table-cont {
+    width: 18%;
+    display: inline-block;
+}
+
 .page-cont {
     margin-left: 50px;
     margin-top: 50px;
@@ -149,6 +154,20 @@ input:focus {
     height: 30px;
 }
 
+.terms-detail-button {
+    color: #B7C1F0;
+    border: none;
+    background-color: #4457B0;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    margin-left: 5%;
+}
+
+.terms-detail-button:hover {
+    color: #4457B0;
+    background-color: #B7C1F0;
+}
 
 .textarea {
     -moz-appearance: textfield-multiline;

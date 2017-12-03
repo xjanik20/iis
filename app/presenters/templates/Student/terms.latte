@@ -44,11 +44,19 @@
             <div class="terms-table" id="terms-table-detail-div">
                 <h4 id="course-color">{$p->zkratka}&emsp;{$p->nazev}</h4>
                 <h5>{$p->jmeno_zkousky}&emsp;Termín č.: {$p->termin_cislo}</h5>
-                <p>
-                Datum:   {$p->datum|date: '%d.%m.%Y'}<br>
-                Čas:     {$p->cas|date: '%H.%M'}
-                </p>
 
+                <div class="terms-detail-table-cont">Datum:</div><div class="terms-detail-table-cont">{$p->datum|date: '%d.%m.%Y'}</div>
+                <div class="terms-detail-table-cont">Čas:</div><div class="terms-detail-table-cont">{$p->cas|date: '%H.%M'}</div><br>
+                <div class="terms-detail-table-cont">Minimum bodů:</div><div class="terms-detail-table-cont">{$p->min_bodu}</div>
+                <div class="terms-detail-table-cont">Maximum bodů:</div><div class="terms-detail-table-cont">{$p->max_bodu}</div><br>
+                <div class="terms-detail-table-cont">Stav zkoušky:</div>
+                <div class="terms-detail-table-cont">{$stavy[$p->stav_zkousky]}</div><br>
+                <div class="terms-detail-table-cont">Bodů:</div><div class="terms-detail-table-cont">{$p->p_dosaz_bodu}</div><br>
+                <div class="terms-detail-table-cont">Datum ohodnocení:</div><div class="terms-detail-table-cont">{($p->dat_ohodnoceni == "") ? "-" : ($p->dat_ohodnoceni|date: '%d.%m.%Y')}</div><br>
+                <div class="terms-detail-table-cont">Hodnotil:</div><div class="terms-detail-table-cont">učitel</div><br>
+
+                <div>Komentář k hodnocení:<br><p>{($p->komentar == "") ? "-" : $p->komentar}</p></div>
+                <button class="terms-detail-button">Zobrazit otázky</button><button class="terms-detail-button" n:ifcontent>{($p->stav_zkousky == 1) ? "Přihlásit" : ($p->stav_zkousky == 2) ? "Odhlásit"}</button>
             </div>
         {/foreach}
     </div>
