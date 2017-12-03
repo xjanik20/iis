@@ -85,7 +85,7 @@ class StudentPresenter extends Nette\Application\UI\Presenter
                 $this->user->getId(), $id_pr, $this->formFilter, $this->formFilter, $this->formFilter, $this->formFilter
             )->fetchAll();
         }
-        $this->template->predmet = $this->database->query("Select zkratka, nazev FROM Predmet WHERE id_pr = ?",$id_pr)->fetch();
+        $this->template->predmet = $this->database->query("SELECT zkratka, nazev FROM Predmet WHERE id_pr = ?",$id_pr)->fetch();
         $this->template->stavy = [
             0 => "přihlášení ještě není otevřeno",
             1 => "nepřihlášen",
@@ -162,6 +162,12 @@ class StudentPresenter extends Nette\Application\UI\Presenter
                 $id_te, $this->formFilter, $this->formFilter
             )->fetchAll();
         }
+        $this->template->info = $this->database->query("
+            SELECT Predmet.zkratka, Predmet.nazev, Zkouska.Jmeno, Zkouska.temin_cislo FROM
+            Termin NATURAL JOIN Zkouska NATURAL JOIN Predmet
+            WHERE id_te = ?",
+            $id_te
+        )->fetch();
     }
 
 
