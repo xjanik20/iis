@@ -43,4 +43,50 @@ class TeacherPresenter extends Nette\Application\UI\Presenter
             $this->filterSet = true;
         }
     }
+
+    public function renderCourses()
+    {
+        if (!$this->filterSet) {
+            $this->template->posts = $this->database->query(
+                "SELECT Predmet.zkratka, Predmet.nazev, Predmet.id_pr FROM
+                UcitelPredmet NATURAL JOIN Predmet
+                WHERE UcitelPredmet.id_uc = ?",
+                $this->user->getId()
+            )->fetchAll();
+        }
+        else{
+            $this->template->posts = $this->database->query(
+                "SELECT Predmet.nazev, Predmet.id_pr FROM
+                UcitelPredmet NATURAL JOIN Predmet
+                WHERE UcitelPredmet.id_uc = ? AND (Predmet.nazev = ? OR Predmet.zkratka = ? )",
+                $this->user->getId(), $this->formFilter, $this->formFilter
+            )->fetchAll();
+        }
+
+    }
+
+    public function renderCourseDetail($id_pr)
+    {
+        if (!$this->filterSet) {
+            $this->template->posts = $this->database->query(
+                "SELECT id_te, id_zk, Zkouska.jmeno as jmeno_zkousky, Zkouska.datum, Zkouska.cas, Zkouska.termin_cislo, Zkouska.max_studentu, Zkouska.max_bodu, Zkouska.min_bodu FROM
+                Zkouska NATURAL JOIN Predmet NATURAL JOIN UcitelPredmet
+                WHERE UcitelPredmet.id_uc = ? AND id_pr = ? 
+                ORDER BY Zkouska.datum",
+                $this->user->getId(),$id_pr
+            )->fetchAll();
+        }
+        else{
+            $this->template->posts = $this->database->query(
+                "SELECT id_te, id_zk, Zkouska.jmeno as jmeno_zkousky, Zkouska.datum, Zkouska.cas, Zkouska.termin_cislo, Zkouska.max_studentu, Zkouska.max_bodu, Zkouska.min_bodu FROM
+                Zkouska NATURAL JOIN Predmet NATURAL JOIN UcitelPredmet
+                WHERE UcitelPredmet.id_uc = ? AND id_pr = ? 
+                ( Zkouska.nazev = ? OR Zkouska.datum = ? OR Zkouska.cas = ? OR Zkouska.termin_cislo = ? )
+                ORDER BY Zkouska.datum",
+                $this->user->getId(), $id_pr, $this->formFilter, $this->formFilter, $this->formFilter, $this->formFilter
+            )->fetchAll();
+        }
+        $this->template->predmet = $this->database->query("Select zkratka, nazev FROM Predmet WHERE id_pr = ?",$id_pr)->fetch();
+    }
+
 }

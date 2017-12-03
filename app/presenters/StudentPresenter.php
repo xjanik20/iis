@@ -55,10 +55,10 @@ class StudentPresenter extends Nette\Application\UI\Presenter
         }
         else{
         $this->template->posts = $this->database->query(
-            "SELECT Predmet.nazev, Predmet.id_pr FROM
+            "SELECT Predmet.zkratka, Predmet.nazev, Predmet.id_pr FROM
             StudentPredmet NATURAL JOIN Predmet
-            WHERE StudentPredmet.id_st = ? AND Predmet.nazev = ?",
-            $this->user->getId(), $this->formFilter
+            WHERE StudentPredmet.id_st = ? AND (Predmet.nazev = ? OR Premet.zkratka = ?)",
+            $this->user->getId(), $this->formFilter, $this->formFilter
         )->fetchAll();
         }
 
@@ -68,7 +68,7 @@ class StudentPresenter extends Nette\Application\UI\Presenter
     {
         if (!$this->filterSet) {
             $this->template->posts = $this->database->query(
-                "SELECT id_te, id_zk, Zkouska.jmeno as jmeno_zkousky, Zkouska.datum, Zkouska.cas, Zkouska.termin_cislo, Termin.p_dosaz_bodu, Zkouska.max_bodu, Zkouska.min_bodu, Termin.stav_zkousky, Termin.dat_ohodnoceni, Termin.komentar, Ucitel.login, Ucitel.jmeno AS jmeno_ucitele, Ucitel.prijmeni FROM
+                "SELECT id_te, id_zk, Zkouska.jmeno as jmeno_zkousky, Zkouska.datum, Zkouska.cas, Zkouska.termin_cislo, Termin.p_dosaz_bodu, Zkouska.max_studentu, Zkouska.max_bodu, Zkouska.min_bodu, Termin.stav_zkousky, Termin.dat_ohodnoceni, Termin.komentar, Ucitel.login, Ucitel.jmeno AS jmeno_ucitele, Ucitel.prijmeni FROM
                 Termin NATURAL JOIN Zkouska LEFT JOIN Ucitel ON Termin.id_uc = Ucitel.id_uc
                 WHERE Termin.id_st = ? AND Zkouska.id_pr = ? 
                 ORDER BY Zkouska.datum",
@@ -77,7 +77,7 @@ class StudentPresenter extends Nette\Application\UI\Presenter
         }
         else{
             $this->template->posts = $this->database->query(
-                "SELECT id_te, id_zk, Zkouska.jmeno as jmeno_zkousky, Zkouska.datum, Zkouska.cas, Zkouska.termin_cislo, Termin.p_dosaz_bodu, Zkouska.max_bodu, Zkouska.min_bodu, Termin.stav_zkousky, Termin.dat_ohodnoceni, Termin.komentar, Ucitel.login, Ucitel.jmeno AS jmeno_ucitele, Ucitel.prijmeni FROM
+                "SELECT id_te, id_zk, Zkouska.jmeno as jmeno_zkousky, Zkouska.datum, Zkouska.cas, Zkouska.termin_cislo, Termin.p_dosaz_bodu, Zkouska.max_studentu, Zkouska.max_bodu, Zkouska.min_bodu, Termin.stav_zkousky, Termin.dat_ohodnoceni, Termin.komentar, Ucitel.login, Ucitel.jmeno AS jmeno_ucitele, Ucitel.prijmeni FROM
                 Termin NATURAL JOIN Zkouska LEFT JOIN Ucitel ON Termin.id_uc = Ucitel.id_uc ON Termin.id_uc = Ucitel.id_uc
                 WHERE Termin.id_st = ? AND Zkouska.id_pr = ? AND 
                 ( Zkouska.nazev = ? OR Zkouska.datum = ? OR Zkouska.cas = ? OR Zkouska.termin_cislo = ? )
@@ -108,7 +108,7 @@ class StudentPresenter extends Nette\Application\UI\Presenter
     {
         if (!$this->filterSet) {
             $this->template->posts = $this->database->query(
-                "SELECT id_te, id_zk, Predmet.nazev, Predmet.zkratka, Zkouska.jmeno as jmeno_zkousky, Zkouska.datum, Zkouska.cas, Zkouska.termin_cislo, Termin.p_dosaz_bodu, Zkouska.max_bodu, Zkouska.min_bodu, Termin.stav_zkousky, Termin.dat_ohodnoceni, Termin.komentar, Ucitel.login, Ucitel.jmeno AS jmeno_ucitele, Ucitel.prijmeni FROM
+                "SELECT id_te, id_zk, Predmet.nazev, Predmet.zkratka, Zkouska.jmeno as jmeno_zkousky, Zkouska.datum, Zkouska.cas, Zkouska.termin_cislo, Termin.p_dosaz_bodu, Zkouska.max_studentu, Zkouska.max_bodu, Zkouska.min_bodu, Termin.stav_zkousky, Termin.dat_ohodnoceni, Termin.komentar, Ucitel.login, Ucitel.jmeno AS jmeno_ucitele, Ucitel.prijmeni FROM
                 Termin NATURAL JOIN Zkouska NATURAL JOIN Predmet LEFT JOIN Ucitel ON Termin.id_uc = Ucitel.id_uc
                 WHERE Termin.id_st = ?
                 ORDER BY Zkouska.datum",
@@ -117,7 +117,7 @@ class StudentPresenter extends Nette\Application\UI\Presenter
         }
         else{
             $this->template->posts = $this->database->query(
-                "SELECT id_te, id_zk, Predmet.nazev, Predmet.zkratka, Zkouska.jmeno as jmeno_zkousky, Zkouska.datum, Zkouska.cas, Zkouska.termin_cislo, Termin.p_dosaz_bodu, Zkouska.max_bodu, Zkouska.min_bodu, Termin.stav_zkousky, Termin.dat_ohodnoceni, Termin.komentar, Ucitel.login, Ucitel.jmeno AS jmeno_ucitele, Ucitel.prijmeni FROM
+                "SELECT id_te, id_zk, Predmet.nazev, Predmet.zkratka, Zkouska.jmeno as jmeno_zkousky, Zkouska.datum, Zkouska.cas, Zkouska.termin_cislo, Termin.p_dosaz_bodu, Zkouska.max_studentu, Zkouska.max_bodu, Zkouska.min_bodu, Termin.stav_zkousky, Termin.dat_ohodnoceni, Termin.komentar, Ucitel.login, Ucitel.jmeno AS jmeno_ucitele, Ucitel.prijmeni FROM
                 Termin NATURAL JOIN Zkouska NATURAL JOIN Predmet LEFT JOIN Ucitel ON Termin.id_uc = Ucitel.id_uc
                 WHERE Termin.id_st = ? AND 
                 ( Predmet.zkratka = ? OR Zkouska.jmeno = ? OR Zkouska.datum = ? OR Zkouska.termin_cislo = ? )".
@@ -197,6 +197,16 @@ class StudentPresenter extends Nette\Application\UI\Presenter
         )->fetch()
         ){
             $this->flashMessage("Chyba: jiný termín zkoušky přihlášen");
+        }
+        elseif(
+            $this->database->query(
+                "SELECT COUNT(*) FROM Termin NATURAL JOIN Zkouska WHERE id_zk = ? AND stav_zkousky = 2
+                GROUP BY id_zk, max_studentu
+                HAVING COUNT(*) > max_studentu",
+                $id_zk
+            )->fetch()
+        ){
+            $this->flashMessage("Termín je plný");
         }
         else{
             $this->database->table('Termin')->where('id_te = ?',$id_te)->update(['stav_zkousky' => '2']);
