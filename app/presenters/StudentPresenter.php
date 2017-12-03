@@ -169,7 +169,7 @@ class StudentPresenter extends Nette\Application\UI\Presenter
         $row = $this->database->table('Zkouska')->where('id_zk = ?',$id_zk)->fetch();
         $zkouska = $row->jmeno;
         $id_pr = $row->id_pr;
-        $row = $this->database->table('termin')->where('id_te = ? AND stav_zkousky = ?', $id_te, 1)->fetch();
+        $row = $this->database->table('Termin')->where('id_te = ? AND stav_zkousky = ?', $id_te, 1)->fetch();
         if (!$row or !$zkouska) {
             $this->flashMessage("Chyba, přihlášení se nezdařilo");
         }
@@ -198,7 +198,7 @@ class StudentPresenter extends Nette\Application\UI\Presenter
             $this->flashMessage("Chyba: jiný termín zkoušky přihlášen");
         }
         else{
-            $this->database->table('termin')->where('id_te')->update(['stav_zkousky' => '2']);
+            $this->database->table('Termin')->where('id_te')->update(['stav_zkousky' => '2']);
             $this->flashMessage("Termín přihlášen");
         }
 
@@ -207,9 +207,9 @@ class StudentPresenter extends Nette\Application\UI\Presenter
 
     public function ActionSignoff($id_te, $id_zk)
     {
-        $row = $this->database->table('termin')->where('id_te = ? AND stav_zkousky = ?', $id_te, 2)->fetch();
+        $row = $this->database->table('Termin')->where('id_te = ? AND stav_zkousky = ?', $id_te, 2)->fetch();
         if ($row) {
-            $this->database->table('termin')->where('id_te')->update(['stav_zkousky' => '1']);
+            $this->database->table('Termin')->where('id_te')->update(['stav_zkousky' => '1']);
             $this->flashMessage("Termín odhlášen");
         }
         else{$this->flashMessage("Chyba, odhlášení se nezdařilo");}
