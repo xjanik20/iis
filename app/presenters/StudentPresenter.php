@@ -64,20 +64,34 @@ class StudentPresenter extends Nette\Application\UI\Presenter
     {
         if (!$this->filterSet) {
             $this->template->posts = $this->database->query(
-                "SELECT id_zk, Zkouska.jmeno as jmeno_zkousky, Zkouska.datum, Zkouska.cas, Zkouska.termin_cislo, Termin.p_dosaz_bodu, Zkouska.max_bodu, Zkouska.min_bodu, Termin.stav_zkousky, Termin.dat_ohodnoceni, Termin.komentar FROM
-                Termin NATURAL JOIN Zkouska
+                Termin NATURAL JOIN Zkouska LEFT JOIN Ucitel
                 WHERE Termin.id_st = ".$this->user->getId()." AND Zkouska.id_pr = ".$id_pr.
                 " ORDER BY Zkouska.datum"
             )->fetchAll();
         }
         else{
             $this->template->posts = $this->database->query(
-                "SELECT id_zk, Zkouska.jmeno as jmeno_zkousky, Zkouska.datum, Zkouska.cas, Zkouska.termin_cislo, Termin.p_dosaz_bodu, Zkouska.max_bodu, Zkouska.min_bodu, Termin.stav_zkousky, Termin.dat_ohodnoceni, Termin.komentar FROM
-                Termin NATURAL JOIN Zkouska
+                Termin NATURAL JOIN Zkouska LEFT JOIN Ucitel
                 WHERE Termin.id_st = ".$this->user->getId()." AND Zkouska.id_pr = ".$id_pr." AND 
                 (Zkouska.nazev = ".$this->formFilter."OR Zkouska.datum = ".$this->formFilter." OR Zkouska.cas = ".$this->formFilter." OR Zkouska.termin_cislo = ".$this->formFilter.
                 " ORDER BY Zkouska.datum)"
             )->fetchAll();
+        }
+        $this->template->stavy = [
+            0 => "přihlášení ještě není otevřeno",
+            1 => "nepřihlášen",
+            2 => "přihlášen",
+            3 => "nepřihlášen, přihlašování zavřeno",
+            4 => "nepřihlášen, přihlašování zavřeno",
+            5 => "zkouška absolvována",
+            6 => "zkouška opravena"];
+
+        foreach($this->template->posts as $post){
+            if ($post->login == NULL){
+                $post->login = "Nehodnoceno";
+                $post->jmeno_ucitele = "";
+                $post->prijmeni = "";
+            }
         }
     }
 
@@ -85,20 +99,34 @@ class StudentPresenter extends Nette\Application\UI\Presenter
     {
         if (!$this->filterSet) {
             $this->template->posts = $this->database->query(
-                "SELECT id_zk, Predmet.nazev, Predmet.zkratka, Zkouska.jmeno as jmeno_zkousky, Zkouska.datum, Zkouska.cas, Zkouska.termin_cislo, Termin.p_dosaz_bodu, Zkouska.max_bodu, Zkouska.min_bodu, Termin.stav_zkousky, Termin.dat_ohodnoceni, Termin.komentar FROM
-                Termin NATURAL JOIN Zkouska NATURAL JOIN Predmet
+                Termin NATURAL JOIN Zkouska NATURAL JOIN Predmet LEFT JOIN Ucitel
                 WHERE Termin.id_st = ".$this->user->getId().
                 " ORDER BY Zkouska.datum"
             )->fetchAll();
         }
         else{
             $this->template->posts = $this->database->query(
-                "SELECT id_zk, Predmet.nazev, Predmet.zkratka, Zkouska.jmeno as jmeno_zkousky, Zkouska.datum, Zkouska.cas, Zkouska.termin_cislo, Termin.p_dosaz_bodu, Zkouska.max_bodu, Zkouska.min_bodu, Termin.stav_zkousky, Termin.dat_ohodnoceni, Termin.komentar FROM
-                Termin NATURAL JOIN Zkouska NATURAL JOIN Predmet
+                Termin NATURAL JOIN Zkouska NATURAL JOIN Predmet LEFT JOIN Ucitel
                 WHERE Termin.id_st = ".$this->user->getId()." AND 
                 (Predmet.zkratka = ".$this->formFilter."OR Zkouska.jmeno = ".$this->formFilter."OR Zkouska.datum = ".$this->formFilter." OR Zkouska.termin_cislo = ".$this->formFilter.")".
                 " ORDER BY Zkouska.datum"
             )->fetchAll();
+        }
+        $this->template->stavy = [
+            0 => "přihlášení ještě není otevřeno",
+            1 => "nepřihlášen",
+            2 => "přihlášen",
+            3 => "nepřihlášen, přihlašování zavřeno",
+            4 => "nepřihlášen, přihlašování zavřeno",
+            5 => "zkouška absolvována",
+            6 => "zkouška opravena"];
+
+        foreach($this->template->posts as $post){
+            if ($post->login == NULL) {
+                $post->login = "Nehodnoceno";
+                $post->jmeno_ucitele = "";
+                $post->prijmeni = "";
+            }
         }
     }
 
@@ -145,8 +173,7 @@ class StudentPresenter extends Nette\Application\UI\Presenter
         $this->database->query(
             "SELECT * FROM
                 Zkouska NATURAL JOIN Termin
-                WHERE Zkouska.nazev = ".$zkouska->nazev." Termin.id_st = ".$row->id_st." AND (Termin.stav_zkousky = 2 OR Termin.stav_zkousky = 3)
-                "
+                WHERE Zkouska.nazev = ".$zkouska->nazev." Termin.id_st = ".$row->id_st." AND (Termin.stav_zkousky = 2 OR Termin.stav_zkousky = 4)"
         )->fetch()
         ){
             $this->flashMessage("Chyba: jiný termín zkoušky přihlášen");
