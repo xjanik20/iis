@@ -164,7 +164,7 @@ class StudentPresenter extends Nette\Application\UI\Presenter
     }
 
 
-    public function ActionSignup($id_te, $id_zk)
+    public function ActionSignup($id_te, $id_zk, $redirect)
     {
         $row = $this->database->table('Zkouska')->where('id_zk = ?',$id_zk)->fetch();
         $zkouska = $row->jmeno;
@@ -202,10 +202,10 @@ class StudentPresenter extends Nette\Application\UI\Presenter
             $this->flashMessage("Termín přihlášen");
         }
 
-        $this->redirect('student:terms');
+        $this->redirect('student:'.$redirect);
     }
 
-    public function ActionSignoff($id_te)
+    public function ActionSignoff($id_te,$redirect)
     {
         $row = $this->database->table('Termin')->where('id_te = ? AND stav_zkousky = ?', $id_te, 2)->fetch();
         if ($row) {
@@ -213,7 +213,7 @@ class StudentPresenter extends Nette\Application\UI\Presenter
             $this->flashMessage("Termín odhlášen");
         }
         else{$this->flashMessage("Chyba, odhlášení se nezdařilo");}
-        $this->redirect('student:terms');
+        $this->redirect('student:'.$redirect);
     }
 
 }
