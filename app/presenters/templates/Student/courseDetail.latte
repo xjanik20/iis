@@ -1,6 +1,6 @@
 {block content}
 
-{define title}Termíny{/define}
+{define title}{$predmet->zkratka} {$predmet->nazev}{/define}
 
 
 <div class="container-fluid" style="min-height: 100vh; display:flex;">
@@ -23,28 +23,20 @@
     </div>
 
     <div class="page-cont">
-        <h1>Termíny</h1>
+        <h1>{$predmet->zkratka}&emsp;{$predmet->nazev}</h1>
 
         {control searchForm}
 
         <div n:foreach="$flashes as $flash" n:class="flash, $flash->type">{$flash->message}</div>
 
         <div class="table-list table-head">
-                <div class="table-cont terms-table-item terms-table-item-date ">Datum</div>
-                <div class="table-cont terms-table-item terms-table-item-short">Zkratka</div>
-                <div class="table-cont terms-table-item terms-table-item-name">Zkouška</div>
-                <div class="table-cont terms-table-item terms-table-item-no">Termín č.</div>
+            <div class="table-cont terms-table-item terms-table-item-date ">Datum</div>
+            <div class="table-cont terms-table-item terms-table-item-name">Zkouška</div>
+            <div class="table-cont terms-table-item terms-table-item-no">Termín č.</div>
         </div>
         {foreach $posts as $p}
-            <div class="terms-table">
-                <div class="table-cont terms-table-item terms-table-item-date">{$p->datum|date: '%d.%m.%Y'}</div>
-                <div class="table-cont terms-table-item terms-table-item-short">{$p->zkratka}</div>
-                <div class="table-cont terms-table-item terms-table-item-name">{$p->jmeno_zkousky}</div>
-                <div class="table-cont terms-table-item terms-table-item-no">{$p->termin_cislo}</div>
-            </div>
-            <div class="terms-table" id="terms-table-detail-div">
-                <h4 id="course-color">{$p->zkratka}&emsp;{$p->nazev}</h4>
-                <h5>{$p->jmeno_zkousky}&emsp;Termín č.: {$p->termin_cislo}</h5>
+            <div class="terms-table courses-table" id="terms-table-detail-div">
+                <h4 id="course-color">{$p->jmeno_zkousky}&emsp;Termín č.: {$p->termin_cislo}</h4>
 
                 <div class="terms-detail-table-cont">Datum:</div><div class="terms-detail-table-cont">{$p->datum|date: '%d.%m.%Y'}</div>
                 <div class="terms-detail-table-cont">Čas:</div><div class="terms-detail-table-cont">{$p->cas|date: '%H.%M'}</div><br>
