@@ -177,8 +177,8 @@ class StudentPresenter extends Nette\Application\UI\Presenter
             $this->database->query(
             "SELECT COUNT(*) AS cnt FROM
                 Zkouska NATURAL JOIN Termin NATURAL JOIN Predmet
-                GROUP BY Zkouska.nazev, Termin.stav_zkousky
-                WHERE Zkouska.nazev = ? AND id_pr = ? AND Termin.id_st = ? AND (Termin.stav_zkousky > 3)
+                WHERE Zkouska.jmeno = ? AND id_pr = ? AND Termin.id_st = ? AND Termin.stav_zkousky > 3
+                GROUP BY Zkouska.jmeno, Termin.stav_zkousky 
                 HAVING COUNT(*) > 2",
                 $zkouska, $id_pr, $this->user->getId()
             )->fetch()
@@ -190,7 +190,7 @@ class StudentPresenter extends Nette\Application\UI\Presenter
         $this->database->query(
             "SELECT * FROM
                 Zkouska NATURAL JOIN Termin
-                WHERE Zkouska.nazev = ? AND id_pr = ? AND Termin.id_st = ? AND (Termin.stav_zkousky = 2 OR Termin.stav_zkousky = 4)",
+                WHERE Zkouska.jmeno = ? AND id_pr = ? AND Termin.id_st = ? AND (Termin.stav_zkousky = 2 OR Termin.stav_zkousky = 4)",
                 $zkouska, $id_pr, $this->user->getId()
 
         )->fetch()
@@ -198,7 +198,7 @@ class StudentPresenter extends Nette\Application\UI\Presenter
             $this->flashMessage("Chyba: jiný termín zkoušky přihlášen");
         }
         else{
-            $this->database->table('Termin')->where('id_te')->update(['stav_zkousky' => '2']);
+            $this->database->table('Termin')->where('id_te = ?',$id_te)->update(['stav_zkousky' => '2']);
             $this->flashMessage("Termín přihlášen");
         }
 
@@ -209,7 +209,7 @@ class StudentPresenter extends Nette\Application\UI\Presenter
     {
         $row = $this->database->table('Termin')->where('id_te = ? AND stav_zkousky = ?', $id_te, 2)->fetch();
         if ($row) {
-            $this->database->table('Termin')->where('id_te')->update(['stav_zkousky' => '1']);
+            $this->database->table('Termin')->where('id_te = ?',$id_te)->update(['stav_zkousky' => '1']);
             $this->flashMessage("Termín odhlášen");
         }
         else{$this->flashMessage("Chyba, odhlášení se nezdařilo");}
