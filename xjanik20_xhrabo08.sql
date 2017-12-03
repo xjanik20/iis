@@ -89,6 +89,7 @@ CREATE TABLE  Termin (
 
 CREATE TABLE Otazka (
   id_ot INTEGER AUTO_INCREMENT,
+  cislo INTEGER,
   nazev VARCHAR(100) NOT NULL,
   pocet_bodu INTEGER DEFAULT 0 NOT NULL CHECK (pocet_bodu >= 0),
   
@@ -188,13 +189,15 @@ INSERT INTO Termin
 VALUES(NULL, 15, 1, NULL, (NOW()), NULL, 3, 2);
 
 INSERT INTO Otazka
-VALUES(NULL, 'Co je to syntaxe?', 9999, 2);
+VALUES(NULL, 1, 'Co je to syntaxe?', 9999, 2);
 INSERT INTO Otazka
-VALUES(NULL, 'Uveďte funkcionální programovací jazyk.', 2, 1);
+VALUES(NULL, 1,'Proveďte normalizaci na 2NF.', 2, 1);
 INSERT INTO Otazka
-VALUES(NULL, 'Jak probíhá multicastová komunikace?', 5, 4);
+VALUES(NULL, 2,'Co je to databáze?', 2, 1);
 INSERT INTO Otazka
-VALUES(NULL, 'Proveďte normalizaci na 2NF', 10, 2);
+VALUES(NULL, 1, 'Jak probíhá multicastová komunikace?', 5, 4);
+INSERT INTO Otazka
+VALUES(NULL, 2, 'Proveďte normalizaci na 2NF.', 10, 2);
 
 INSERT INTO UcitelPredmet
 VALUES(1, 2);

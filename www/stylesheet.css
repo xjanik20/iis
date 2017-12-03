@@ -102,6 +102,25 @@
     width: auto;
 }
 
+#terms-table-footer {
+    width: 70%;
+    border-collapse: collapse;
+    border-top: 1px solid black;
+    min-width: 50em;
+}
+
+.questions-table-number {
+    width: 12%;
+}
+
+.questions-table-name {
+    width: 80%;
+}
+
+.questions-table-points {
+    width: 7%;
+}
+
 .page-cont {
     margin-left: 50px;
     margin-top: 50px;
@@ -189,6 +208,18 @@ input:focus {
     font-size: 140%;
     width: 70%;
     min-width: 50rem;
+}
+
+.hidden {
+    display: none;
+}
+
+#terms-table-link:hover {
+    text-decoration: none;
+}
+
+#terms-table-heading:hover {
+    background-color: #B7C1F0;
 }
 
 .textarea {

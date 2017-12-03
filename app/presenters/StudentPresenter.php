@@ -147,7 +147,7 @@ class StudentPresenter extends Nette\Application\UI\Presenter
     {
         if (!$this->filterSet) {
             $this->template->posts = $this->database->query(
-                "SELECT nazev, pocet_bodu FROM
+                "SELECT cislo, nazev, pocet_bodu FROM
                 Otazka
                 WHERE Otazka.id_te = ?",
                 $id_te
@@ -155,7 +155,7 @@ class StudentPresenter extends Nette\Application\UI\Presenter
         }
         else{
             $this->template->posts = $this->database->query(
-                "SELECT nazev, pocet_bodu FROM
+                "SELECT cislo, nazev, pocet_bodu FROM
                 Otazka
                 WHERE Otazka.id_te = ? AND
                 ( Otazka.nazev = ? OR Otazka.pocet_bodu = ? )",
@@ -163,7 +163,7 @@ class StudentPresenter extends Nette\Application\UI\Presenter
             )->fetchAll();
         }
         $this->template->info = $this->database->query("
-            SELECT Predmet.zkratka, Predmet.nazev, Zkouska.Jmeno, Zkouska.temin_cislo FROM
+            SELECT Predmet.zkratka, Predmet.nazev, Zkouska.jmeno, Zkouska.termin_cislo FROM
             Termin NATURAL JOIN Zkouska NATURAL JOIN Predmet
             WHERE id_te = ?",
             $id_te
