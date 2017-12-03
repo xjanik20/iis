@@ -68,7 +68,7 @@ class StudentPresenter extends Nette\Application\UI\Presenter
     {
         if (!$this->filterSet) {
             $this->template->posts = $this->database->query(
-                "SELECT id_zk, Zkouska.jmeno as jmeno_zkousky, Zkouska.datum, Zkouska.cas, Zkouska.termin_cislo, Termin.p_dosaz_bodu, Zkouska.max_bodu, Zkouska.min_bodu, Termin.stav_zkousky, Termin.dat_ohodnoceni, Termin.komentar, Ucitel.login, Ucitel.jmeno AS jmeno_ucitele, Ucitel.prijmeni FROM
+                "SELECT id_te, id_zk, Zkouska.jmeno as jmeno_zkousky, Zkouska.datum, Zkouska.cas, Zkouska.termin_cislo, Termin.p_dosaz_bodu, Zkouska.max_bodu, Zkouska.min_bodu, Termin.stav_zkousky, Termin.dat_ohodnoceni, Termin.komentar, Ucitel.login, Ucitel.jmeno AS jmeno_ucitele, Ucitel.prijmeni FROM
                 Termin NATURAL JOIN Zkouska LEFT JOIN Ucitel ON Termin.id_uc = Ucitel.id_uc
                 WHERE Termin.id_st = ? AND Zkouska.id_pr = ? 
                 ORDER BY Zkouska.datum",
@@ -77,7 +77,7 @@ class StudentPresenter extends Nette\Application\UI\Presenter
         }
         else{
             $this->template->posts = $this->database->query(
-                "SELECT id_zk, Zkouska.jmeno as jmeno_zkousky, Zkouska.datum, Zkouska.cas, Zkouska.termin_cislo, Termin.p_dosaz_bodu, Zkouska.max_bodu, Zkouska.min_bodu, Termin.stav_zkousky, Termin.dat_ohodnoceni, Termin.komentar, Ucitel.login, Ucitel.jmeno AS jmeno_ucitele, Ucitel.prijmeni FROM
+                "SELECT id_te, id_zk, Zkouska.jmeno as jmeno_zkousky, Zkouska.datum, Zkouska.cas, Zkouska.termin_cislo, Termin.p_dosaz_bodu, Zkouska.max_bodu, Zkouska.min_bodu, Termin.stav_zkousky, Termin.dat_ohodnoceni, Termin.komentar, Ucitel.login, Ucitel.jmeno AS jmeno_ucitele, Ucitel.prijmeni FROM
                 Termin NATURAL JOIN Zkouska LEFT JOIN Ucitel ON Termin.id_uc = Ucitel.id_uc ON Termin.id_uc = Ucitel.id_uc
                 WHERE Termin.id_st = ? AND Zkouska.id_pr = ? AND 
                 ( Zkouska.nazev = ? OR Zkouska.datum = ? OR Zkouska.cas = ? OR Zkouska.termin_cislo = ? )
@@ -107,7 +107,7 @@ class StudentPresenter extends Nette\Application\UI\Presenter
     {
         if (!$this->filterSet) {
             $this->template->posts = $this->database->query(
-                "SELECT id_zk, Predmet.nazev, Predmet.zkratka, Zkouska.jmeno as jmeno_zkousky, Zkouska.datum, Zkouska.cas, Zkouska.termin_cislo, Termin.p_dosaz_bodu, Zkouska.max_bodu, Zkouska.min_bodu, Termin.stav_zkousky, Termin.dat_ohodnoceni, Termin.komentar, Ucitel.login, Ucitel.jmeno AS jmeno_ucitele, Ucitel.prijmeni FROM
+                "SELECT id_te, id_zk, Predmet.nazev, Predmet.zkratka, Zkouska.jmeno as jmeno_zkousky, Zkouska.datum, Zkouska.cas, Zkouska.termin_cislo, Termin.p_dosaz_bodu, Zkouska.max_bodu, Zkouska.min_bodu, Termin.stav_zkousky, Termin.dat_ohodnoceni, Termin.komentar, Ucitel.login, Ucitel.jmeno AS jmeno_ucitele, Ucitel.prijmeni FROM
                 Termin NATURAL JOIN Zkouska NATURAL JOIN Predmet LEFT JOIN Ucitel ON Termin.id_uc = Ucitel.id_uc
                 WHERE Termin.id_st = ?
                 ORDER BY Zkouska.datum",
@@ -116,7 +116,7 @@ class StudentPresenter extends Nette\Application\UI\Presenter
         }
         else{
             $this->template->posts = $this->database->query(
-                "SELECT id_zk, Predmet.nazev, Predmet.zkratka, Zkouska.jmeno as jmeno_zkousky, Zkouska.datum, Zkouska.cas, Zkouska.termin_cislo, Termin.p_dosaz_bodu, Zkouska.max_bodu, Zkouska.min_bodu, Termin.stav_zkousky, Termin.dat_ohodnoceni, Termin.komentar, Ucitel.login, Ucitel.jmeno AS jmeno_ucitele, Ucitel.prijmeni FROM
+                "SELECT id_te, id_zk, Predmet.nazev, Predmet.zkratka, Zkouska.jmeno as jmeno_zkousky, Zkouska.datum, Zkouska.cas, Zkouska.termin_cislo, Termin.p_dosaz_bodu, Zkouska.max_bodu, Zkouska.min_bodu, Termin.stav_zkousky, Termin.dat_ohodnoceni, Termin.komentar, Ucitel.login, Ucitel.jmeno AS jmeno_ucitele, Ucitel.prijmeni FROM
                 Termin NATURAL JOIN Zkouska NATURAL JOIN Predmet LEFT JOIN Ucitel ON Termin.id_uc = Ucitel.id_uc
                 WHERE Termin.id_st = ? AND 
                 ( Predmet.zkratka = ? OR Zkouska.jmeno = ? OR Zkouska.datum = ? OR Zkouska.termin_cislo = ? )".
