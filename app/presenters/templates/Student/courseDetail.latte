@@ -25,12 +25,12 @@
     <div class="page-cont">
         <h1>{$predmet->zkratka}&emsp;{$predmet->nazev}</h1>
 
-        {control searchForm}
+        <br>{control searchForm}
 
         <div n:foreach="$flashes as $flash" n:class="flash, $flash->type">{$flash->message}</div>
 
         <div class="table-list table-head">
-            <div class="table-cont terms-table-item terms-table-item-date ">Datum</div>
+            <div class="table-cont terms-table-item terms-table-item-date">Datum</div>
             <div class="table-cont terms-table-item terms-table-item-name">Zkouška</div>
             <div class="table-cont terms-table-item terms-table-item-no">Termín č.</div>
         </div>
@@ -50,7 +50,7 @@
                 <div class="terms-detail-table-cont">Hodnotil:</div><div class="terms-detail-table-cont terms-detail-long" >{$p->login}&emsp;{$p->jmeno_ucitele}&emsp;{$p->prijmeni}</div><br>
 
                 <div>Komentář k hodnocení:<br><p id="comment">{($p->komentar == "") ? "-" : $p->komentar}</p></div>
-                <button class="terms-detail-button">Zobrazit otázky</button>
+                <a n:href="Student:questions $p->id_te"><button class="terms-detail-button">Zobrazit otázky</button></a>
                 {if ($p->stav_zkousky == 1)}
                     <a n:href="Student:signup $p->id_te, $p->id_zk, 'terms'"><button class="terms-detail-button">Přihlásit</button></a>
                 {elseif ($p->stav_zkousky == 2)}
