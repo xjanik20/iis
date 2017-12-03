@@ -2,6 +2,14 @@
 
 {define title}Termíny{/define}
 
+{block loginButton}
+
+{/block}
+
+{block logoutButton}
+
+{/block}
+
 <div class="container-fluid" style="min-height: 100vh; display:flex;">
     <div class="row row-top">
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -50,13 +58,18 @@
                 <div class="terms-detail-table-cont">Minimum bodů:</div><div class="terms-detail-table-cont">{$p->min_bodu}</div>
                 <div class="terms-detail-table-cont">Maximum bodů:</div><div class="terms-detail-table-cont">{$p->max_bodu}</div><br>
                 <div class="terms-detail-table-cont">Stav zkoušky:</div>
-                <div class="terms-detail-table-cont">{$stavy[$p->stav_zkousky]}</div><br>
+                <div class="terms-detail-table-cont" id="terms-state">{$stavy[$p->stav_zkousky]}</div><br>
                 <div class="terms-detail-table-cont">Bodů:</div><div class="terms-detail-table-cont">{$p->p_dosaz_bodu}</div><br>
                 <div class="terms-detail-table-cont">Datum ohodnocení:</div><div class="terms-detail-table-cont">{($p->dat_ohodnoceni == "") ? "-" : ($p->dat_ohodnoceni|date: '%d.%m.%Y')}</div><br>
                 <div class="terms-detail-table-cont">Hodnotil:</div><div class="terms-detail-table-cont">učitel</div><br>
 
-                <div>Komentář k hodnocení:<br><p>{($p->komentar == "") ? "-" : $p->komentar}</p></div>
-                <button class="terms-detail-button">Zobrazit otázky</button><button class="terms-detail-button" n:ifcontent>{($p->stav_zkousky == 1) ? "Přihlásit" : ($p->stav_zkousky == 2) ? "Odhlásit"}</button>
+                <div>Komentář k hodnocení:<br><p id="comment">{($p->komentar == "") ? "-" : $p->komentar}</p></div>
+                <button class="terms-detail-button">Zobrazit otázky</button>
+                {if ($p->stav_zkousky == 1)}
+                    <a n:href="Student:signup $p->id_te, $p->id_zk, 'terms'"><button class="terms-detail-button">Přihlásit</button></a>
+                {elseif ($p->stav_zkousky == 2)}
+                    <a n:href="Student:signoff $p->id_te, 'terms'"><button class="terms-detail-button">Odhlásit</button></a>
+                {/if}
             </div>
         {/foreach}
     </div>
