@@ -108,7 +108,7 @@ class TeacherPresenter extends Nette\Application\UI\Presenter
     protected function createComponentEditExamForm()
     {
         $form = new UI\Form;
-        $form->addInteger('id', 'ID Zkoušky:')->setRequired('zadejte ID Zkoušky');
+        $form->addHidden('id');
         $form->addText('jmeno', 'Jméno Zkoušky:')->setRequired('zadejte Jméno Zkoušky');
         $form->addInteger('termin_cislo', 'Termín:')->setRequired('zadejte termín')
             ->addRule(UI\Form::MIN, 'Maximální počet studentů musí být minimálně %d',1 );

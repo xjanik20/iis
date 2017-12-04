@@ -57,7 +57,7 @@ class StudentPresenter extends Nette\Application\UI\Presenter
         $this->template->posts = $this->database->query(
             "SELECT Predmet.zkratka, Predmet.nazev, Predmet.id_pr FROM
             StudentPredmet NATURAL JOIN Predmet
-            WHERE StudentPredmet.id_st = ? AND (Predmet.nazev = ? OR Premet.zkratka = ?)",
+            WHERE StudentPredmet.id_st = ? AND ( Predmet.nazev = ? OR Premet.zkratka = ? )",
             $this->user->getId(), $this->formFilter, $this->formFilter
         )->fetchAll();
         }
