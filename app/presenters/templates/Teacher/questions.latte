@@ -1,6 +1,6 @@
 {block content}
 
-{define title}Hodnocení: {$info->jmeno} {$info->termin_cislo}{/define}
+{define title}Hodnocení: {$info->login} {$info->jmeno} {$info->termin_cislo}{/define}
 
 
 <div class="container-fluid" style="min-height: 100vh; display:flex;">
@@ -22,6 +22,7 @@
     <div class="page-cont">
         <h1>{$info->zkratka}&emsp;{$info->nazev}</h1>
         <h2>Hodnocení:&emsp;{$info->jmeno}&emsp;Termín č.: {$info->termin_cislo}</h2>
+        <h3>Student: {$info->login}&emsp;{$p->jmeno}&emsp;{$info->prijmeni}</h3>
 
 
         <br>{control searchForm}
@@ -29,21 +30,19 @@
         <div n:foreach="$flashes as $flash" n:class="flash, $flash->type">{$flash->message}</div>
 
         <div class="table-list table-head">
-            <div class="table-cont terms-table-item admin-table-item-login">Login</div>
-            <div class="table-cont terms-table-item admin-table-item-name">Jméno</div>
-            <div class="table-cont terms-table-item admin-table-item-surname">Příjmení</div>
-            <div class="table-cont terms-table-item admin-table-item-action">Akce</div>
+            <div class="table-cont terms-table-item questions-table-name">Název</div>
+            <div class="table-cont terms-table-item questions-table-points">Počet bodů</div>
         </div>
-        {foreach $posts as $p}
-            <div class="terms-table">
-                <div class="table-cont terms-table-item admin-table-item-login">{$p->login}</div>
-                <div class="table-cont terms-table-item admin-table-item-name">{$p->jmeno}</div>
-                <div class="table-cont terms-table-item admin-table-item-surname">{$p->prijmeni}</div>
-                <div class="table-cont terms-table-item admin-table-item-action">
-                    <a n:href="Teacher:questions $p->id_te"><img style="margin-right: 5px" src="{$basePath}/www/images/mark.png" alt="Mark" class="table-line-item">Ohodnotit</a>
+        <form n:name=evaluationForm>
+            {foreach $posts as $p}
+                <div class="terms-table">
+                    <div class="table-cont terms-table-item questions-table-name">{$p->nazev}</div>
+                    <input name="marks[id_ot][]" id="jmeno" class="text add-input hidden" value="{$p->id_ot}">
+                    <div class="table-cont terms-table-item questions-table-points"><input name="marks[pocet_bodu][]" id="pocet_bodu" class="text add-input" value="{$p->pocet_bodu}"></div>
                 </div>
-            </div>
-        {/foreach}
-        {if $posts == NULL} <p class="not-found">Položky nenalezeny.</p> {else} <div id="terms-table-footer"></div> {/if}
+            {/foreach}
+            <input n:name=create class="add-button2">
+        </form>
+        {if $posts == NULL} <p class="not-found">Otázky nenalezeny.</p> {else} <div id="terms-table-footer"></div> {/if}
     </div>
 </div>
