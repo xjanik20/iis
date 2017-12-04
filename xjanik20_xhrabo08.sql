@@ -223,40 +223,36 @@ VALUES(3, 1);
 CREATE OR REPLACE TRIGGER exam_switcher AFTER INSERT ON occupiedroom
 FOR EACH ROW
 BEGIN
-  IF (NEW.stav = 0,
-      UPDATE Terms
+  CASE
+  WHEN NEW.stav = 0
+  THEN BEGIN
+    UPDATE Termin
       SET stav_zkousky = 1;
       WHERE (stav_zkousky = 0 OR stav_zkousky = 3) AND Termin.id_zk = NEW.id_zk;
-    UPDATE Terms
+    UPDATE Termin
       SET stav_zkousky = 2;
       WHERE stav_zkousky = 4 AND Termin.id_zk = NEW.id_zk;,False
-    UPDATE Terms
-      SET stav_zkousky = 1;
-      WHERE (stav_zkousky = 0 OR stav_zkousky = 3) AND Termin.id_zk = NEW.id_zk;
-    UPDATE Terms
-      SET stav_zkousky = 2;
-      WHERE stav_zkousky = 4 AND Termin.id_zk = NEW.id_zk;
-    ,false)
-
-
-  IF NEW.stav = 1
+  END;
+  WHEN NEW.stav = 1
+  THEN BEGIN
     UPDATE Terms
       SET stav_zkousky = 3;
       WHERE stav_zkousky = 1 AND Termin.id_zk = NEW.id_zk;
     UPDATE Terms
       SET stav_zkousky = 4;
       WHERE stav_zkousky = 2 AND Termin.id_zk = NEW.id_zk;
-  END IF
-
-  IF NEW.stav = 2
+  END;
+  WHEN NEW.stav = 2
+  THEN BEGIN
     UPDATE Terms
       SET stav_zkousky = 3;
       WHERE stav_zkousky = 1 AND Termin.id_zk = NEW.id_zk;
     UPDATE Terms
-      SET stav_zkousky = 4;
-      WHERE stav_zkousky = 2 AND Termin.id_zk = NEW.id_zk;
-  END IF
-END
+      SET stav_zkousky = 5;
+      WHERE ( stav_zkousky = 4 OR stav_Zkousky = 2 ) AND Termin.id_zk = NEW.id_zk;
+  END;
+  ELSE BEGIN END;
+END;
 
 
 -- vyp�e u�itele a p�edm�ty, kter� u��; slou�� k zobrazen� tabulky p�edm�t� a u�itel�
