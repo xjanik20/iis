@@ -87,8 +87,9 @@ class TeacherPresenter extends Nette\Application\UI\Presenter
 
     public function createExamFormSucceeded(UI\Form $form, $values)
     {
+        $this->flashMessage("poooooop");
+        $this->redirect('this');
         if(!$this->user->isallowed("Exams","add")) $this->error("Permission denied",403);
-        $this->flashMessage("poooooop".$values['typ zkousky']);
         $id_zk = $this->database->table('Zkouska')->insert([
             "jmeno" => $values['jmeno'],
             "termin_cislo" => $values['termin'],
@@ -225,7 +226,7 @@ class TeacherPresenter extends Nette\Application\UI\Presenter
         }
         else {
             $this->template->posts = $this->database->query(
-                "SELECT id_zk, Zkouska.stav, Zkouska.jmeno as jmeno_zkousky, Zkouska.datum, Zkouska.cas, Zkouska.termin_cislo, Zkouska.max_studentu, Zkouska.max_bodu, Zkouska.min_bodu FROM
+                "SELECT id_zk, id_pr, Zkouska.stav, Zkouska.jmeno as jmeno_zkousky, Zkouska.datum, Zkouska.cas, Zkouska.termin_cislo, Zkouska.max_studentu, Zkouska.max_bodu, Zkouska.min_bodu FROM
                 Zkouska NATURAL JOIN Predmet NATURAL JOIN UcitelPredmet
                 WHERE UcitelPredmet.id_uc = ? AND id_pr = ?
                 AND ( Zkouska.jmeno = ? OR Zkouska.datum = ? OR Zkouska.cas = ? OR Zkouska.termin_cislo = ? )
