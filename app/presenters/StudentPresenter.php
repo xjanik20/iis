@@ -57,7 +57,7 @@ class StudentPresenter extends Nette\Application\UI\Presenter
         $this->template->posts = $this->database->query(
             "SELECT Predmet.zkratka, Predmet.nazev, Predmet.id_pr FROM
             StudentPredmet NATURAL JOIN Predmet
-            WHERE StudentPredmet.id_st = ? AND ( Predmet.nazev = ? OR Premet.zkratka = ? )",
+            WHERE StudentPredmet.id_st = ? AND ( Predmet.nazev = ? OR Predmet.zkratka = ? )",
             $this->user->getId(), $this->formFilter, $this->formFilter
         )->fetchAll();
         }
@@ -78,9 +78,9 @@ class StudentPresenter extends Nette\Application\UI\Presenter
         else{
             $this->template->posts = $this->database->query(
                 "SELECT id_te, id_zk, Zkouska.jmeno as jmeno_zkousky, Zkouska.datum, Zkouska.cas, Zkouska.termin_cislo, Termin.p_dosaz_bodu, Zkouska.max_studentu, Zkouska.max_bodu, Zkouska.min_bodu, Termin.stav_zkousky, Termin.dat_ohodnoceni, Termin.komentar, Ucitel.login, Ucitel.jmeno AS jmeno_ucitele, Ucitel.prijmeni FROM
-                Termin NATURAL JOIN Zkouska LEFT JOIN Ucitel ON Termin.id_uc = Ucitel.id_uc ON Termin.id_uc = Ucitel.id_uc
-                WHERE Termin.id_st = ? AND Zkouska.id_pr = ? AND 
-                ( Zkouska.nazev = ? OR Zkouska.datum = ? OR Zkouska.cas = ? OR Zkouska.termin_cislo = ? )
+                Termin NATURAL JOIN Zkouska LEFT JOIN Ucitel ON Termin.id_uc = Ucitel.id_uc
+                WHERE Termin.id_st = ? AND Zkouska.id_pr = ? AND
+                ( Zkouska.jmeno = ? OR Zkouska.datum = ? OR Zkouska.cas = ? OR Zkouska.termin_cislo = ? )
                 ORDER BY Zkouska.datum",
                 $this->user->getId(), $id_pr, $this->formFilter, $this->formFilter, $this->formFilter, $this->formFilter
             )->fetchAll();

@@ -62,6 +62,7 @@ CREATE TABLE Zkouska (
   termin_cislo INTEGER NOT NULL CHECK (termin_cislo >= 0),
   cas DATETIME NOT NULL,
   datum DATETIME NOT NULL,
+  stav TINYINT DEFAULT 0 NOT NULL CHECK (stav >= 0),
   
   id_pr INTEGER,
   CONSTRAINT PK_zk PRIMARY KEY (id_zk),
@@ -160,33 +161,33 @@ INSERT INTO Student
 VALUES(NULL, 'Hubert', 'Zendulka', 'xzend', '1234');
 
 INSERT INTO Zkouska
-VALUES(NULL, 'Semestrální zkouška', 600, 60, 27, 10, 1, 1, (STR_TO_DATE('16:18:14', '%H:%i:%s')), (STR_TO_DATE('20122112', '%Y%d%m')), 1);
+VALUES(NULL, 'Semestrální zkouška', 600, 60, 27, 10, 1, 1, (STR_TO_DATE('16:18:14', '%H:%i:%s')), (STR_TO_DATE('20122112', '%Y%d%m')),3, 1);
 INSERT INTO Zkouska
-VALUES(NULL, 'Semestrální zkouška', 400, 60, 27, 10, 1, 2, (STR_TO_DATE('13:30:18', '%H:%i:%s')), (STR_TO_DATE('20130501', '%Y%d%m')), 1);
+VALUES(NULL, 'Semestrální zkouška', 400, 60, 27, 10, 1, 2, (STR_TO_DATE('13:30:18', '%H:%i:%s')), (STR_TO_DATE('20130501', '%Y%d%m')),0, 1);
 INSERT INTO Zkouska
-VALUES(NULL, 'Semestrální zkouška', 600, 60, 27, 10, 1, 3, (STR_TO_DATE('08:00:00', '%H:%i:%s')), (STR_TO_DATE('20131101', '%Y%d%m')), 1);
+VALUES(NULL, 'Semestrální zkouška', 600, 60, 27, 10, 1, 3, (STR_TO_DATE('08:00:00', '%H:%i:%s')), (STR_TO_DATE('20131101', '%Y%d%m')),2, 1);
 INSERT INTO Zkouska
-VALUES(NULL, 'Semestrální zkouška', 300, 60, 15, 15, 1, 4, (STR_TO_DATE('08:00:00', '%H:%i:%s')), (STR_TO_DATE('00330304', '%Y%d%m')), 1);
+VALUES(NULL, 'Semestrální zkouška', 300, 60, 15, 15, 1, 4, (STR_TO_DATE('08:00:00', '%H:%i:%s')), (STR_TO_DATE('00330304', '%Y%d%m')),3, 1);
 INSERT INTO Zkouska
-VALUES(NULL, 'Půlsemestrální zkouška', 13, 20, 0, 5, 2, 1, (STR_TO_DATE('10:30:00', '%H:%i:%s')), (STR_TO_DATE('20152005', '%Y%d%m')), 3);
+VALUES(NULL, 'Půlsemestrální zkouška', 13, 20, 0, 5, 2, 1, (STR_TO_DATE('10:30:00', '%H:%i:%s')), (STR_TO_DATE('20152005', '%Y%d%m')),0, 3);
 INSERT INTO Zkouska
-VALUES(NULL, 'Semestrální zkouška', 450, 70, 35, 13, 1, 2, (STR_TO_DATE('12:00:00', '%H:%i:%s')), (STR_TO_DATE('20170505', '%Y%d%m')), 2);
+VALUES(NULL, 'Semestrální zkouška', 450, 70, 35, 13, 1, 2, (STR_TO_DATE('12:00:00', '%H:%i:%s')), (STR_TO_DATE('20170505', '%Y%d%m')),0, 2);
 
 
 INSERT INTO Termin
-VALUES(NULL, 40, 6, 'Výtečně', (NOW()), 1, 1, 1);
+VALUES(NULL, 10, 6, 'Nic moc', (NOW()), 1, 1, 1);
 INSERT INTO Termin
-VALUES(NULL, 20, 3, NULL, NULL, NULL, 2, 2);
+VALUES(NULL, DEFAULT , 2, NULL, NULL, NULL, 1, 2);
 INSERT INTO Termin
 VALUES(NULL, DEFAULT, 1, NULL, NULL, NULL, 1, 2);
 INSERT INTO Termin
-VALUES(NULL, DEFAULT, 2, NULL, NULL, NULL, 1, 3);
+VALUES(NULL, DEFAULT, 5, NULL, NULL, NULL, 1, 3);
 INSERT INTO Termin
-VALUES(NULL, DEFAULT, 1, NULL, NULL, NULL, 1, 4);
+VALUES(NULL, 35, 1, 'dobře, ale nestačí', (NOW()), 1, 1, 4);
 INSERT INTO Termin
-VALUES(NULL, 15, 6, 'Nic moc', (NOW()), 2, 3, 3);
+VALUES(NULL, 15, 6, 'nic moc', (NOW()), 2, 2, 3);
 INSERT INTO Termin
-VALUES(NULL, 15, 1, NULL, (NOW()), NULL, 3, 2);
+VALUES(NULL, DEFAULT, 1, NULL, DEFAULT, NULL, 3, 2);
 
 INSERT INTO Otazka
 VALUES(NULL, 1, 'Co je to syntaxe?', 9999, 2);
