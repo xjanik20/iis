@@ -1,6 +1,6 @@
 {block content}
 
-{define title}{$predmet->zkratka} {$predmet->nazev}{/define}
+{define title}{$info->zkratka} {$info->nazev}{/define}
 
 
 <div class="container-fluid" style="min-height: 100vh; display:flex;">
@@ -23,17 +23,45 @@
     </div>
 
     <div class="page-cont">
-        <h1>{$predmet->zkratka}&emsp;{$predmet->nazev}</h1>
+        <h1>{$info->zkratka}&emsp;{$info->nazev}</h1>
+
+        <button class="add-button" onclick="viewHide('teacherCourseDetail')">Přidat zkoušku/termín</button>
+        <div class="add-div" id="teacherCourseDetail">
+            <form n:name=createExamForm>
+                <table>
+                    <tr>
+                        <th class="add-label-teachers"><label n:name=jmeno >Jméno:</label></th><td><input n:name=jmeno id="jmeno" class="text add-input"></td>
+                        <th class="add-label-teachers"><label n:name=termin_cislo >Termín číslo:</label></th><td><input n:name=termin_cislo id="termin_cislo" class="text add-input"></td>
+                    </tr>
+                    <tr>
+                        <th class="add-label-teachers"><label n:name=min_bodu >Minimum bodů:</label></th><td><input n:name=min_bodu id="min_bodu" class="text add-input"></td>
+                        <th class="add-label-teachers"><label n:name=max_bodu >Maximum bodů:</label></th><td><input n:name=max_bodu id="max_bodu" class="text add-input"></td>
+                    </tr>
+                    <tr>
+                        <th class="add-label-teachers"><label n:name=max_studentu >Maximum studentů:</label></th><td><input n:name=max_studentu id="max_studentu" class="text add-input">
+                        <th class="add-label-teachers"><label n:name=pocet_otazek >Počet otázek:</label></th><td><input n:name=pocet_otazek id="pocet_otazek" class="text add-input">
+                    </tr>
+                    <tr>
+                        <th class="add-label-teachers"><label n:name=datum >Datum:</label></th><td><input n:name=datum id="datum" class="text add-input"></td>
+                        <th class="add-label-teachers"><label n:name=cas >Čas:</label></th><td><input n:name=cas id="cas" class="text add-input"></td>
+                    </tr>
+                </table>
+                <div class="inline-block">
+                <div class="add-label-teachers" id="add-teachers-type"><label n:name=typ_zkousky >Typ zkoušky:</label></div>
+                <div class="add-div-teachers"><input n:name=typ_zkousky:typ1 type="radio" id="typ1" value="1" checked="checked" class="text add-input">Semestrální zkouška</div>
+                <div class="add-div-teachers"><input n:name=typ_zkousky:typ2 type="radio" id="typ2" value="2" class="text add-input">Půlsemestrální zkouška</div>
+                </div>
+                <br><div class="add-label-teachers"></div><div class="add-div-teachers"><input n:name=create class="add-button2"></div>
+
+            </form>
+        </div>
+        <!-- {control createExamForm} -->
 
         <br>{control searchForm}
 
         <div n:foreach="$flashes as $flash" n:class="flash, $flash->type">{$flash->message}</div>
 
-        <div class="table-list table-head">
-            <div class="table-cont terms-table-item terms-table-item-date">Datum</div>
-            <div class="table-cont terms-table-item terms-table-item-name">Zkouška</div>
-            <div class="table-cont terms-table-item terms-table-item-no">Termín č.</div>
-        </div>
+        <div class="table-list table-head"></div>
         {foreach $posts as $p}
             <div class="terms-table courses-table terms-table-detail-div" id="terms-table-detail-div">
                 <h4 id="course-color">{$p->jmeno_zkousky}&emsp;Termín č.: {$p->termin_cislo}</h4>
@@ -44,12 +72,11 @@
                 <div class="terms-detail-table-cont">Maximum bodů:</div><div class="terms-detail-table-cont">{$p->max_bodu}</div><br>
                 <div class="terms-detail-table-cont">Maximum studentů:</div><div class="terms-detail-table-cont">{$p->max_studentu}</div><br>
                 <div class="terms-detail-table-cont">Stav zkoušky:</div>
-                <div class="terms-detail-table-cont terms-detail-long">{$stavy[$p->stav_zkousky]}</div><br>
-                <div class="terms-detail-table-cont">Datum ohodnocení:</div><div class="terms-detail-table-cont">{($p->dat_ohodnoceni == "") ? "-" : ($p->dat_ohodnoceni|date: '%d.%m.%Y')}</div><br>
-                <div class="terms-detail-table-cont">Hodnotil:</div><div class="terms-detail-table-cont terms-detail-long" >{$p->login}&emsp;{$p->jmeno_ucitele}&emsp;{$p->prijmeni}</div><br>
+                <div class="terms-detail-table-cont terms-detail-long">{$stavy[$p->stav]}</div><br><br>
 
-                <div>Komentář k hodnocení:<br><p id="comment">{($p->komentar == "") ? "-" : $p->komentar}</p></div>
-                <a n:href="Student:questions $p->id_te"><button class="terms-detail-button">Zobrazit otázky</button></a>
+                <a n:href="Teacher:#"><button class="terms-detail-button">Editovat</button></a>
+                <a n:href="Teacher:#"><button class="terms-detail-button">Ohodnotit</button></a>
+                <a n:href="Teacher:deleteExam $info->id_pr, $p->id_zk"><button class="terms-detail-button">Odebrat</button></a>
 
             </div>
         {/foreach}
