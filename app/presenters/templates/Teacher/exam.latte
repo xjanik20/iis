@@ -1,0 +1,49 @@
+{block content}
+
+{define title}{$info->zkratka} {$info->nazev}{/define}
+
+
+<div class="container-fluid" style="min-height: 100vh; display:flex;">
+    <div class="row row-top">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedcont" aria-controls="navbarSupportedcont" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedcont">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" n:href="Teacher:courses">Předměty</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+
+    <div class="page-cont">
+        <h1>{$info->zkratka}&emsp;{$info->nazev}</h1>
+        <h2>Hodnocení:&emsp;{$info->jmeno}&emsp;Termín č.: {$info->termin_cislo}</h2>
+
+
+        <br>{control searchForm}
+
+        <div n:foreach="$flashes as $flash" n:class="flash, $flash->type">{$flash->message}</div>
+
+        <div class="table-list table-head">
+            <div class="table-cont terms-table-item admin-table-item-login">Login</div>
+            <div class="table-cont terms-table-item admin-table-item-name">Jméno</div>
+            <div class="table-cont terms-table-item admin-table-item-surname">Příjmení</div>
+            <div class="table-cont terms-table-item admin-table-item-action">Akce</div>
+        </div>
+        {foreach $posts as $p}
+            <div class="terms-table">
+                <div class="table-cont terms-table-item admin-table-item-login">{$p->login}</div>
+                <div class="table-cont terms-table-item admin-table-item-name">{$p->jmeno}</div>
+                <div class="table-cont terms-table-item admin-table-item-surname">{$p->prijmeni}</div>
+                <div class="table-cont terms-table-item admin-table-item-action">
+                    <a n:href="Teacher:#"><img style="margin-right: 5px" src="{$basePath}/www/images/mark.png" alt="Mark" class="table-line-item">Ohodnotit</a>
+                </div>
+            </div>
+        {/foreach}
+        {if $posts == NULL} <p class="not-found">Položky nenalezeny.</p> {/if}
+    </div>
+</div>
