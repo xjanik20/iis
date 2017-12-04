@@ -60,7 +60,9 @@ class TeacherPresenter extends Nette\Application\UI\Presenter
     }
 
     public function evaluationFormSucceeded(UI\Form $form, $values){
-        $marks = $form->getHttpData($form::DATA_LINE, 'marks[]');
+        $marks = [];
+        $marks['id_ot'] = $form->getHttpData($form::DATA_LINE, 'marks[id_ot][]');
+        $marks['pocet_bodu'] = $form->getHttpData($form::DATA_LINE, 'marks[id_ot][]');
         foreach ($marks as $mrk){
             $this->database->table('Otazka')->
             where('id_ot = ?',$mrk['id_ot'])->
