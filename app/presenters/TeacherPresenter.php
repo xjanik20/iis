@@ -87,7 +87,7 @@ class TeacherPresenter extends Nette\Application\UI\Presenter
             ->addRule(UI\Form::PATTERN, "Datum být ve tvaru \"RRRR-MM-DD\"","[0-9]{4}-[0-9]{2}-[0-9]{2}");
         $form->addText('cas', 'čas prvního termínu:')->setRequired('zadejte čas Zkoušky')
             ->addRule(UI\Form::PATTERN, "Datum být ve tvaru \"HH:MM\"","[0-9]{2}:[0-9]{2}");
-        $form->addRadioList('typ_zkousky', 'Typ zkoušky', ['typ1' => "1", 'typ2' => "2"]);
+        $form->addSelect('typ_zkousky', 'Typ zkoušky', ['typ1' => "1", 'typ2' => "2"]);
         $form->addSubmit('create', 'Vytvořit');
 
         $form->onSuccess[] = [$this, 'createExamFormSucceeded'];
