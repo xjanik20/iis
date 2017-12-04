@@ -29,6 +29,14 @@ class TeacherPresenter extends Nette\Application\UI\Presenter
         $this->database = $database;
     }
 
+    protected function checkTeacherRightZkouska($id_uc, $id_zk){
+        return $this->database->query(
+            'SELECT * FROM Ucitel NATURAL JOIN UcitelPredmet NATURAL JOIN Predmet NATURAL JOIN Zkouska
+            WHERE id_uc = ? AND id_zk = ?',
+            $this->user->getId(), $id_zk
+        )->fetch() ? true : false ;
+    }
+
     protected function createComponentSearchForm()
     {
         $form = $this->searchFormFactory->create();
@@ -54,6 +62,7 @@ class TeacherPresenter extends Nette\Application\UI\Presenter
     protected function createComponentCreateExamForm()
     {
         $form = new UI\Form;
+        $form->addText('id_pr')->setRequired('Zadejte ID předmětu');;
         $form->addText('jmeno', 'Jméno Zkoušky:')->setRequired('zadejte Jméno Zkoušky');
         $form->addInteger('termin_cislo', 'Termín:')->setRequired('zadejte termín')
             ->addRule(UI\Form::MIN, 'Maximální počet studentů musí být minimálně %d',1 );
@@ -85,7 +94,8 @@ class TeacherPresenter extends Nette\Application\UI\Presenter
             "max_studentu" => $values['max_studentu'],
             "pocet_otazek" => $values['pocet_otazek'],
             "datum" => $values['datum'],
-            "cas" => $values['cas']
+            "cas" => $values['cas'],
+            "id_pr" => $values['id_pr']
         ])->getPrimary();
         $student_ids = $this->database->table('Student')->select("id_st")->fetchAll();
         foreach ($student_ids as $id_st){
@@ -220,7 +230,7 @@ class TeacherPresenter extends Nette\Application\UI\Presenter
             2 => "Zkouška Proběhla a není opravena",
             3 => "Zkouška Proběhla a je opravena"];
 
-        $this->template->info = $this->database->query("Select zkratka, nazev FROM Predmet WHERE id_pr = ?",$id_pr)->fetch();
+        $this->template->info = $this->database->query("SELECT id_pr, zkratka, nazev FROM Predmet WHERE id_pr = ?",$id_pr)->fetch();
     }
 
     public function renderExam($id_zk)
@@ -273,9 +283,38 @@ class TeacherPresenter extends Nette\Application\UI\Presenter
     }
 
     public function actionDeleteExam($id_pr, $id_zk){
-        $this->database->table('Zkouska')->where('id_zk = ?',$id_zk)->delete();
-        $this->flashMessage("Zkouska smazána");
-        $this->redirect('this',$id_pr);
+        if($this->checkTeacherRightZkouska($this->user->getId(),$id_zk)) $this->flashMessage("Tuto zkoušku nemáte právo upravovat");
+        else {
+            $this->database->table('Zkouska')->where('id_zk = ?', $id_zk)->delete();
+            $this->flashMessage("Zkouska smazána");
+        }
+        $this->redirect('teacher:courseDetail',$id_pr);
+    }
+
+    public function actionOpenExam($id_pr, $id_zk){
+        if($this->database->table('Zkouska')->where('id_zk = ? AND stav > 1',$id_zk)->fetch())
+        {
+            $this->flashMessage("Zkouška již proběhla, nelze otevřít");
+        }
+        elseif(!$this->checkTeacherRightZkouska($this->user->getId(),$id_zk)) $this->flashMessage("Tuto zkoušku nemáte právo upravovat");
+        else{
+            $this->database->table('Zkouska')->where('id_zk = ?',$id_zk)->update(['stav' => 0]);
+            $this->flashMessage("Přihlašování otevřeno");
+        }
+        $this->redirect('teacher:courseDetail',$id_pr);
+    }
+
+    public function actionCloseExam($id_pr, $id_zk){
+        if($this->database->table('Zkouska')->where('id_zk = ? AND stav > 1',$id_zk)->fetch())
+        {
+            $this->flashMessage("Zkouška již proběhla, je trvale zavřená");
+        }
+        elseif(!$this->checkTeacherRightZkouska($this->user->getId(),$id_zk)) $this->flashMessage("Tuto zkoušku nemáte právo upravovat");
+        else{
+            $this->database->table('Zkouska')->where('id_zk = ?',$id_zk)->update(['stav' => 0]);
+            $this->flashMessage("Přihlašování zavřeno");
+        }
+        $this->redirect('teacher:courseDetail',$id_pr);
     }
 
 }
