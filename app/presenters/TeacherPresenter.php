@@ -55,8 +55,17 @@ class TeacherPresenter extends Nette\Application\UI\Presenter
     protected function createComponentEvaluationForm()
     {
         $form = new UI\Form;
-
+        $form->onSuccess[] = [$this, 'evaluationFormSucceeded'];
         return $form;
+    }
+
+    public function evaluationFormSucceeded(UI\Form $form, $values){
+        $marks = $form->getHttpData($form::DATA_LINE, 'marks[]');
+        foreach ($marks as $mrk){
+            $this->database->table('Otazka')->
+            where('id_ot = ?',$mrk['id_ot'])->
+            update(['pocet_bodu' => $mrk['pocet_bodu']]);
+        }
     }
 
     protected function createComponentCreateExamForm()
@@ -78,7 +87,7 @@ class TeacherPresenter extends Nette\Application\UI\Presenter
             ->addRule(UI\Form::PATTERN, "Datum být ve tvaru \"RRRR-MM-DD\"","[0-9]{4}-[0-9]{2}-[0-9]{2}");
         $form->addText('cas', 'čas prvního termínu:')->setRequired('zadejte čas Zkoušky')
             ->addRule(UI\Form::PATTERN, "Datum být ve tvaru \"HH:MM\"","[0-9]{2}:[0-9]{2}");
-        $form->addRadioList('typ_zkousky', 'Typ zkoušky', ['typ1' => 'Semestrální zkouška', 'typ2' => 'Půlsemestrální zkouška']);
+        $form->addRadioList('typ_zkousky', 'Typ zkoušky', ['typ1' => "1", 'typ2' => "2"]);
         $form->addSubmit('create', 'Vytvořit');
 
         $form->onSuccess[] = [$this, 'createExamFormSucceeded'];
@@ -86,20 +95,18 @@ class TeacherPresenter extends Nette\Application\UI\Presenter
     }
 
     public function createExamFormSucceeded(UI\Form $form, $values)
-    {
-        $this->flashMessage("poooooop");
-        $this->redirect('this');
+    {   $this->flashMessage($values['typ_zkousky']);
         if(!$this->user->isallowed("Exams","add")) $this->error("Permission denied",403);
         $id_zk = $this->database->table('Zkouska')->insert([
             "jmeno" => $values['jmeno'],
-            "termin_cislo" => $values['termin'],
+            "termin_cislo" => $values['termin_cislo'],
             "max_bodu" => $values['max_bodu'],
             "min_bodu" => $values['min_bodu'],
             "max_studentu" => $values['max_studentu'],
             "pocet_otazek" => $values['pocet_otazek'],
             "datum" => $values['datum']." 00:00:00",
             "cas" => "1000-01-01 ".$values['cas'].":00",
-            "typ_zkousky" => $values['Typ zkousky'],
+            "typ_zkousky" => $values['typ_zkousky'],
             "id_pr" => $values['id_pr']
         ])->getPrimary();
         $student_ids = $this->database->table('Student')->select("id_st")->fetchAll();
@@ -133,7 +140,7 @@ class TeacherPresenter extends Nette\Application\UI\Presenter
             ->addRule(UI\Form::MIN, 'Maximální počet bodů musí být minimálně %d',1 );
         $form->addInteger('min_bodu', 'Minimální počet bodů:')->setRequired('zadejte Minimální počet bodů')
             ->addRule(UI\Form::MIN, 'Minimální počet bodů musí být minimálně %d',0 );
-        $form->addInteger('pocet_otázek', 'Počet otázek:')->setRequired('zadejte Počet otázek')
+        $form->addInteger('pocet_otazek', 'Počet otázek:')->setRequired('zadejte Počet otázek')
             ->addRule(UI\Form::MIN, 'Počet otázek musí být minimálně %d',1 );
         $form->addText('datum', 'Datum prvního termínu:')
             ->addRule(UI\Form::PATTERN, "Datum být ve tvaru \"RRRR-MM-DD\"","[0-9]{4}-[0-9]{2}-[0-9]{2}");
@@ -157,11 +164,12 @@ class TeacherPresenter extends Nette\Application\UI\Presenter
         else{
             $this->database->table('Zkouska')->where("id_zk = ?",$values['id'])->update([
                 "jmeno" => $values['jmeno'],
-                "termin_cislo" => $values['termin'],
+                "termin_cislo" => $values['termin_cislo'],
                 "max_bodu" => $values['max_bodu'],
                 "min_bodu" => $values['min_bodu'],
                 "max_studentu" => $values['max_studentu'],
                 "pocet_otazek" => $values['pocet_otazek'],
+                "typ_zkousky" => $values['typ_zkousky'],
                 "datum" => $values['datum'],
                 "cas" => $values['cas']
             ]);
