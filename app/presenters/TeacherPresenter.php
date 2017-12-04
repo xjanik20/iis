@@ -62,7 +62,7 @@ class TeacherPresenter extends Nette\Application\UI\Presenter
     protected function createComponentCreateExamForm()
     {
         $form = new UI\Form;
-        $form->addText('id_pr')->setRequired('Zadejte ID předmětu');;
+        $form->addText('id_pr')->setRequired('Zadejte ID předmětu');
         $form->addText('jmeno', 'Jméno Zkoušky:')->setRequired('zadejte Jméno Zkoušky');
         $form->addInteger('termin_cislo', 'Termín:')->setRequired('zadejte termín')
             ->addRule(UI\Form::MIN, 'Maximální počet studentů musí být minimálně %d',1 );
@@ -87,6 +87,8 @@ class TeacherPresenter extends Nette\Application\UI\Presenter
 
     public function createExamFormSucceeded(UI\Form $form, $values)
     {
+        if(!$this->user->isallowed("Exams","add")) $this->error("Permission denied",403);
+        $this->flashMessage($values['typ zkousky']);
         $id_zk = $this->database->table('Zkouska')->insert([
             "jmeno" => $values['jmeno'],
             "termin_cislo" => $values['termin'],
@@ -94,8 +96,9 @@ class TeacherPresenter extends Nette\Application\UI\Presenter
             "min_bodu" => $values['min_bodu'],
             "max_studentu" => $values['max_studentu'],
             "pocet_otazek" => $values['pocet_otazek'],
-            "datum" => $values['datum'],
-            "cas" => $values['cas'],
+            "datum" => $values['datum']." 00:00:00",
+            "cas" => "1000-01-01 ".$values['cas'].":00",
+            "typ_zkousky" => $values['Typ zkousky'],
             "id_pr" => $values['id_pr']
         ])->getPrimary();
         $student_ids = $this->database->table('Student')->select("id_st")->fetchAll();
@@ -119,7 +122,7 @@ class TeacherPresenter extends Nette\Application\UI\Presenter
     protected function createComponentEditExamForm()
     {
         $form = new UI\Form;
-        $form->addHidden('id');
+        $form->addText('id_pr')->setRequired('Zadejte ID předmětu');
         $form->addText('jmeno', 'Jméno Zkoušky:')->setRequired('zadejte Jméno Zkoušky');
         $form->addInteger('termin_cislo', 'Termín:')->setRequired('zadejte termín')
             ->addRule(UI\Form::MIN, 'Maximální počet studentů musí být minimálně %d',1 );
@@ -143,6 +146,8 @@ class TeacherPresenter extends Nette\Application\UI\Presenter
 
     public function editExamFormSucceeded(UI\Form $form, $values)
     {
+        if(!$this->user->isallowed("Exams","edit")) $this->error("Permission denied",403);
+
         $row = $this->database->table('Zkouska')->where("id_zk = ?",$values['id'])->fetch();
         if (!$row){
             $this->flashMessage("Zkouska s daným ID neexistuje");
@@ -184,6 +189,8 @@ class TeacherPresenter extends Nette\Application\UI\Presenter
 
     public function renderCourses()
     {
+        if(!$this->user->isallowed("Courses","view")) $this->error("Permission denied",403);
+
         if (!$this->filterSet) {
             $this->template->posts = $this->database->query(
                 "SELECT Predmet.zkratka, Predmet.nazev, Predmet.id_pr FROM
@@ -205,6 +212,8 @@ class TeacherPresenter extends Nette\Application\UI\Presenter
 
     public function renderCourseDetail($id_pr)
     {
+        if(!$this->user->isallowed("Exams","view")) $this->error("Permission denied",403);
+
         if (!$this->filterSet) {
             $this->template->posts = $this->database->query(
                 "SELECT id_zk, Zkouska.stav, Zkouska.jmeno as jmeno_zkousky, Zkouska.datum, Zkouska.cas, Zkouska.termin_cislo, Zkouska.max_studentu, Zkouska.max_bodu, Zkouska.min_bodu FROM
@@ -236,12 +245,15 @@ class TeacherPresenter extends Nette\Application\UI\Presenter
 
     public function renderExam($id_zk)
     {
+        if(!$this->user->isallowed("Terms","view")) $this->error("Permission denied",403);
+
         if (!$this->filterSet) {
             $this->template->posts = $this->database->query(
             "SELECT id_te, Student.login, Student.jmeno, Student.prijmeni, Termin.stav_zkousky
             FROM Zkouska NATURAL JOIN Termin NATURAL JOIN Student
             WHERE id_zk = ? AND (Termin.stav_zkousky = 2 OR Termin.stav_zkousky > 3)
-            ORDER BY Termin.stav_zkousky"
+            ORDER BY Termin.stav_zkousky",
+            $id_zk
             )->fetchAll();
         }
         else{
@@ -250,14 +262,16 @@ class TeacherPresenter extends Nette\Application\UI\Presenter
             FROM Zkouska NATURAL JOIN Termin NATURAL JOIN Student
             WHERE id_zk = ? AND (Termin.stav_zkousky = 2 OR Termin.stav_zkousky > 3)
             AND ( Student.login = ? OR Student.jmeno = ? OR Student.prijmeni = ? OR Termin.stav_zkousky = ? )
-            ORDER BY Termin.stav_zkousky"
+            ORDER BY Termin.stav_zkousky",
+            $id_zk, $this->formFilter, $this->formFilter, $this->formFilter, $this->formFilter
             )->fetchAll();
         }
         $this->template->info = $this->database->query("Select Predmet.nazev,Predmet.zkratka, Zkouska.jmeno, Zkouska.stav, termin_cislo FROM Zkouska NATURAL JOIN Predmet WHERE id_zk = ?",$id_zk)->fetch();
     }
-
     public function renderQuestions($id_te)
     {
+        if(!$this->user->isallowed("Questions","view")) $this->error("Permission denied",403);
+
         if (!$this->filterSet) {
             $this->template->posts = $this->database->query(
                 "SELECT nazev, pocet_bodu FROM
@@ -284,6 +298,9 @@ class TeacherPresenter extends Nette\Application\UI\Presenter
     }
 
     public function actionDeleteExam($id_pr, $id_zk){
+        if(!$this->user->isallowed("Exams","delete")) $this->error("Permission denied",403);
+
+
         if($this->checkTeacherRightZkouska($this->user->getId(),$id_zk)) $this->flashMessage("Tuto zkoušku nemáte právo upravovat");
         else {
             $this->database->table('Zkouska')->where('id_zk = ?', $id_zk)->delete();
@@ -293,6 +310,9 @@ class TeacherPresenter extends Nette\Application\UI\Presenter
     }
 
     public function actionOpenExam($id_pr, $id_zk){
+        if(!$this->user->isallowed("Exams","edit")) $this->error("Permission denied",403);
+
+
         if($this->database->table('Zkouska')->where('id_zk = ? AND stav > 1',$id_zk)->fetch())
         {
             $this->flashMessage("Zkouška již proběhla, nelze otevřít");
@@ -306,6 +326,8 @@ class TeacherPresenter extends Nette\Application\UI\Presenter
     }
 
     public function actionCloseExam($id_pr, $id_zk){
+        if(!$this->user->isallowed("Exams","edit")) $this->error("Permission denied",403);
+
         if($this->database->table('Zkouska')->where('id_zk = ? AND stav > 1',$id_zk)->fetch())
         {
             $this->flashMessage("Zkouška již proběhla, je trvale zavřená");

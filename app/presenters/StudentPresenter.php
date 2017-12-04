@@ -189,7 +189,7 @@ class StudentPresenter extends Nette\Application\UI\Presenter
         $row = $this->database->table('Zkouska')->where('id_zk = ?',$id_zk)->fetch();
         $zkouska = $row->jmeno;
         $id_pr = $row->id_pr;
-        $row = $this->database->table('Termin')->where('id_te = ? AND stav_zkousky = ?', $id_te, 1)->fetch();
+        $row = $this->database->table('Termin')->where('id_st = ? AND id_te = ? AND stav_zkousky = ?',$this->user->getId(), $id_te, 1)->fetch();
         if (!$row or !$zkouska or !$id_pr) {
             $this->flashMessage("Chyba, přihlášení se nezdařilo");
         }
@@ -239,7 +239,7 @@ class StudentPresenter extends Nette\Application\UI\Presenter
     {
         if(!$this->user->isallowed("Terms","edit")) $this->error("Permission denied",403);
 
-        $row = $this->database->table('Termin')->where('id_te = ? AND stav_zkousky = ?', $id_te, 2)->fetch();
+        $row = $this->database->table('Termin')->where('id_st = ? AND id_te = ? AND stav_zkousky = ?',$this->user->getId(), $id_te, 2)->fetch();
         if ($row) {
             $this->database->table('Termin')->where('id_te = ?',$id_te)->update(['stav_zkousky' => '1']);
             $this->flashMessage("Termín odhlášen");
