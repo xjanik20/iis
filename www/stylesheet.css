@@ -152,6 +152,7 @@
     display: none;
     background-color: #B7C1F0;
     padding: 20px;
+    min-width: 60em;
 }
 
 .add-label {

@@ -23,7 +23,7 @@
         <h1>{$info->zkratka}&emsp;{$info->nazev}</h1>
 
         <button class="add-button" onclick="viewHide('teacherCourseDetail')">Přidat zkoušku/termín</button>
-        <div class="add-div" id="teacherCourseDetail">
+        <!-- <div class="add-div" id="teacherCourseDetail">
             <form n:name=createExamForm>
                 <table>
                     <tr>
@@ -46,11 +46,14 @@
                     </tr>
                 </table>
                 <div class="add-label-teachers" id="add-teachers-type"><label n:name=typ_zkousky >Typ zkoušky:</label></div>
-                <div class="add-div-teachers"><input n:name=typ_zkousky:typ1 type="radio" id="typ1" value="1" checked="checked" class="text add-input">Semestrální zkouška</div>
-                <div class="add-div-teachers"><input n:name=typ_zkousky:typ2 type="radio" id="typ2" value="2" class="text add-input">Půlsemestrální zkouška</div>
+                <select>
+                    <div class="add-div-teachers"><input n:name=typ_zkousky:typ1 type="radio" id="typ1" value="1"  class="text add-input">Semestrální zkouška</div>
+                    <div class="add-div-teachers"><input n:name=typ_zkousky:typ2 type="radio" id="typ2" value="2" class="text add-input">Půlsemestrální zkouška</div>
+                </select>
                 <br><div class="add-label-teachers"></div><div class="add-div-teachers"><input n:name=create class="add-button2"></div>
             </form>
-        </div>
+        </div> -->
+        {control createExamForm}
 
         <br>{control searchForm}
 
