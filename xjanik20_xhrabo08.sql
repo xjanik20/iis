@@ -219,7 +219,38 @@ INSERT INTO StudentPredmet
 VALUES(4, 2);
 INSERT INTO StudentPredmet
 VALUES(3, 1);
-    
+
+CREATE OR REPLACE TRIGGER exam_switcher AFTER INSERT ON occupiedroom
+FOR EACH ROW
+BEGIN
+  IF NEW.stav = 0
+    UPDATE Terms
+      SET stav_zkousky = 1;
+      WHERE (stav_zkousky = 0 OR stav_zkousky = 3) AND Termin.id_zk = NEW.id_zk;
+    UPDATE Terms
+      SET stav_zkousky = 2;
+      WHERE stav_zkousky = 4 AND Termin.id_zk = NEW.id_zk;
+  END IF
+
+  IF NEW.stav = 1
+    UPDATE Terms
+      SET stav_zkousky = 3;
+      WHERE stav_zkousky = 1 AND Termin.id_zk = NEW.id_zk;
+    UPDATE Terms
+      SET stav_zkousky = 4;
+      WHERE stav_zkousky = 2 AND Termin.id_zk = NEW.id_zk;
+  END IF
+
+  IF NEW.stav = 2
+    UPDATE Terms
+      SET stav_zkousky = 3;
+      WHERE stav_zkousky = 1 AND Termin.id_zk = NEW.id_zk;
+    UPDATE Terms
+      SET stav_zkousky = 4;
+      WHERE stav_zkousky = 2 AND Termin.id_zk = NEW.id_zk;
+  END IF
+END
+
 
 -- vyp�e u�itele a p�edm�ty, kter� u��; slou�� k zobrazen� tabulky p�edm�t� a u�itel�
 SELECT jmeno, prijmeni, nazev, zkratka
