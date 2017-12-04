@@ -12,10 +12,10 @@
             <div class="collapse navbar-collapse" id="navbarSupportedcont">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item">
-                        <a class="nav-link" n:href="Student:courses">Předměty</a>
+                        <a class="nav-link" n:href="Teacher:courses">Předměty</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" n:href="Student:terms">Termíny</a>
+                        <a class="nav-link" n:href="Teacher:terms">Termíny</a>
                     </li>
                 </ul>
             </div>
@@ -45,17 +45,12 @@
                 <div class="terms-detail-table-cont">Maximum studentů:</div><div class="terms-detail-table-cont">{$p->max_studentu}</div><br>
                 <div class="terms-detail-table-cont">Stav zkoušky:</div>
                 <div class="terms-detail-table-cont terms-detail-long">{$stavy[$p->stav_zkousky]}</div><br>
-                <div class="terms-detail-table-cont">Bodů:</div><div class="terms-detail-table-cont">{$p->p_dosaz_bodu}</div><br>
                 <div class="terms-detail-table-cont">Datum ohodnocení:</div><div class="terms-detail-table-cont">{($p->dat_ohodnoceni == "") ? "-" : ($p->dat_ohodnoceni|date: '%d.%m.%Y')}</div><br>
                 <div class="terms-detail-table-cont">Hodnotil:</div><div class="terms-detail-table-cont terms-detail-long" >{$p->login}&emsp;{$p->jmeno_ucitele}&emsp;{$p->prijmeni}</div><br>
 
                 <div>Komentář k hodnocení:<br><p id="comment">{($p->komentar == "") ? "-" : $p->komentar}</p></div>
                 <a n:href="Student:questions $p->id_te"><button class="terms-detail-button">Zobrazit otázky</button></a>
-                {if ($p->stav_zkousky == 1)}
-                    <a n:href="Student:signup $p->id_te, $p->id_zk, 'terms'"><button class="terms-detail-button">Přihlásit</button></a>
-                {elseif ($p->stav_zkousky == 2)}
-                    <a n:href="Student:signoff $p->id_te, 'terms'"><button class="terms-detail-button">Odhlásit</button></a>
-                {/if}
+
             </div>
         {/foreach}
         {if $posts == NULL} <p class="not-found">Zkoušky nenalezeny.</p> {/if}
