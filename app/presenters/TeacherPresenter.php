@@ -39,7 +39,7 @@ class TeacherPresenter extends Nette\Application\UI\Presenter
     public function searchFormSucceeded(UI\Form $form, $values)
     {
         if ($values['filter']) {
-            $this->formFilter = $values;
+            $this->formFilter = $values['filter'];
             $this->filterSet = true;
         }
     }
@@ -183,7 +183,7 @@ class TeacherPresenter extends Nette\Application\UI\Presenter
         }
         else{
             $this->template->posts = $this->database->query(
-                "SELECT Predmet.nazev, Predmet.id_pr FROM
+                "SELECT Predmet.zkratka, Predmet.nazev, Predmet.id_pr FROM
                 UcitelPredmet NATURAL JOIN Predmet
                 WHERE UcitelPredmet.id_uc = ? AND (Predmet.nazev = ? OR Predmet.zkratka = ? )",
                 $this->user->getId(), $this->formFilter, $this->formFilter
@@ -196,16 +196,16 @@ class TeacherPresenter extends Nette\Application\UI\Presenter
     {
         if (!$this->filterSet) {
             $this->template->posts = $this->database->query(
-                "SELECT id_te, id_zk, Zkouska.jmeno as jmeno_zkousky, Zkouska.datum, Zkouska.cas, Zkouska.termin_cislo, Zkouska.max_studentu, Zkouska.max_bodu, Zkouska.min_bodu FROM
+                "SELECT id_zk, Zkouska.stav, Zkouska.jmeno as jmeno_zkousky, Zkouska.datum, Zkouska.cas, Zkouska.termin_cislo, Zkouska.max_studentu, Zkouska.max_bodu, Zkouska.min_bodu FROM
                 Zkouska NATURAL JOIN Predmet NATURAL JOIN UcitelPredmet
                 WHERE UcitelPredmet.id_uc = ? AND id_pr = ? 
                 ORDER BY Zkouska.datum",
                 $this->user->getId(),$id_pr
             )->fetchAll();
         }
-        else{
+        else {
             $this->template->posts = $this->database->query(
-                "SELECT id_te, id_zk, Zkouska.jmeno as jmeno_zkousky, Zkouska.datum, Zkouska.cas, Zkouska.termin_cislo, Zkouska.max_studentu, Zkouska.max_bodu, Zkouska.min_bodu FROM
+                "SELECT id_zk, Zkouska.stav, Zkouska.jmeno as jmeno_zkousky, Zkouska.datum, Zkouska.cas, Zkouska.termin_cislo, Zkouska.max_studentu, Zkouska.max_bodu, Zkouska.min_bodu FROM
                 Zkouska NATURAL JOIN Predmet NATURAL JOIN UcitelPredmet
                 WHERE UcitelPredmet.id_uc = ? AND id_pr = ?
                 AND ( Zkouska.jmeno = ? OR Zkouska.datum = ? OR Zkouska.cas = ? OR Zkouska.termin_cislo = ? )
@@ -235,7 +235,7 @@ class TeacherPresenter extends Nette\Application\UI\Presenter
             ORDER BY Termin.stav_zkousky"
             )->fetchAll();
         }
-        $this->template->info = $this->database->query("Select Predmet.nazev,Predmet.zkratka,Zkouska.jmeno, termin_cislo FROM Zkouska NATURAL JOIN Predmet WHERE id_zk = ?",$id_zk)->fetch();
+        $this->template->info = $this->database->query("Select Predmet.nazev,Predmet.zkratka, Zkouska.jmeno, Zkouska.stav, termin_cislo FROM Zkouska NATURAL JOIN Predmet WHERE id_zk = ?",$id_zk)->fetch();
     }
 
     public function renderQuestions($id_te)
