@@ -72,7 +72,7 @@ class TeacherPresenter extends Nette\Application\UI\Presenter
             ->addRule(UI\Form::MIN, 'Maximální počet bodů musí být minimálně %d',1 );
         $form->addInteger('min_bodu', 'Minimální počet bodů:')->setRequired('zadejte Minimální počet bodů')
             ->addRule(UI\Form::MIN, 'Minimální počet bodů musí být minimálně %d',0 );
-        $form->addInteger('pocet_otázek', 'Počet otázek:')->setRequired('zadejte Počet otázek')
+        $form->addInteger('pocet_otazek', 'Počet otázek:')->setRequired('zadejte Počet otázek')
             ->addRule(UI\Form::MIN, 'Počet otázek musí být minimálně %d',1 );
         $form->addText('datum', 'Datum prvního termínu:')
             ->addRule(UI\Form::PATTERN, "Datum být ve tvaru \"RRRR-MM-DD\"","[0-9]{4}-[0-9]{2}-[0-9]{2}");
