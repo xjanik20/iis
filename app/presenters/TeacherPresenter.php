@@ -29,9 +29,9 @@ class TeacherPresenter extends Nette\Application\UI\Presenter
         $this->database = $database;
     }
 
-    protected function checkTeacherRightZkouska($id_uc, $id_zk){
+    protected function checkTeacherRightZkouska($id_zk){
         return $this->database->query(
-            'SELECT * FROM Ucitel NATURAL JOIN UcitelPredmet NATURAL JOIN Predmet NATURAL JOIN Zkouska
+            'SELECT * FROM UcitelPredmet NATURAL JOIN Predmet NATURAL JOIN Zkouska
             WHERE id_uc = ? AND id_zk = ?',
             $this->user->getId(), $id_zk
         )->fetch() ? true : false ;
@@ -62,7 +62,7 @@ class TeacherPresenter extends Nette\Application\UI\Presenter
     public function evaluationFormSucceeded(UI\Form $form, $values){
         $marks = [];
         $marks['id_ot'] = $form->getHttpData($form::DATA_LINE, 'marks[id_ot][]');
-        $marks['pocet_bodu'] = $form->getHttpData($form::DATA_LINE, 'marks[id_ot][]');
+        $marks['pocet_bodu'] = $form->getHttpData($form::DATA_LINE, 'marks[pocet_bodu][]');
         foreach ($marks as $mrk){
             $this->database->table('Otazka')->
             where('id_ot = ?',$mrk['id_ot'])->
@@ -127,7 +127,7 @@ class TeacherPresenter extends Nette\Application\UI\Presenter
                 ]);
             }
         }
-        $this->flashMessage("Zkouska založena");
+        $this->flashMessage("Zkouška založena");
     }
 
     protected function createComponentEditExamForm()
@@ -161,7 +161,7 @@ class TeacherPresenter extends Nette\Application\UI\Presenter
 
         $row = $this->database->table('Zkouska')->where("id_zk = ?",$values['id'])->fetch();
         if (!$row){
-            $this->flashMessage("Zkouska s daným ID neexistuje");
+            $this->flashMessage("Zkouška s daným ID neexistuje");
             $this->redirect('this');
         }
         else{
@@ -195,7 +195,7 @@ class TeacherPresenter extends Nette\Application\UI\Presenter
                     }
                 }
             }
-            $this->flashMessage("Zkouska upravena");
+            $this->flashMessage("Zkouška upravena");
         }
     }
 
@@ -286,7 +286,7 @@ class TeacherPresenter extends Nette\Application\UI\Presenter
 
         if (!$this->filterSet) {
             $this->template->posts = $this->database->query(
-                "SELECT nazev, pocet_bodu FROM
+                "SELECT id_ot, nazev, pocet_bodu FROM
                 Otazka
                 WHERE Otazka.id_te = ?",
                 $id_te
@@ -294,7 +294,7 @@ class TeacherPresenter extends Nette\Application\UI\Presenter
         }
         else{
             $this->template->posts = $this->database->query(
-                "SELECT nazev, pocet_bodu FROM
+                "SELECT id_ot, nazev, pocet_bodu FROM
                 Otazka
                 WHERE Otazka.id_te = ? AND
                 ( Otazka.nazev = ? OR Otazka.pocet_bodu = ? )",
@@ -313,7 +313,7 @@ class TeacherPresenter extends Nette\Application\UI\Presenter
         if(!$this->user->isallowed("Exams","delete")) $this->error("Permission denied",403);
 
 
-        if($this->checkTeacherRightZkouska($this->user->getId(),$id_zk)) $this->flashMessage("Tuto zkoušku nemáte právo upravovat");
+        if(!$this->checkTeacherRightZkouska($id_zk)) $this->flashMessage("Tuto zkoušku nemáte právo upravovat");
         else {
             $this->database->table('Zkouska')->where('id_zk = ?', $id_zk)->delete();
             $this->flashMessage("Zkouska smazána");
@@ -329,7 +329,7 @@ class TeacherPresenter extends Nette\Application\UI\Presenter
         {
             $this->flashMessage("Zkouška již proběhla, nelze otevřít");
         }
-        elseif(!$this->checkTeacherRightZkouska($this->user->getId(),$id_zk)) $this->flashMessage("Tuto zkoušku nemáte právo upravovat");
+        elseif(!$this->checkTeacherRightZkouska($id_zk)) $this->flashMessage("Tuto zkoušku nemáte právo upravovat");
         else{
             $this->database->table('Zkouska')->where('id_zk = ?',$id_zk)->update(['stav' => 0]);
             $this->flashMessage("Přihlašování otevřeno");
@@ -344,9 +344,9 @@ class TeacherPresenter extends Nette\Application\UI\Presenter
         {
             $this->flashMessage("Zkouška již proběhla, je trvale zavřená");
         }
-        elseif(!$this->checkTeacherRightZkouska($this->user->getId(),$id_zk)) $this->flashMessage("Tuto zkoušku nemáte právo upravovat");
+        elseif(!$this->checkTeacherRightZkouska($id_zk)) $this->flashMessage("Tuto zkoušku nemáte právo upravovat");
         else{
-            $this->database->table('Zkouska')->where('id_zk = ?',$id_zk)->update(['stav' => 0]);
+            $this->database->table('Zkouska')->where('id_zk = ?',$id_zk)->update(['stav' => 1]);
             $this->flashMessage("Přihlašování zavřeno");
         }
         $this->redirect('teacher:courseDetail',$id_pr);
