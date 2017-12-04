@@ -29,11 +29,7 @@
 
         <div n:foreach="$flashes as $flash" n:class="flash, $flash->type">{$flash->message}</div>
 
-        <div class="table-list table-head">
-            <div class="table-cont terms-table-item terms-table-item-date">Datum</div>
-            <div class="table-cont terms-table-item terms-table-item-name">Zkouška</div>
-            <div class="table-cont terms-table-item terms-table-item-no">Termín č.</div>
-        </div>
+        <div class="table-list table-head"></div>
         {foreach $posts as $p}
             <div class="terms-table courses-table terms-table-detail-div" id="terms-table-detail-div">
                 <h4 id="course-color">{$p->jmeno_zkousky}&emsp;Termín č.: {$p->termin_cislo}</h4>
