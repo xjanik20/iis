@@ -101,9 +101,9 @@ class AdminPresenter extends Nette\Application\UI\Presenter
         $table = "";
         $idcolumn = "";
         if ($this->getAction()==('students')) {$table = 'Student'; $idcolumn = 'id_st';}
-        elseif ($this->getAction()==('teachers')) {$table = 'Ucitel';$idcolumn = 'id_uc';}
-
-        $row = $this->database->table($table)->where("? = ?",$idcolumn, $values['id'])->fetch();
+        elseif ($this->getAction()==('teachers')) {$table = 'Ucitel'; $idcolumn = 'id_uc';}
+        else {$this->flashMessage("Something went wrong");}
+        $row = $this->database->query("SELECT * FROM ?name WHERE ?name = ?", $table, $idcolumn, $values['id'])->fetch();
         if (!$row){
             $this->flashMessage("Uživatel s uvedeným id nenalezen");
             $this->redirect('this');
@@ -115,12 +115,13 @@ class AdminPresenter extends Nette\Application\UI\Presenter
             $this->redirect('this');
         }
         else{
-            $this->database->table($table)->where("? = ?",$idcolumn,$values['id'])->update([
-                "login" => $values['login'],
-                "jmeno" => $values['jmeno'],
-                "prijmeni" => $values['prijmeni'],
-                "heslo" => $values['heslo']
-            ]);
+            $this->database->query(
+                "UPDATE ?name SET 
+                login=? , jmeno=? , prijmeni=? , heslo=? 
+                WHERE ?name = ?",
+                $table, $values['login'], $values['jmeno'], $values['prijmeni'], $values['heslo'],
+                $idcolumn, $values['id']
+            );
             $this->flashMessage("Uživatel editován");
         }
 
