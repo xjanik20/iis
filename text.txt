@@ -5,3 +5,8 @@
 4 - přihlašování zavřeno, přihlášen
 5 - zkouška absolvována
 6 - zkouška opravena
+
+0 - přihlašování otevřeno
+1 - přihlašování zavřeno
+2 - zkouška proběhla
+3 - zkouška ohodnocena
