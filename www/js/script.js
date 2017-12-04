@@ -1,7 +1,8 @@
 // view/hide add div
 function viewHide(id) {
-    if (document.getElementById(id).style.display === 'none')
-        document.getElementById(id).style.display = 'block';
+    var x = document.getElementById(id);
+    if (x.style.display === 'none')
+        x.style.display = 'block';
     else
-        document.getElementById(id).style.display = 'none';
+        x.style.display = 'none';
 }

@@ -1,6 +1,7 @@
 {block content}
 
-{define title}Předměty{/define}
+{define title}Otázky z {$info->jmeno} {$info->termin_cislo}{/define}
+
 
 <div class="container-fluid" style="min-height: 100vh; display:flex;">
     <div class="row row-top">
@@ -22,24 +23,25 @@
     </div>
 
     <div class="page-cont">
-        <h1>Předměty</h1>
+        <h1>{$info->zkratka}&emsp;{$info->nazev}</h1>
+        <h3>Otázky z {$info->jmeno} {$info->termin_cislo}</h3>
 
         <br>{control searchForm}
 
         <div n:foreach="$flashes as $flash" n:class="flash, $flash->type">{$flash->message}</div>
 
-        <table class="table-list">
-            <tr class="table-head">
-                <th class="table-cont">Zkratka</th>
-                <th class="table-cont">Předmět</th>
-            </tr>
-            {foreach $posts as $p}
-                <tr>
-                    <td class="table-cont">{$p->zkratka}</td>
-                    <td class="table-cont"><a n:href="Student:courseDetail $p->id_pr">{$p->nazev}</a></td>
-                </tr>
-            {/foreach}
-        </table>
-        {if $posts == NULL} <p class="not-found">Předměty nenalezeny.</p> {/if}
+        <div class="table-list table-head">
+            <div class="table-cont terms-table-item questions-table-number">Otázka č.</div>
+            <div class="table-cont terms-table-item questions-table-name">Název</div>
+            <div class="table-cont terms-table-item questions-table-points">Bodů</div>
+        </div>
+        {foreach $posts as $p}
+            <div class="terms-table courses-table">
+                <div class="table-cont terms-table-item questions-table-number">{$p->cislo}</div>
+                <div class="table-cont terms-table-item questions-table-name">{$p->nazev}</div>
+                <div class="table-cont terms-table-item questions-table-points">{$p->pocet_bodu}</div>
+            </div>
+        {/foreach}
+        {if $posts == NULL} <p class="not-found">Otázky nenalezeny.</p> {/if}
     </div>
 </div>
