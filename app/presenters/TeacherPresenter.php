@@ -63,20 +63,20 @@ class TeacherPresenter extends Nette\Application\UI\Presenter
     {
         $form = new UI\Form;
         $form->addText('id_pr')->setRequired('Zadejte ID předmětu');
-        $form->addText('jmeno', 'Jméno Zkoušky:')->setRequired('zadejte Jméno Zkoušky');
+        $form->addText('jmeno', 'Jméno Zkoušky:')->setRequired('zadejte jméno zkoušky');
         $form->addInteger('termin_cislo', 'Termín:')->setRequired('zadejte termín')
             ->addRule(UI\Form::MIN, 'Maximální počet studentů musí být minimálně %d',1 );
-        $form->addInteger('max_studentu', 'Maximální počet studentů:')->setRequired('zadejte login Maximální počet studentů')
+        $form->addInteger('max_studentu', 'Maximální počet studentů:')->setRequired('zadejte login maximální počet studentů')
             ->addRule(UI\Form::MIN, 'Maximální počet studentů musí být minimálně %d',1 );
-        $form->addInteger('max_bodu', 'Maximální počet bodů:')->setRequired('zadejte jmeno Maximální počet bodů')
+        $form->addInteger('max_bodu', 'Maximální počet bodů:')->setRequired('zadejte jmeno maximální počet bodů')
             ->addRule(UI\Form::MIN, 'Maximální počet bodů musí být minimálně %d',1 );
-        $form->addInteger('min_bodu', 'Minimální počet bodů:')->setRequired('zadejte Minimální počet bodů')
+        $form->addInteger('min_bodu', 'Minimální počet bodů:')->setRequired('zadejte minimální počet bodů')
             ->addRule(UI\Form::MIN, 'Minimální počet bodů musí být minimálně %d',0 );
-        $form->addInteger('pocet_otazek', 'Počet otázek:')->setRequired('zadejte Počet otázek')
+        $form->addInteger('pocet_otazek', 'Počet otázek:')->setRequired('zadejte počet otázek')
             ->addRule(UI\Form::MIN, 'Počet otázek musí být minimálně %d',1 );
-        $form->addText('datum', 'Datum prvního termínu:')
+        $form->addText('datum', 'Datum prvního termínu:')->setRequired('zadejte datum Zkoušky')
             ->addRule(UI\Form::PATTERN, "Datum být ve tvaru \"RRRR-MM-DD\"","[0-9]{4}-[0-9]{2}-[0-9]{2}");
-        $form->addText('cas', 'čas prvního termínu:')
+        $form->addText('cas', 'čas prvního termínu:')->setRequired('zadejte čas Zkoušky')
             ->addRule(UI\Form::PATTERN, "Datum být ve tvaru \"HH:MM\"","[0-9]{2}:[0-9]{2}");
         $form->addRadioList('typ_zkousky', 'Typ zkoušky', ['typ1' => 'Semestrální zkouška', 'typ2' => 'Půlsemestrální zkouška']);
         $form->addSubmit('create', 'Vytvořit');
@@ -88,7 +88,7 @@ class TeacherPresenter extends Nette\Application\UI\Presenter
     public function createExamFormSucceeded(UI\Form $form, $values)
     {
         if(!$this->user->isallowed("Exams","add")) $this->error("Permission denied",403);
-        $this->flashMessage($values['typ zkousky']);
+        $this->flashMessage("poooooop".$values['typ zkousky']);
         $id_zk = $this->database->table('Zkouska')->insert([
             "jmeno" => $values['jmeno'],
             "termin_cislo" => $values['termin'],
@@ -250,7 +250,7 @@ class TeacherPresenter extends Nette\Application\UI\Presenter
         if (!$this->filterSet) {
             $this->template->posts = $this->database->query(
             "SELECT id_te, Student.login, Student.jmeno, Student.prijmeni, Termin.stav_zkousky
-            FROM Zkouska NATURAL JOIN Termin NATURAL JOIN Student
+            FROM (Termin NATURAL JOIN Zkouska) JOIN Student ON Termin.id_st = Student.id_st
             WHERE id_zk = ? AND (Termin.stav_zkousky = 2 OR Termin.stav_zkousky > 3)
             ORDER BY Termin.stav_zkousky",
             $id_zk
@@ -259,7 +259,7 @@ class TeacherPresenter extends Nette\Application\UI\Presenter
         else{
             $this->template->posts = $this->database->query(
                 "SELECT id_te, Student.login, Student.jmeno, Student.prijmeni, Termin.stav_zkousky
-            FROM Zkouska NATURAL JOIN Termin NATURAL JOIN Student
+            FROM (Termin NATURAL JOIN Zkouska) JOIN Student ON Termin.id_st = Student.id_st
             WHERE id_zk = ? AND (Termin.stav_zkousky = 2 OR Termin.stav_zkousky > 3)
             AND ( Student.login = ? OR Student.jmeno = ? OR Student.prijmeni = ? OR Termin.stav_zkousky = ? )
             ORDER BY Termin.stav_zkousky",
