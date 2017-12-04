@@ -84,7 +84,7 @@ class AdminPresenter extends Nette\Application\UI\Presenter
     protected function createComponentEditAccountForm()
     {
         $form = new UI\Form;
-        $form->addHidden('id');
+        $form->addText('id');
         $form->addText('login', 'Login:')->setRequired('zadejte login');
         $form->addText('jmeno', 'Jméno:')->setRequired('zadejte jmeno');
         $form->addText('prijmeni', 'Příjmení:')->setRequired('zadejte příjmení');
@@ -104,14 +104,14 @@ class AdminPresenter extends Nette\Application\UI\Presenter
         elseif ($this->getAction()==('teachers')) {$table = 'Ucitel';$idcolumn = 'id_uc';}
 
         $row = $this->database->table($table)->where("? = ?",$idcolumn, $values['id'])->fetch();
-        if ( $row[$idcolumn] != $values['id'] && ($this->database->table('Student')->where('login = ?',$values['login'])->fetch() ||
+        if (!$row){
+            $this->flashMessage("Uživatel s uvedeným id nenalezen");
+            $this->redirect('this');
+        }
+        elseif ( $row->login != $values['login'] && ($this->database->table('Student')->where('login = ?',$values['login'])->fetch() ||
             $this->database->table('Ucitel')->where('login = ?',$values['login'])->fetch() ||
             $this->database->table('Admin')->where('login = ?',$values['login'])->fetch())){
             $this->flashMessage("Login již existuje");
-            $this->redirect('this');
-        }
-        elseif (!$this->database->table($table)->where("? = ?", $idcolumn, $values['id'])->fetch()){
-            $this->flashMessage("Uživatel s uvedeným id nenalezen");
             $this->redirect('this');
         }
         else{
