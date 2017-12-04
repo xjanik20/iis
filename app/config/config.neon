@@ -16,5 +16,6 @@ services:
 	router: App\RouterFactory::createRouter
 	cacheStorage:
 		factory: Nette\Caching\Storages\DevNullStorage
+	#  class Permission will be created by calling create method in AuthorizationFactory
 	- App\Model\AccessControl\AuthorizatorFactory::create
 	- App\Model\Factories\SearchFormFactory

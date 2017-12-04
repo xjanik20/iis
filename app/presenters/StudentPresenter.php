@@ -37,6 +37,7 @@ class StudentPresenter extends Nette\Application\UI\Presenter
 
     public function searchFormSucceeded(UI\Form $form, $values)
     {
+
         if ($values['filter']) {
             $this->formFilter = $values['filter'];
             $this->filterSet = true;
@@ -45,6 +46,8 @@ class StudentPresenter extends Nette\Application\UI\Presenter
 
     public function renderCourses()
     {
+        if(!$this->user->isallowed("Courses","view")) $this->error("Permission denied",403);
+
         if (!$this->filterSet) {
             $this->template->posts = $this->database->query(
                 "SELECT Predmet.zkratka, Predmet.nazev, Predmet.id_pr FROM
@@ -66,6 +69,9 @@ class StudentPresenter extends Nette\Application\UI\Presenter
 
     public function renderCourseDetail($id_pr)
     {
+        if(!$this->user->isallowed("Exams","view")) $this->error("Permission denied",403);
+        if(!$this->user->isallowed("Terms","view")) $this->error("Permission denied",403);
+
         if (!$this->filterSet) {
             $this->template->posts = $this->database->query(
                 "SELECT id_te, id_zk, Zkouska.jmeno as jmeno_zkousky, Zkouska.datum, Zkouska.cas, Zkouska.termin_cislo, Termin.p_dosaz_bodu, Zkouska.max_studentu, Zkouska.max_bodu, Zkouska.min_bodu, Termin.stav_zkousky, Termin.dat_ohodnoceni, Termin.komentar, Ucitel.login, Ucitel.jmeno AS jmeno_ucitele, Ucitel.prijmeni FROM
@@ -106,6 +112,9 @@ class StudentPresenter extends Nette\Application\UI\Presenter
 
     public function renderTerms()
     {
+        if(!$this->user->isallowed("Exams","view")) $this->error($this->error("Permission denied",403));
+        if(!$this->user->isallowed("Terms","view")) $this->error($this->error("Permission denied",403));
+
         if (!$this->filterSet) {
             $this->template->posts = $this->database->query(
                 "SELECT id_te, id_zk, Predmet.nazev, Predmet.zkratka, Zkouska.jmeno as jmeno_zkousky, Zkouska.datum, Zkouska.cas, Zkouska.termin_cislo, Termin.p_dosaz_bodu, Zkouska.max_studentu, Zkouska.max_bodu, Zkouska.min_bodu, Termin.stav_zkousky, Termin.dat_ohodnoceni, Termin.komentar, Ucitel.login, Ucitel.jmeno AS jmeno_ucitele, Ucitel.prijmeni FROM
@@ -145,6 +154,8 @@ class StudentPresenter extends Nette\Application\UI\Presenter
 
     public function renderQuestions($id_te)
     {
+        if(!$this->user->isallowed("Questions","view")) $this->error($this->error("Permission denied",403));
+
         if (!$this->filterSet) {
             $this->template->posts = $this->database->query(
                 "SELECT cislo, nazev, pocet_bodu FROM
@@ -173,6 +184,8 @@ class StudentPresenter extends Nette\Application\UI\Presenter
 
     public function ActionSignup($id_te, $id_zk, $redirect)
     {
+        if(!$this->user->isallowed("Terms","edit")) $this->error("Permission denied",403);
+
         $row = $this->database->table('Zkouska')->where('id_zk = ?',$id_zk)->fetch();
         $zkouska = $row->jmeno;
         $id_pr = $row->id_pr;
@@ -224,6 +237,8 @@ class StudentPresenter extends Nette\Application\UI\Presenter
 
     public function ActionSignoff($id_te,$redirect)
     {
+        if(!$this->user->isallowed("Terms","edit")) $this->error("Permission denied",403);
+
         $row = $this->database->table('Termin')->where('id_te = ? AND stav_zkousky = ?', $id_te, 2)->fetch();
         if ($row) {
             $this->database->table('Termin')->where('id_te = ?',$id_te)->update(['stav_zkousky' => '1']);
