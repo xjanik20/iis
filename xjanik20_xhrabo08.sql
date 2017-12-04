@@ -223,14 +223,21 @@ VALUES(3, 1);
 CREATE OR REPLACE TRIGGER exam_switcher AFTER INSERT ON occupiedroom
 FOR EACH ROW
 BEGIN
-  IF NEW.stav = 0
+  IF (NEW.stav = 0,
+      UPDATE Terms
+      SET stav_zkousky = 1;
+      WHERE (stav_zkousky = 0 OR stav_zkousky = 3) AND Termin.id_zk = NEW.id_zk;
+    UPDATE Terms
+      SET stav_zkousky = 2;
+      WHERE stav_zkousky = 4 AND Termin.id_zk = NEW.id_zk;,False
     UPDATE Terms
       SET stav_zkousky = 1;
       WHERE (stav_zkousky = 0 OR stav_zkousky = 3) AND Termin.id_zk = NEW.id_zk;
     UPDATE Terms
       SET stav_zkousky = 2;
       WHERE stav_zkousky = 4 AND Termin.id_zk = NEW.id_zk;
-  END IF
+    ,false)
+
 
   IF NEW.stav = 1
     UPDATE Terms

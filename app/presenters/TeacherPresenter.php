@@ -282,7 +282,7 @@ class TeacherPresenter extends Nette\Application\UI\Presenter
     }
     public function renderQuestions($id_te)
     {
-        if(!$this->user->isallowed("Questions","view")) $this->error("Permission denied",403);
+        if(!$this->user->isallowed("Marks","view")) $this->error("Permission denied",403);
 
         if (!$this->filterSet) {
             $this->template->posts = $this->database->query(
