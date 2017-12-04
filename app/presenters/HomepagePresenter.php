@@ -52,7 +52,7 @@ class HomepagePresenter extends Nette\Application\UI\Presenter
             $this->redirect("Admin:students");
         }
         if($this->user->isInRole('Ucitel')) {
-            $this->flashMessage("ucitel login");
+            $this->redirect("Teacher:courses");
         }
         if($this->user->isInRole('Student')) {
             $this->redirect("Student:courses");
