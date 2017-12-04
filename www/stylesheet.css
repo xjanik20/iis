@@ -152,7 +152,6 @@
     display: none;
     background-color: #B7C1F0;
     padding: 20px;
-    min-width: 60em;
 }
 
 .add-label {
@@ -259,10 +258,6 @@ input:focus {
 .add-div-teachers {
     display: inline-block;
     width: 20%;
-}
-
-#add-teachers-type {
-    font-weight: bold;
 }
 
 .inline-block {
