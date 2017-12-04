@@ -33,6 +33,8 @@ class AdminPresenter extends Nette\Application\UI\Presenter
 
     public function searchFormSucceeded(UI\Form $form, $values)
     {
+        if(!$this->user->isallowed("Users","view")) $this->error("Permission denied",403);
+
         if ($this->getAction()==('students')) {$this->searchResult = $this->database->table('Student');}
         elseif ($this->getAction()==('teachers')) {$this->searchResult = $this->database->table('Ucitel');}
         else {$this->error('Stránka nebyla nalezena'); return;}
@@ -60,6 +62,7 @@ class AdminPresenter extends Nette\Application\UI\Presenter
 
     public function addAccountFormSucceeded(UI\Form $form, $values)
     {
+        if(!$this->user->isallowed("Users","add")) $this->error("Permission denied",403);
         $table = "";
         if ($this->getAction()==('students')) {$table = 'Student';}
         elseif ($this->getAction()==('teachers')) {$table = 'Ucitel';}
@@ -98,6 +101,7 @@ class AdminPresenter extends Nette\Application\UI\Presenter
 
     public function editAccountFormSucceeded(UI\Form $form, $values)
     {
+        if(!$this->user->isallowed("Users","edit")) $this->error("Permission denied",403);
         $table = "";
         $idcolumn = "";
         if ($this->getAction()==('students')) {$table = 'Student'; $idcolumn = 'id_st';}
@@ -129,6 +133,7 @@ class AdminPresenter extends Nette\Application\UI\Presenter
 
     public function renderStudents()
     {
+        if(!$this->user->isallowed("Users","view")) $this->error("Permission denied",403);
         if(!$this->formFilter){
             $this->template->posts = $this->database->table('Student')->fetchAll();
         }
@@ -139,6 +144,7 @@ class AdminPresenter extends Nette\Application\UI\Presenter
 
     public function renderTeachers()
     {
+        if(!$this->user->isallowed("Users","view")) $this->error("Permission denied",403);
         if(!$this->formFilter){
             $this->template->posts = $this->database->table('Ucitel')->fetchAll();
         }
@@ -149,6 +155,7 @@ class AdminPresenter extends Nette\Application\UI\Presenter
 
     public function actionDeleteRow($table, $login)
     {
+        if(!$this->user->isallowed("Users","delete")) $this->error("Permission denied",403);
         $res = $this->database->table($table)->where('login', $login)->delete();
         if (!$res) {
             $this->error('Záznam se nepodařilo smazat');
