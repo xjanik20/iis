@@ -62,7 +62,7 @@ CREATE TABLE Zkouska (
   termin_cislo INTEGER NOT NULL CHECK (termin_cislo >= 0),
   cas DATETIME NOT NULL,
   datum DATETIME NOT NULL,
-  stav TINYINT DEFAULT 0 NOT NULL CHECK (stav >= 0),
+  stav TINYINT DEFAULT 1 NOT NULL CHECK (stav >= 0),
   
   id_pr INTEGER,
   CONSTRAINT PK_zk PRIMARY KEY (id_zk),
