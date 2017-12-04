@@ -103,13 +103,14 @@ class AdminPresenter extends Nette\Application\UI\Presenter
         if ($this->getAction()==('students')) {$table = 'Student'; $idcolumn = 'id_st';}
         elseif ($this->getAction()==('teachers')) {$table = 'Ucitel';$idcolumn = 'id_uc';}
 
-        if ($this->database->table('Student')->where('login',$values['login'])->fetch() ||
-            $this->database->table('Ucitel')->where('login',$values['login'])->fetch() ||
-            $this->database->table('Admin')->where('login',$values['login'])->fetch()){
+        $row = $this->database->table($table)->where("? = ?",$idcolumn, $values['id'])->fetch();
+        if ( $row[$idcolumn] != $values['id'] && ($this->database->table('Student')->where('login = ?',$values['login'])->fetch() ||
+            $this->database->table('Ucitel')->where('login = ?',$values['login'])->fetch() ||
+            $this->database->table('Admin')->where('login = ?',$values['login'])->fetch())){
             $this->flashMessage("Login již existuje");
             $this->redirect('this');
         }
-        elseif (!$this->database->table($table)->where($idcolumn,$values['id'])->fetch()){
+        elseif (!$this->database->table($table)->where("? = ?", $idcolumn, $values['id'])->fetch()){
             $this->flashMessage("Uživatel s uvedeným id nenalezen");
             $this->redirect('this');
         }
@@ -120,7 +121,7 @@ class AdminPresenter extends Nette\Application\UI\Presenter
                 "prijmeni" => $values['prijmeni'],
                 "heslo" => $values['heslo']
             ]);
-            $this->flashMessage("Uzivatel editován");
+            $this->flashMessage("Uživatel editován");
         }
 
     }
