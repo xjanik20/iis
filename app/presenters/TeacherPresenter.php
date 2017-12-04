@@ -213,6 +213,13 @@ class TeacherPresenter extends Nette\Application\UI\Presenter
                 $this->user->getId(), $id_pr, $this->formFilter, $this->formFilter, $this->formFilter, $this->formFilter
             )->fetchAll();
         }
+
+        $this->template->stavy = [
+            0 => "Přihlašování otevřeno",
+            1 => "Přihlašování zavřeno",
+            2 => "Zkouška Proběhla a není opravena",
+            3 => "Zkouška Proběhla a je opravena"];
+
         $this->template->info = $this->database->query("Select zkratka, nazev FROM Predmet WHERE id_pr = ?",$id_pr)->fetch();
     }
 
