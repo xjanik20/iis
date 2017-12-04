@@ -87,7 +87,7 @@ class TeacherPresenter extends Nette\Application\UI\Presenter
             ->addRule(UI\Form::PATTERN, "Datum být ve tvaru \"RRRR-MM-DD\"","[0-9]{4}-[0-9]{2}-[0-9]{2}");
         $form->addText('cas', 'čas prvního termínu:')->setRequired('zadejte čas Zkoušky')
             ->addRule(UI\Form::PATTERN, "Datum být ve tvaru \"HH:MM\"","[0-9]{2}:[0-9]{2}");
-        $form->addSelect('typ_zkousky', 'Typ zkoušky', ['1' => "typ1", '2' => "typ2"]);
+        $form->addSelect('typ_zkousky', 'Typ zkoušky', ['1' => "Semestrální zkouška", '2' => "Půlsemestrální zkouška"]);
         $form->addSubmit('create', 'Vytvořit');
 
         $form->onSuccess[] = [$this, 'createExamFormSucceeded'];
@@ -95,7 +95,7 @@ class TeacherPresenter extends Nette\Application\UI\Presenter
     }
 
     public function createExamFormSucceeded(UI\Form $form, $values)
-    {   $this->flashMessage($values['typ_zkousky']);
+    {
         if(!$this->user->isallowed("Exams","add")) $this->error("Permission denied",403);
         $id_zk = $this->database->table('Zkouska')->insert([
             "jmeno" => $values['jmeno'],
@@ -118,9 +118,10 @@ class TeacherPresenter extends Nette\Application\UI\Presenter
             ])->getPrimary();
             for ($i=1;$i<$values['pocet_otazek']+1;$i++){
                 $this->database->table('Otazka')->insert([
-                   "id_te" => $id_te['id_te'],
-                   "pocet_bodu" => 0,
-                   "nazev" => $i,
+                    "id_te" => $id_te,
+                    "pocet_bodu" => 0,
+                    "nazev" => $i,
+                    "cislo" => $i,
                 ]);
             }
         }
