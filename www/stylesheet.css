@@ -165,7 +165,7 @@
 }
 
 .add-input {
-    width: 60%;
+    width: 70%;
 }
 
 input:focus {
@@ -180,7 +180,7 @@ input:focus {
     text-decoration: none;
     display: inline-block;
     padding: 0 5px;
-    width: 60%;
+    width: 70%;
     height: 30px;
 }
 
@@ -222,6 +222,40 @@ input:focus {
     background-color: #B7C1F0;
 }
 
+.admin-table-item-login {
+    width: 18%;
+}
+
+.admin-table-item-name {
+    width: 20%;
+}
+
+.admin-table-item-surname {
+    width: 20%;
+}
+
+.admin-table-item-pass {
+    width: 15%;
+}
+
+.admin-table-item-action {
+    width: 25%;
+}
+
+.edit-button {
+    color: #B7C1F0;
+    border: none;
+    background-color: #4457B0;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    width: 60%;
+    height: 30px;
+}
+
+.edit-input {
+    width: 80%;
+}
 .textarea {
     -moz-appearance: textfield-multiline;
     -webkit-appearance: textarea;

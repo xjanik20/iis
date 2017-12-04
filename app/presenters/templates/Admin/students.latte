@@ -26,12 +26,12 @@
 
         <button class="add-button" onclick="viewHide('adminStudents')">Přidat studenta</button>
         <div class="add-div" id="adminStudents">
-            <form n:name=addAccountForm >
+            <form n:name=addAccountForm>
                 <table>
-                    <tr><th class="add-label"><label n:name=login >Login:</label></th><td><input n:name=login id="login" class="text add-input" ></td></tr>
-                    <tr><th class="add-label"><label n:name=jmeno >Jméno:</label></th><td><input n:name=jmeno id="jmeno" class="text add-input" ></td></tr>
-                    <tr><th class="add-label"><label n:name=prijmeni >Příjmení:</label></th><td><input n:name=prijmeni id="prijmeni" class="text add-input" ></tr>
-                    <tr><th class="add-label"><label n:name=heslo >Heslo:</label></th><td><input n:name=heslo id="heslo" class="text add-input"></td></tr>
+                    <tr><th class="add-label"><label n:name=login >Login:</label></th><td><input n:name=login id="login" class="text add-input"></td></tr>
+                    <tr><th class="add-label"><label n:name=jmeno >Jméno:</label></th><td><input n:name=jmeno id="jmeno" class="text add-input"></td></tr>
+                    <tr><th class="add-label"><label n:name=prijmeni >Příjmení:</label></th><td><input n:name=prijmeni id="prijmeni" class="text add-input"></tr>
+                    <tr><th class="add-label"><label n:name=heslo >Heslo:</label></th><td><input n:name=heslo type="password" id="heslo" class="text add-input"></td></tr>
                     <tr><td></td><td><input n:name=create class="add-button2"></td></tr>
                 </table>
             </form>
@@ -41,24 +41,47 @@
 
         <div n:foreach="$flashes as $flash" n:class="flash, $flash->type">{$flash->message}</div>
 
-        <table class="table-list">
-            <tr class="table-head">
-                <th class="table-cont">Login</th>
-                <th class="table-cont">Jméno</th>
-                <th class="table-cont">Příjmení</th>
-                <th class="table-cont">Akce</th>
-            </tr>
-            {foreach $posts as $p}
-                <tr>
-                    <td class="table-cont">{$p->login}</td>
-                    <td class="table-cont">{$p->jmeno}</td>
-                    <td class="table-cont">{$p->prijmeni}</td>
-                    <td class="table-cont"><a n:href="Admin:deleteRow 'Student', $p->login">
-                            <img style="margin-right: 5px" src="{$basePath}/www/images/delete.png" alt="Del" class="table-line-item">Odebrat</a></td>
-                </tr>
-            {/foreach}
-        </table>
+        <div class="table-list table-head">
+                <div class="table-cont terms-table-item admin-table-item-login">Login</div>
+                <div class="table-cont terms-table-item admin-table-item-name">Jméno</div>
+                <div class="table-cont terms-table-item admin-table-item-surname">Příjmení</div>
+                <div class="table-cont terms-table-item admin-table-item-pass">Heslo</div>
+                <div class="table-cont terms-table-item admin-table-item-action">Akce</div>
+        </div>
+        {var $i = 0}
+        {foreach $posts as $p}
+            {php $i++}
+            <div class="terms-table">
+                <div class="table-cont terms-table-item admin-table-item-login">{$p->login}</div>
+                <div class="table-cont terms-table-item admin-table-item-name">{$p->jmeno}</div>
+                <div class="table-cont terms-table-item admin-table-item-surname">{$p->prijmeni}</div>
+                <div class="table-cont terms-table-item  admin-table-item-pass"></div>
+                <div class="table-cont terms-table-item admin-table-item-action"><a n:href="Admin:deleteRow 'Student', $p->login">
+                        <img style="margin-right: 5px" src="{$basePath}/www/images/delete.png" alt="Del" class="table-line-item">Odebrat</a>
+                    <a href="javascript:viewHide('admin-table-detail-div{$i}')"><img style="margin-right: 5px" src="{$basePath}/www/images/edit.png" alt="Edit" class="table-line-item">Editovat</a>
+                </div>
+            </div>
+            <div class="terms-table hidden" id="admin-table-detail-div{$i}">
+                <form n:name=editAccountForm>
+                    <input n:name=id type="hidden" id="id" value="{$p->id_st}">
+                    <div class="table-cont terms-table-item admin-table-item-login">
+                        <input n:name=login id="login" class="text edit-input" value="{$p->login}">
+                    </div>
+                    <div class="table-cont terms-table-item admin-table-item-name">
+                        <input n:name=jmeno id="jmeno" class="text edit-input" value="{$p->jmeno}">
+                    </div>
+                    <div class="table-cont terms-table-item admin-table-item-surname">
+                        <input n:name=prijmeni id="prijmeni" class="text edit-input" value="{$p->prijmeni}">
+                    </div>
+                    <div class="table-cont terms-table-item admin-table-item-pass">
+                        <input n:name=heslo type="password" id="heslo" class="text edit-input" value="{$p->heslo}">
+                    </div>
+                    <div class="table-cont terms-table-item admin-table-item-action">
+                        <input n:name=edit class="edit-button">
+                    </div>
+                </form>
+            </div>
+        {/foreach}
+        {if $posts == NULL} <p class="not-found">Studenti nenalezeni.</p> {else} <div id="terms-table-footer"></div> {/if}
     </div>
-
-
 </div>
