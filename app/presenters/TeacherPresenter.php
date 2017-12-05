@@ -56,6 +56,7 @@ class TeacherPresenter extends Nette\Application\UI\Presenter
     {
         $form = new UI\Form;
         $form->onSuccess[] = [$this, 'evaluationFormSucceeded'];
+        $form->addSubmit('create', 'Odeslat hodnocení');
         return $form;
     }
 
@@ -302,7 +303,7 @@ class TeacherPresenter extends Nette\Application\UI\Presenter
             )->fetchAll();
         }
         $this->template->info = $this->database->query("
-            SELECT Student.login, Student.jmeno, Student.prijmeni, Predmet.zkratka, Predmet.nazev, Zkouska.Jmeno, Zkouska.temin_cislo FROM
+            SELECT Student.login, Student.jmeno, Student.prijmeni, Predmet.zkratka, Predmet.nazev, Zkouska.jmeno, Zkouska.termin_cislo FROM
             Termin NATURAL JOIN Zkouska NATURAL JOIN Predmet NATURAL JOIN Student
             WHERE id_te = ?",
             $id_te
